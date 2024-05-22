@@ -1,0 +1,30 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+    {{ form_start(mediaForm) }}
+    <div class="row offset-3">
+        <div class="form-floating col-4">
+            {{ form_help(mediaForm.media) }}
+            {{ form_errors(mediaForm.media) }}
+            {{ form_row(mediaForm.media, {
+                'label': false,
+                'attr': {
+                    'class': 'form-control',
+                    'placeholder': placeholder|default('Add placeholder'),
+                    'type': type|default('text')
+                }
+            }) }}
+        </div>
+        <div {{ vue_component('components/Button', {
+            label: 'upload',
+            iconClassEnd: 'cloud-upload-fill'
+        }) }} class="col-2"></div>
+    </div>
+    {{ form_end(mediaForm) }}
+
+    <div {{ vue_component('admin/AdminMotion', {
+        media: motionMedia
+    }) }}></div>
+
+{% endblock %}
+
