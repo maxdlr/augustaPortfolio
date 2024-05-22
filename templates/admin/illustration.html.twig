@@ -1,12 +1,12 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-    {{ form_start(motionForm) }}
+    {{ form_start(illustrationForm) }}
     <div class="row offset-3">
         <div class="form-floating col-4">
-            {{ form_help(motionForm.media) }}
-            {{ form_errors(motionForm.media) }}
-            {{ form_row(motionForm.media, {
+            {{ form_help(illustrationForm.media) }}
+            {{ form_errors(illustrationForm.media) }}
+            {{ form_row(illustrationForm.media, {
                 'label': false,
                 'attr': {
                     'class': 'form-control',
@@ -20,10 +20,10 @@
             iconClassEnd: 'cloud-upload-fill'
         }) }} class="col-2"></div>
     </div>
-    {{ form_end(motionForm) }}
+    {{ form_end(illustrationForm) }}
 
-    <div {{ vue_component('admin/AdminMotionPage', {
-        motionGifs: motionGifs
+    <div {{ vue_component('admin/AdminIllustrationPage', {
+        illustrationImgs: illustrationImgs
     }) }}></div>
 
 {% endblock %}

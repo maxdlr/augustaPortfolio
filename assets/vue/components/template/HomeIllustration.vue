@@ -2,7 +2,7 @@
 import BaseTemplate from "../atom/BaseTemplate.vue";
 
 const props = defineProps({
-  motionGifs: {type: Object, required: true}
+  illustrationImgs: {type: Object, required: true}
 })
 
 const site = window.location.origin;
@@ -25,8 +25,8 @@ const site = window.location.origin;
   </template>
   <template #content>
     <div class="row row-cols-3 my-4">
-      <div v-for="(gif, index) in motionGifs" :key="index" class="p-1">
-        <img :src="`${site}/build/media/${gif.mediaPath}`" :alt="gif.mediaPath" class="w-100 object-fit-cover border rounded-4" style="aspect-ratio: 1/1 !important;">
+      <div v-for="(img, index) in illustrationImgs" :key="index" class="p-1">
+        <img :src="`${site}/build/media/${img.mediaPath}`" :alt="img.mediaPath" class="w-100 object-fit-cover border rounded-4" style="aspect-ratio: 1/1 !important;">
       </div>
     </div>
   </template>

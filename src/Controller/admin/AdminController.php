@@ -13,6 +13,8 @@ use App\Service\VueDataFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -41,22 +43,51 @@ class AdminController extends AbstractController
     #[Route(path: '/motion', name: 'motion', methods: ['GET', 'POST'])]
     public function motion(Request $request): Response
     {
-        $mediaForm = $this->createForm(MediaType::class);
-        $mediaForm->handleRequest($request);
+        $motionForm = $this->mediaUploadForm($request, MediaTypeEnum::MOTION);
+        if ($motionForm === true) return $this->redirectTo('referer', $request);
 
-        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
-            $this->uploadManager->uploadMany($mediaForm, MediaTypeEnum::MOTION);
-            $this->entityManager->flush();
-            return $this->redirectTo('referer', $request);
-        }
-
-        $motionMediaData = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
+        $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
 
         return $this->render('admin/motion.html.twig', [
-            'mediaForm' => $mediaForm->createView(),
-            'motionMedia' => $motionMediaData
+            'motionForm' => $motionForm->createView(),
+            'motionGifs' => $motionGifs
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/illustration', name: 'illustration', methods: ['GET', 'POST'])]
+    public function illustration(Request $request): Response
+    {
+        $illustrationForm = $this->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
+        if ($illustrationForm === true) return $this->redirectTo('referer', $request);
+
+        $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
+
+        return $this->render('admin/illustration.html.twig', [
+            'illustrationForm' => $illustrationForm->createView(),
+            'illustrationImgs' => $illustrationImgs
+        ]);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------------
+
+    public function mediaUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
+    {
+        $mediaForm = $this->createForm(MediaType::class);
+        $mediaForm->handleRequest($request);
+
+        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
+            $this->uploadManager->uploadMany($mediaForm, $mediaType);
+            $this->entityManager->flush();
+            return true;
+        }
+
+        return $mediaForm;
     }
 }

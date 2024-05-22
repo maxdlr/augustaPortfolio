@@ -1,10 +1,12 @@
 <script setup>
-import ShowReel from "../components/template/ShowReel.vue";
+import HomeShowReel from "../components/template/HomeShowReel.vue";
 import HomeMotion from "../components/template/HomeMotion.vue";
+import HomeIllustration from "../components/template/HomeIllustration.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
-  motionGifs: {type: Object, required:true}
+  motionGifs: {type: Object, required:true},
+  illustrationImgs: {type: Object, required:true},
 })
 </script>
 
@@ -14,8 +16,9 @@ const props = defineProps({
     <span class="text-info">.</span>
     <span class="text-primary">sarlin</span>
   </h1>
-  <ShowReel :showreel-thumbnail-path="showreelThumbnailPath"/>
+  <HomeShowReel :showreel-thumbnail-path="showreelThumbnailPath"/>
   <HomeMotion :motion-gifs="motionGifs"/>
+  <HomeIllustration :illustration-imgs="illustrationImgs" />
 </template>
 
 <style scoped>

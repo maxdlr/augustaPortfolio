@@ -72,7 +72,7 @@ class UploadManager extends AbstractController
 
                 $media = new Media();
                 $media
-                    ->setMediaPath($savedFile['newFilename'])
+                    ->setMediaPath($directory . '/' . $savedFile['newFilename'])
                     ->setMediaSize($savedFile['fileSize'])
                     ->setType($mediaType);
 

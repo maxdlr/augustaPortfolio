@@ -46,6 +46,10 @@ class Navigation extends AbstractController
             'motion' => [
                 'label' => 'motion',
                 'link' => $this->generateUrl('app_admin_motion')
+            ],
+            'illustration' => [
+                'label' => 'illustration',
+                'link' => $this->generateUrl('app_admin_illustration')
             ]
         ];
     }

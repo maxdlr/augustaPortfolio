@@ -27,10 +27,14 @@ class HomeController extends AbstractController
         $motionGifsData = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value], null, 6),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
+        $illustrationImgsData = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value], null, 6),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
-            'motionGifsData' => $motionGifsData
+            'motionGifsData' => $motionGifsData,
+            'illustrationImgsData' => $illustrationImgsData,
         ]);
     }
 }
