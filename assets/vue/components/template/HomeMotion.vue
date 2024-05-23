@@ -11,6 +11,7 @@ const site = window.location.origin;
 </script>
 
 <template>
+  <div id="motion"></div>
 <BaseTemplate>
   <template #context>
     <div class="fs-1">

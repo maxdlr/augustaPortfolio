@@ -10,6 +10,7 @@ const site = window.location.origin;
 </script>
 
 <template>
+  <div id="illustration"></div>
 <BaseTemplate>
   <template #context>
     <div class="fs-1">

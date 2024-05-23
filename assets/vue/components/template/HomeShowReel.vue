@@ -7,6 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
+  <div id="showreel"></div>
   <BaseTemplate>
     <template #context>
       <div class="fs-1">

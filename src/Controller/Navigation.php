@@ -15,15 +15,15 @@ class Navigation extends AbstractController
             ],
             'about' => [
                 'label' => 'about',
-                'link' => $this->generateUrl('app_about')
+                'link' => '#about'
             ],
             'motion' => [
                 'label' => 'motion',
-                'link' => $this->generateUrl('app_motion')
+                'link' => '#motion'
             ],
             'illustration' => [
                 'label' => 'illustration',
-                'link' => $this->generateUrl('app_illustration')
+                'link' => '#illustration'
             ],
             'admin' => [
                 'label' => 'admin',
