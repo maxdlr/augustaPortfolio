@@ -30,6 +30,7 @@
     "@popperjs/core": "^2.11.8",
     "@vueuse/core": "^10.9.0",
     "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3"
+    "bootstrap-icons": "^1.11.3",
+    "freezeframe": "^5.0.2"
   }
 }
