@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div {{ vue_component('HomePage', {
+        showreelThumbnailPath: asset('build/'~showreelThumbnailPath),
+        motionGifs: motionGifsData,
+        illustrationImgs: illustrationImgsData
+    }) }}>
+        {{ include('components/_spinner.html.twig') }}
+    </div>
+{% endblock %}

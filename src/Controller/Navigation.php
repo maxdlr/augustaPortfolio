@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class Navigation extends AbstractController
+{
+    public function getPublicNavigation(): array
+    {
+        return [
+            'motion' => [
+                'label' => 'motion',
+                'link' => '#motion'
+            ],
+            'illustration' => [
+                'label' => 'illustration',
+                'link' => '#illustration'
+            ],
+            'about' => [
+                'label' => 'about',
+                'link' => '#about'
+            ],
+            'admin' => [
+                'label' => 'admin',
+                'link' => $this->generateUrl('app_admin_dashboard')
+            ],
+            'sources' => [
+                'label' => 'sources',
+                'link' => "https://drive.google.com/drive/folders/1URgUf00WLXEMbYfHywGWjNlHh6fes0gd"
+            ]
+        ];
+    }
+
+    public function getAdminNavigation(): array
+    {
+        return [
+            'site' => [
+                'label' => 'site',
+                'link' => $this->generateUrl('app_home')
+            ],
+            'dashboard' => [
+              'label' => 'dashboard',
+              'link' => $this->generateUrl('app_admin_dashboard')
+            ],
+            'motion' => [
+                'label' => 'motion',
+                'link' => $this->generateUrl('app_admin_motion')
+            ],
+            'illustration' => [
+                'label' => 'illustration',
+                'link' => $this->generateUrl('app_admin_illustration')
+            ]
+        ];
+    }
+}

@@ -13,6 +13,11 @@
         {% endblock %}
     </head>
     <body>
+    <main class="container-fluid mt-4">
+        <div {{ vue_component('NavBar', {
+            'navigation': navigation.getPublicNavigation
+        }) }}></div>
         {% block body %}{% endblock %}
+    </main>
     </body>
 </html>

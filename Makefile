@@ -120,9 +120,12 @@ yarn-install: ## Install node packages
 	@make command-intro-msg msg="Installing Yarn packages"
 	@yarn install
 
-crud: ## Make a custom CrudController / ex: make crud entity=Lodging var=lodging
-	@make command-intro-msg msg="Creating Crud controller for ${entity}"
-	@sed 's/Address/${entity}/g ; s/address/${var}/g' src/Crud/AddressCrud.php | tee src/Crud/${entity}Crud.php
+start-working: ## Launch server and open website
+	@make recipe-intro-msg msg="Starting work..."
+	@make server-start && \
+	make open-browser && \
+	clear && \
+	yarn watch
 
 help: ## Show this help menu
 	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST)
