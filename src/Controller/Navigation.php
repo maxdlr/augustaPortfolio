@@ -28,6 +28,10 @@ class Navigation extends AbstractController
             'admin' => [
                 'label' => 'admin',
                 'link' => $this->generateUrl('app_admin_dashboard')
+            ],
+            'sources' => [
+                'label' => 'sources',
+                'link' => "https://drive.google.com/drive/folders/1URgUf00WLXEMbYfHywGWjNlHh6fes0gd"
             ]
         ];
     }

@@ -7,12 +7,10 @@ namespace App\Controller;
 use App\Crud\Manager\AfterCrudTrait;
 use App\Crud\MediaCrud;
 use App\Entity\Media;
-use App\Enum\MediaTypeEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class MediaController extends AbstractController
@@ -29,7 +27,7 @@ class MediaController extends AbstractController
      * @throws \Exception
      */
     #[Route(path: '/media/{id}/delete', name: 'app_admin_media_delete', methods: ['GET'])]
-    public function index(Media $media, Request $request): Response
+    public function index(Media $media, Request $request): JsonResponse
     {
         $fileDirectory = dirname(__FILE__, 3) . '/public/build/media/';
         $filePath = $media->getMediaPath();
@@ -39,6 +37,6 @@ class MediaController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return new JsonResponse($filePath . ' is deleted');
+        return new JsonResponse(['message' => $filePath . ' est bien supprimé !']);
     }
 }

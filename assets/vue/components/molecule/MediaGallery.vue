@@ -1,7 +1,8 @@
 <script setup>
 import MediaThumbnail from "../atom/MediaThumbnail.vue";
-import {computed, onUpdated, ref, watch} from "vue";
+import {computed, getCurrentInstance, onMounted, onUpdated, ref, watch} from "vue";
 import Freezeframe from "freezeframe";
+import {Modals} from 'bootstrap';
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -9,28 +10,29 @@ const props = defineProps({
   lazyLoadTrigger: {type: [String, Boolean], default: null, required: false, validator(value) {
       return ['hover', 'click', false].includes(value)
     }},
-  buttons: {type: Boolean, required: false, default: false}
+  buttons: {type: Boolean, required: false, default: false},
+  galleryName: {type: String, required: true}
 })
 
-const tempRemovedMedia = ref([]);
+const filteredMedias = ref({})
+const shownImgRef = ref(null)
+const shownImg = ref();
+const site = window.location.origin;
 
-const filteredMedias = computed(() => {
-  const filteredMedias = [];
-  for (const key in props.medias) {
-    if (!tempRemovedMedia.value.includes(props.medias[key].id)) {
-      filteredMedias.push(props.medias[key])
-    }
+onMounted(() => {
+  shownImg.value = shownImgRef.value
+  filter()
+})
+
+const filter = () => {
+  for (const mediaKey in props.medias) {
+    filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
   }
-  return filteredMedias;
-})
+  console.log(filteredMedias.value)
+}
 
-
-
-onUpdated(() => {
-  console.log(tempRemovedMedia.value)
-})
-const blackList = (mediaId) => {
-  tempRemovedMedia.value.push(mediaId)
+const deleteMedia = (mediaId) => {
+  delete filteredMedias.value[mediaId]
 }
 
 const freezeFrame = () => {
@@ -39,22 +41,43 @@ const freezeFrame = () => {
   }
 }
 
+const showImg = (id) => {
+  shownImg.value.src = `${site}/build/media/${filteredMedias.value[id].mediaPath}`
+  shownImg.value.alt = `show image of ${filteredMedias.value[id].mediaPath}`
+  console.log(shownImg.value)
+}
 
 </script>
 
 <template>
   <section class="row my-4" :class="`row-cols-${colCount}`">
-    <div v-for="(media, index) in filteredMedias" :key="index" class="p-1 position-relative">
+    <div v-for="media in filteredMedias"
+         :key="media.id"
+         class="p-1 position-relative"
+         data-bs-toggle="modal"
+         :data-bs-target="`#${galleryName}-mediaLightBox`"
+         type="button"
+    >
       <MediaThumbnail
           :media="media"
           :buttons="buttons"
-          @removed="blackList"
+          @delete="deleteMedia"
           @loaded="freezeFrame"
-      >
-      </MediaThumbnail>
+          @show="showImg"
+      />
     </div>
-
   </section>
+
+  <div class="modal modal-xl fade" :id="`${galleryName}-mediaLightBox`" tabindex="-1" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: fit-content !important;">
+      <div class="modal-content w-100">
+        <div class="modal-body bg-dark text-center w-100">
+          <img src="" alt="" ref="shownImgRef" style="max-width: 100% !important; max-height: 80vh !important;">
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>

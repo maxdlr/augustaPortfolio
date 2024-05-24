@@ -8,9 +8,8 @@ const props = defineProps({
 </script>
 
 <template>
-<MediaGallery :medias="illustrationImgs"/>
+<MediaGallery :medias="illustrationImgs" :buttons="true" gallery-name="adminIllustration"/>
 </template>
-
 <style scoped>
 
 </style>

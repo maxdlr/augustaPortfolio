@@ -20,13 +20,14 @@ const site = window.location.origin;
         <span class="text-info">.</span>
       </div>
       <div>
-        <span class="text-info">2D & </span>
+        <span class="text-info">2D </span>
+        <span class="text-secondary">& </span>
         <span class="text-primary">character animation</span>
       </div>
     </div>
   </template>
   <template #content>
-    <MediaGallery :medias="motionGifs" col-count="3"/>
+    <MediaGallery :medias="motionGifs" col-count="3" gallery-name="homeMotion"/>
   </template>
 </BaseTemplate>
 </template>

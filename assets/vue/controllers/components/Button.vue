@@ -9,7 +9,7 @@ defineProps({
   iconClassStart: {type: String, default: null},
   iconClassEnd: {type: String, default: null},
   type: {type: String, default: "", validator(value) {
-    return ['submit', 'reset', 'button'].includes(value)
+    return ['submit', 'reset', 'button', ''].includes(value)
     }}
 });
 </script>

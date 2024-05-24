@@ -20,26 +20,35 @@ class MediaFixtures extends Fixture
 
         $manager->persist($showreelThumbnail);
 
-        $motionGifsDir = 'assets/media/motion';
-
-        $motionGifs = [];
-        foreach (array_diff(scandir($motionGifsDir), ['.', '..']) as $motionGif) {
-            $motionGifPath = str_replace('assets/media/', '', $motionGifsDir);
-            $motionGifs[] = $motionGifPath . '/' . $motionGif;
-        }
-
-        for ($i = 0; $i < count($motionGifs); $i++) {
-            $media = new Media();
-            $media
-                ->setMediaPath($motionGifs[$i])
-                ->setMediaSize(filesize('assets/media/' . $motionGifs[$i]))
-                ->setType(MediaTypeEnum::MOTION)
-            ;
-
-            $manager->persist($media);
-        }
+        $this->makeSpecificMedia('assets/media/motion', $manager, MediaTypeEnum::MOTION);
+        $this->makeSpecificMedia('assets/media/illustration', $manager, MediaTypeEnum::ILLUSTRATION);
 
 
         $manager->flush();
+    }
+
+    /**
+     * @param string $illustrationImgsDir
+     * @param ObjectManager $manager
+     * @param MediaTypeEnum $mediaTypeEnum
+     * @return void
+     */
+    private function makeSpecificMedia(string $illustrationImgsDir, ObjectManager $manager, MediaTypeEnum $mediaTypeEnum): void
+    {
+        $illustrationImgs = [];
+        foreach (array_diff(scandir($illustrationImgsDir), ['.', '..']) as $illustrationImg) {
+            $illustrationImgPath = str_replace('assets/media/', '', $illustrationImgsDir);
+            $illustrationImgs[] = $illustrationImgPath . '/' . $illustrationImg;
+        }
+
+        for ($i = 0; $i < count($illustrationImgs); $i++) {
+            $media = new Media();
+            $media
+                ->setMediaPath($illustrationImgs[$i])
+                ->setMediaSize(filesize('assets/media/' . $illustrationImgs[$i]))
+                ->setType($mediaTypeEnum);
+
+            $manager->persist($media);
+        }
     }
 }

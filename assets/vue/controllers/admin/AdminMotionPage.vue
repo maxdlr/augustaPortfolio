@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <MediaGallery :medias="motionGifs" lazy-load-trigger="hover" :buttons="true"/>
+  <MediaGallery :medias="motionGifs" lazy-load-trigger="hover" :buttons="true" gallery-name="adminMotion"/>
 </template>
 
 <style scoped>

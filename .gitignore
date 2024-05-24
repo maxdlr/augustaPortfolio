@@ -10,6 +10,7 @@
 ###< symfony/framework-bundle ###
 /.idea
 /.idea/
+.idea/
 src/DataFixtures/AdminFixtures.php
 src/DataFixtures/AdminUserFixtures.php
 
