@@ -18,13 +18,17 @@ use ReflectionMethod;
 
 class VueDataFormatter
 {
-    private static array $vueObject = [];
+    private static ?array $vueObject = [];
 
     /**
      * @throws ReflectionException
      */
-    public static function makeVueObjectOf(array $entities, array $properties): static
+    public static function makeVueObjectOf(?array $entities, array $properties): static
     {
+        if ($entities === [] || is_null($entities) || is_null($entities[0])) {
+            return new static;
+        }
+
         self::$vueObject = array_map(function (object $object) use ($entities, $properties) {
             assert(get_class($object) === get_class($entities[0]));
             return self::makeVueObject($object, $properties);
@@ -42,9 +46,13 @@ class VueDataFormatter
         return new static;
     }
 
-    public function get(): array
+    public function get(): ?array
     {
-        return self::$vueObject;
+        return count(self::$vueObject) === 0 ? null : self::$vueObject;
+    }
+    public function getOne(): ?array
+    {
+        return count(self::$vueObject) === 0 ? null : self::$vueObject[0];
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Crud\MediaCrud;
 use App\Entity\Media;
 use App\Enum\MediaTypeEnum;
 use App\Form\MediaType;
+use App\Form\SingleMediaType;
 use App\Repository\MediaRepository;
 use App\Service\VueDataFormatter;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,10 +32,25 @@ class AdminController extends AbstractController
     {
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     #[Route(path: '/', name: 'dashboard', methods: ['GET', 'POST'])]
-    public function dashboard(): Response
+    public function dashboard(Request $request): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        $avatarForm = $this->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR);
+        if ($avatarForm === true) return $this->redirectTo('referer', $request);
+
+        $avatarImg = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::AVATAR->value])],
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->getOne();
+
+
+        return $this->render('admin/dashboard.html.twig', [
+            'avatarForm' => $avatarForm,
+            'avatarImg' => $avatarImg
+        ]);
     }
 
     /**
@@ -84,6 +100,28 @@ class AdminController extends AbstractController
 
         if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
             $this->uploadManager->uploadMany($mediaForm, $mediaType);
+            $this->entityManager->flush();
+            return true;
+        }
+
+        return $mediaForm;
+    }
+
+    public function mediaSingleUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
+    {
+        $mediaForm = $this->createForm(SingleMediaType::class);
+        $mediaForm->handleRequest($request);
+
+        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
+
+            if ($mediaType === MediaTypeEnum::AVATAR) {
+                $fetchedAvatar = $this->mediaRepository->findOneBy(['type' => $mediaType]);
+                $media = is_null($fetchedAvatar) ? new Media() : $fetchedAvatar;
+            } else {
+                $media = new Media();
+            }
+
+            if ($this->uploadManager->uploadOne($mediaForm, $media, $mediaType) === true) $this->entityManager->persist($media);
             $this->entityManager->flush();
             return true;
         }

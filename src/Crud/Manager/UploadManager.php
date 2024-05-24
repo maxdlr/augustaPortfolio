@@ -26,7 +26,7 @@ class UploadManager extends AbstractController
     public function uploadOne(
         FormInterface $form,
         object        $object,
-        string $directory = ''
+        MediaTypeEnum $mediaType,
     ): bool
     {
         $uploaded = false;
@@ -36,11 +36,19 @@ class UploadManager extends AbstractController
             $mediaFile = $form->get('media')->getData();
 
             if ($mediaFile) {
-                $savedFile = $this->saveFile($mediaFile);
+                $directory = match ($mediaType) {
+                    MediaTypeEnum::MOTION => 'motion',
+                    MediaTypeEnum::SHOWREEL_THUMBNAIL => 'media',
+                    MediaTypeEnum::ILLUSTRATION => 'illustration',
+                    MediaTypeEnum::AVATAR => 'avatar',
+                };
+                $savedFile = $this->saveFile($mediaFile, $directory);
 
                 $object
-                    ->setMediaPath('media/' . $directory . $directory !== '' ? '/' : '' . $savedFile['newFilename'])
-                    ->setMediaSize($savedFile['fileSize']);
+                    ->setMediaPath($directory . '/' . $savedFile['newFilename'])
+                    ->setMediaSize($savedFile['fileSize'])
+                    ->setType($mediaType);
+
                 $uploaded = true;
             }
             return $uploaded;
@@ -61,11 +69,11 @@ class UploadManager extends AbstractController
 
             if ($mediaFile) {
 
-
                 $directory = match ($mediaType) {
                     MediaTypeEnum::MOTION => 'motion',
                     MediaTypeEnum::SHOWREEL_THUMBNAIL => 'media',
                     MediaTypeEnum::ILLUSTRATION => 'illustration',
+                    MediaTypeEnum::AVATAR => 'avatar',
                 };
 
                 $savedFile = $this->saveFile($mediaFile, $directory);

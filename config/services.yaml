@@ -7,6 +7,7 @@ parameters:
     media_directory: '%kernel.project_dir%/public/build/media'
     motion_directory: '%kernel.project_dir%/public/build/media/motion'
     illustration_directory: '%kernel.project_dir%/public/build/media/illustration'
+    avatar_directory: '%kernel.project_dir%/public/build/media/avatar'
 
 services:
     # default configuration for services in *this* file

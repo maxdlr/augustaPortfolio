@@ -29,6 +29,11 @@ Encore
         to: 'media/motion/[path][name].[ext]',
     })
 
+    .copyFiles({
+        from: './assets/media/avatar',
+        to: 'media/avatar/[path][name].[ext]',
+    })
+
     /*
      * ENTRY CONFIG
      *

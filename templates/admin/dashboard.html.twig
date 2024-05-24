@@ -1,5 +1,11 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-    hello
+    {{ include('components/_media-upload-form.html.twig', {form: avatarForm}) }}
+
+    <div {{ vue_component('admin/AdminDashboard', {
+        avatarImg: avatarImg
+    }) }}>
+        {{ include('components/_spinner.html.twig') }}
+    </div>
 {% endblock %}

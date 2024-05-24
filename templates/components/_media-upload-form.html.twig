@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+<div class="row offset-2">
+    <div class="form-floating col-6">
+        {{ form_help(form.media) }}
+        {{ form_errors(form.media) }}
+        {{ form_row(form.media, {
+            'label': false,
+            'attr': {
+                'class': 'form-control',
+                'placeholder': placeholder|default('Add placeholder'),
+                'type': type|default('text')
+            }
+        }) }}
+    </div>
+    <div {{ vue_component('components/Button', {
+        label: 'upload',
+        iconClassEnd: 'cloud-upload-fill'
+    }) }} class="col-2"></div>
+</div>
+{{ form_end(form) }}
