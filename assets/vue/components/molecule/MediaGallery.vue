@@ -1,8 +1,8 @@
 <script setup>
 import MediaThumbnail from "../atom/MediaThumbnail.vue";
-import {computed, getCurrentInstance, onMounted, onUpdated, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 import Freezeframe from "freezeframe";
-import {Modals} from 'bootstrap';
+import {Modal} from 'bootstrap';
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -11,16 +11,21 @@ const props = defineProps({
       return ['hover', 'click', false].includes(value)
     }},
   buttons: {type: Boolean, required: false, default: false},
-  galleryName: {type: String, required: true}
+  galleryName: {type: String, required: true},
+  ignoreHash: {type: Boolean, required: false, default: false}
 })
 
 const filteredMedias = ref({})
 const shownImgRef = ref(null)
 const shownImg = ref();
 const site = window.location.origin;
+const modalElRef = ref(null)
+const modalEl = ref();
 
 onMounted(() => {
   shownImg.value = shownImgRef.value
+  modalEl.value = modalElRef.value
+
   filter()
 })
 
@@ -28,7 +33,6 @@ const filter = () => {
   for (const mediaKey in props.medias) {
     filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
   }
-  console.log(filteredMedias.value)
 }
 
 const deleteMedia = (mediaId) => {
@@ -44,8 +48,24 @@ const freezeFrame = () => {
 const showImg = (id) => {
   shownImg.value.src = `${site}/build/media/${filteredMedias.value[id].mediaPath}`
   shownImg.value.alt = `show image of ${filteredMedias.value[id].mediaPath}`
-  console.log(shownImg.value)
+  if (!props.ignoreHash) window.location.hash = `#media-${id}`
+
+  openModal(id)
 }
+
+const openModal = (id) => {
+  const modal = new Modal(modalEl.value)
+  modal.show()
+
+  if (!props.ignoreHash) {
+    modalEl.value.addEventListener('hide.bs.modal', () => {
+      window.location.hash = filteredMedias.value[id].type.toLowerCase()
+      console.log('caca')
+    }, {once: true})
+  }
+}
+
+
 
 </script>
 
@@ -55,7 +75,6 @@ const showImg = (id) => {
          :key="media.id"
          class="p-1 position-relative"
          data-bs-toggle="modal"
-         :data-bs-target="`#${galleryName}-mediaLightBox`"
          type="button"
     >
       <MediaThumbnail
@@ -68,7 +87,7 @@ const showImg = (id) => {
     </div>
   </section>
 
-  <div class="modal modal-xl fade" :id="`${galleryName}-mediaLightBox`" tabindex="-1" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`" aria-hidden="true">
+  <div class="modal modal-xl fade" :id="`${galleryName}-mediaLightBox`" tabindex="-1" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`" aria-hidden="true" ref="modalElRef">
     <div class="modal-dialog modal-dialog-centered" style="width: fit-content !important;">
       <div class="modal-content w-100">
         <div class="modal-body bg-dark text-center w-100">

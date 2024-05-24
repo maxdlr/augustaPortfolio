@@ -46,6 +46,12 @@ const setMediaSrc = async (e) => {
 
 onMounted(async () => {
   img.value = imgRef.value
+  const hash = Number(window.location.hash.replace('#media-', ''))
+
+  if (props.media.id === hash) {
+    emit('show', props.media.id)
+  }
+
   await setMediaSrc(imgRef.value)
 })
 
@@ -62,6 +68,9 @@ const deleteMedia = async () => {
   }
 }
 
+const show = (id) => {
+  emit('show', id)
+}
 
 </script>
 
@@ -70,7 +79,7 @@ const deleteMedia = async () => {
     <div class="position-absolute top-0 start-0 p-2" v-if="buttons" style="z-index: 1050;">
       <Button icon-class-start="trash-fill" color-class="danger" round-class="pill" @click.prevent="deleteMedia"/>
     </div>
-    <div class="rounded-4 overflow-hidden" @click.prevent="emit('show', media.id)">
+    <div class="rounded-4 overflow-hidden" @click.prevent="show(media.id)">
       <img
           :src="loadedSrc"
           :alt="media.mediaPath"

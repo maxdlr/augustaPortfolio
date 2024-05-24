@@ -9,14 +9,6 @@ class Navigation extends AbstractController
     public function getPublicNavigation(): array
     {
         return [
-            'home' => [
-                'label' => 'home',
-                'link' => $this->generateUrl('app_home')
-            ],
-            'about' => [
-                'label' => 'about',
-                'link' => '#about'
-            ],
             'motion' => [
                 'label' => 'motion',
                 'link' => '#motion'
@@ -24,6 +16,10 @@ class Navigation extends AbstractController
             'illustration' => [
                 'label' => 'illustration',
                 'link' => '#illustration'
+            ],
+            'about' => [
+                'label' => 'about',
+                'link' => '#about'
             ],
             'admin' => [
                 'label' => 'admin',

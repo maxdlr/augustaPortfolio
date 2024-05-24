@@ -6,15 +6,12 @@ const props = defineProps({
   navigation: {type: Object, required: true}
 })
 
-const isCurrentLocation = (link) => {
-  return window.location.pathname === link
-}
 </script>
 
 <template>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand fs-4 fw-bold" href="/" v-if="!isCurrentLocation('/')">
+      <a class="navbar-brand fs-4 fw-bold" href="/">
         <span class="text-primary">augusta</span>
         <span class="text-info">.</span>
         <span class="text-primary">sarlin</span>
@@ -37,7 +34,7 @@ const isCurrentLocation = (link) => {
               <NavItem
                   :label="link.label"
                   :value="link.link"
-                  :color-class="isCurrentLocation(link.link) ? 'info fs-title' : 'secondary'"
+                  color-class="secondary"
                   size="lg"
               />
             </div>
