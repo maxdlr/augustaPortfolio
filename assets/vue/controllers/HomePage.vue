@@ -2,6 +2,7 @@
 import HomeShowReel from "../components/template/HomeShowReel.vue";
 import HomeMotion from "../components/template/HomeMotion.vue";
 import HomeIllustration from "../components/template/HomeIllustration.vue";
+import HomeAbout from "../components/template/HomeAbout.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
@@ -19,6 +20,7 @@ const props = defineProps({
   <HomeShowReel :showreel-thumbnail-path="showreelThumbnailPath"/>
   <HomeMotion :motion-gifs="motionGifs"/>
   <HomeIllustration :illustration-imgs="illustrationImgs" />
+  <HomeAbout />
 </template>
 
 <style scoped>

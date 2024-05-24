@@ -1,6 +1,7 @@
 <script setup>
 import BaseTemplate from "../atom/BaseTemplate.vue";
 import {onMounted, ref} from "vue";
+import Button from "../../controllers/components/Button.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: false}
@@ -65,8 +66,11 @@ const destroyShowreelVideo = () => {
 
   <div class="modal modal-xl fade" id="showreel-mediaLightBox" tabindex="-1" aria-labelledby="showreel-mediaLightBoxLabel" aria-hidden="true" @keydown.esc="destroyShowreelVideo">
     <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content position-relative">
-        <span class="position-absolute top-0 start-0 text-light z-3 p-4">[ESC] - Close</span>
+      <div class="modal-content">
+        <div class="modal-header bg-dark d-flex justify-content-between align-items-center border-0">
+          <span class="text-light z-3 p-4">[ESC] - Close</span>
+          <Button color-class="" class="text-white" size="lg" icon-class-start="x-lg" data-bs-dismiss="modal" aria-label="Close" type="button" @click="destroyShowreelVideo" />
+        </div>
         <div class="modal-body bg-dark d-flex align-items-center justify-content-center" ref="modalContentRef"/>
       </div>
     </div>

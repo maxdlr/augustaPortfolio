@@ -88,10 +88,10 @@ const openModal = (id) => {
   </section>
 
   <div class="modal modal-xl fade" :id="`${galleryName}-mediaLightBox`" tabindex="-1" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`" aria-hidden="true" ref="modalElRef">
-    <div class="modal-dialog modal-dialog-centered" style="width: fit-content !important;">
-      <div class="modal-content w-100">
-        <div class="modal-body bg-dark text-center w-100">
-          <img src="" alt="" ref="shownImgRef" style="max-width: 100% !important; max-height: 80vh !important;">
+    <div class="modal-dialog modal-dialog-centered rounded-4 overflow-hidden" style="width: fit-content !important;">
+      <div class="modal-content w-100 rounded-4 overflow-hidden">
+        <div class="modal-body bg-dark text-center w-100 p-0 rounded-4 overflow-hidden">
+          <img src="" alt="" ref="shownImgRef" style="max-width: 100% !important; max-height: 80vh !important;" class="rounded-4">
         </div>
       </div>
     </div>
