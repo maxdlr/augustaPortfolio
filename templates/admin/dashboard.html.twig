@@ -1,11 +1,18 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-    {{ include('components/_media-upload-form.html.twig', {form: avatarForm}) }}
-
     <div {{ vue_component('admin/AdminDashboard', {
-        avatarImg: avatarImg
+        avatarImg: avatarImg,
+        avatarFormId: 'avatarForm'
     }) }}>
         {{ include('components/_spinner.html.twig') }}
     </div>
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'avatarForm',
+        title: 'Changer mon avatar',
+        body: include('components/_media-upload-form.html.twig', {form: avatarForm})
+    }) }}
+
 {% endblock %}
+

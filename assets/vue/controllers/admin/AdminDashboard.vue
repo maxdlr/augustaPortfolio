@@ -1,17 +1,14 @@
 <script setup>
-
-import MediaThumbnail from "../../components/atom/MediaThumbnail.vue";
+import AdminAvatar from "../../components/template/AdminAvatar.vue";
 
 const props = defineProps({
-  avatarImg: {type: Object}
+  avatarImg: {type: Object, required: false},
+  avatarFormId: {type: String}
 })
 </script>
 
 <template>
-  {{avatarImg}}
-  <div style="width: 200px !important; aspect-ratio: 1/1 !important;" class="rounded-circle overflow-hidden">
-    <MediaThumbnail :media="avatarImg" class="w-100"/>
-  </div>
+  <AdminAvatar :form-id="avatarFormId" :avatar-img="avatarImg"/>
 </template>
 
 <style scoped>
