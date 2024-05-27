@@ -1,9 +1,10 @@
 <script setup>
 import BaseTemplate from "../atom/BaseTemplate.vue";
 import MediaGallery from "../molecule/MediaGallery.vue";
+import Avatar from "../molecule/Avatar.vue";
 
 const props = defineProps({
-  illustrationImgs: {type: Object, required: true}
+  avatarImg: {type: Object, required: true}
 })
 
 const site = window.location.origin;
@@ -14,20 +15,22 @@ const site = window.location.origin;
   <div id="illustration"></div>
 <BaseTemplate>
   <template #context>
+    <div>
+    <Avatar :avatar-img="avatarImg" />
     <div class="fs-1">
       <div>
-        <span class="text-secondary">Illustration</span>
+        <span class="text-secondary">A propos</span>
         <span class="text-info">.</span>
       </div>
       <div>
-        <span class="text-info">Flat design </span>
-        <span class="text-secondary">& </span>
-        <span class="text-primary">colors</span>
+        <span class="text-info">Who </span>
+        <span class="text-secondary">the hell </span>
+        <span class="text-primary">am I?</span>
       </div>
+    </div>
     </div>
   </template>
   <template #content>
-    <MediaGallery :medias="illustrationImgs" col-count="3" gallery-name="homeIllustration"/>
   </template>
 </BaseTemplate>
 </template>

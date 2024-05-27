@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+    {{ include('components/_form-field/_text-field.html.twig', {
+        formRow: form.title,
+        label: 'titre',
+        placeholder: 'Festival @motiontober...'
+    }) }}
+{{ include('components/_form-field/_text-field.html.twig', {
+    formRow: form.linkLabel,
+    label: 'nom du lien',
+    placeholder: 'Festival @motiontober...'
+}) }}
+{{ include('components/_form-field/_text-field.html.twig', {
+    formRow: form.link,
+    label: 'lien',
+    placeholder: 'Festival @motiontober...'
+}) }}
+{{ include('components/_form-field/_text_area-field.html.twig', {
+    formRow: form.description,
+    label: 'description',
+    placeholder: 'Festival @motiontober...'
+}) }}
+{{ include('components/_button.html.twig', {
+    label: 'Enregistrer'
+}) }}
+{{ form_end(form) }}

@@ -43,6 +43,10 @@ class Navigation extends AbstractController
               'label' => 'dashboard',
               'link' => $this->generateUrl('app_admin_dashboard')
             ],
+            'interventions' => [
+                'label' => 'interventions',
+                'link' => $this->generateUrl('app_admin_CVItem_intervention')
+            ],
             'motion' => [
                 'label' => 'motion',
                 'link' => $this->generateUrl('app_admin_motion')

@@ -4,7 +4,8 @@
     <div {{ vue_component('HomePage', {
         showreelThumbnailPath: asset('build/'~showreelThumbnailPath),
         motionGifs: motionGifsData,
-        illustrationImgs: illustrationImgsData
+        illustrationImgs: illustrationImgsData,
+        avatarImg: avatarImg
     }) }}>
         {{ include('components/_spinner.html.twig') }}
     </div>

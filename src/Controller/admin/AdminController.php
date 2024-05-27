@@ -2,18 +2,25 @@
 
 namespace App\Controller\admin;
 
+use App\Crud\CVItemCrud;
 use App\Crud\Manager\AfterCrudTrait;
 use App\Crud\Manager\UploadManager;
 use App\Crud\MediaCrud;
+use App\Entity\CVItem;
 use App\Entity\Media;
+use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
+use App\Form\CVItemType;
 use App\Form\MediaType;
 use App\Form\SingleMediaType;
+use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
 use App\Service\VueDataFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +34,16 @@ class AdminController extends AbstractController
     public function __construct(
         private readonly UploadManager $uploadManager,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MediaRepository $mediaRepository
+        private readonly MediaRepository $mediaRepository,
+        private readonly CVItemCrud $CVItemCrud,
+        private readonly CVItemRepository $CVItemRepository,
+        private readonly FormFactoryInterface $formFactory
     )
     {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     #[Route(path: '/', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(Request $request): Response
@@ -46,10 +56,59 @@ class AdminController extends AbstractController
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
 
-
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
             'avatarImg' => $avatarImg
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/CVItem/intervention', name: 'CVItem_intervention', methods: ['GET', 'POST'])]
+    public function CVItem(Request $request): Response
+    {
+        $CVItemObjects = $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::INTERVENTION->value]);
+
+        $CVItems = VueDataFormatter::makeVueObjectOf($CVItemObjects,
+        [
+            'id',
+            'type',
+            'title',
+            'linkLabel',
+            'link',
+            'description'
+        ])->get();
+
+        $CVItemForms = [];
+        foreach ($CVItemObjects as $CVItem) {
+            $CVItemForms[$CVItem->getId()] = $this->formFactory
+                ->createNamed('form-CVItem-'.$CVItem->getId(), CVItemType::class, $CVItem);
+        }
+
+        $CVItemFormViews = array_map(fn(FormInterface $form) => $form->createView(), $CVItemForms);
+
+        foreach ($CVItemForms as $CVItemForm) {
+            if ($CVItemForm->isSubmitted() && $CVItemForm->isValid()) {
+                $CVItem = $this->CVItemRepository->findOneById(str_replace('form-CVItem-', '', $CVItemForm->getName()));
+                dd($CVItem);
+                $this->entityManager->persist($CVItem);
+                $this->entityManager->flush();
+                return $this->redirectTo('referer', $request);
+            }
+        }
+
+        $newCVItem = new CVItem();
+        $newCVItemForm = $this->CVItemCrud->save($request, $newCVItem, [], function () use ($newCVItem) {
+            $newCVItem->setType(CVItemTypeEnum::INTERVENTION);
+        });
+
+        if ($newCVItemForm === true) return $this->redirectTo('referer', $request);
+
+        return $this->render('admin/intervention.html.twig', [
+            'CVItemForms' => $CVItemFormViews,
+            'newCVItemForm' => $newCVItemForm,
+            'CVItems' => $CVItems
         ]);
     }
 

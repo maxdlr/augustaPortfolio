@@ -8,6 +8,7 @@ const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
   motionGifs: {type: Object, required:true},
   illustrationImgs: {type: Object, required:true},
+  avatarImg: {type: Object, required:true},
 })
 </script>
 
@@ -20,7 +21,7 @@ const props = defineProps({
   <HomeShowReel :showreel-thumbnail-path="showreelThumbnailPath"/>
   <HomeMotion :motion-gifs="motionGifs"/>
   <HomeIllustration :illustration-imgs="illustrationImgs" />
-  <HomeAbout />
+  <HomeAbout :avatar-img="avatarImg"/>
 </template>
 
 <style scoped>

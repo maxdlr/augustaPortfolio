@@ -6,10 +6,12 @@ const props = defineProps({
   avatarImg: {type: Object, required: false},
   formId: {type: String, required: true}
 })
+
+console.log(props)
 </script>
 
 <template>
-  <div class="bg-white shadow rounded-4 position-relative pt-5 p-3 text-center">
+  <div class="bg-white shadow rounded-5 position-relative pt-5 p-3 text-center">
     <div >
       <p class="fs-4 fw-bold text-info m-0 position-absolute top-0 start-0 ms-3 mt-3">Mon avatar</p>
       <Button
