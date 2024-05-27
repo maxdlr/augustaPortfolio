@@ -8,7 +8,9 @@ const props = defineProps({
 </script>
 
 <template>
+  <section class="row row-cols-2">
   <AdminAvatar :form-id="avatarFormId" :avatar-img="avatarImg"/>
+  </section>
 </template>
 
 <style scoped>

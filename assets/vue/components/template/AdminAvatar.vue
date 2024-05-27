@@ -9,8 +9,21 @@ const props = defineProps({
 </script>
 
 <template>
-  <Button data-bs-toggle="modal" :data-bs-target="`#${formId}`" :label="avatarImg ? 'modifier' : 'ajouter'" color-class="warning" type="button" round-class="pill"/>
-  <Avatar v-if="avatarImg" :avatar-img="avatarImg"/>
+  <div class="bg-white shadow rounded-4 position-relative pt-5 p-3 text-center">
+    <div >
+      <p class="fs-4 fw-bold text-info m-0 position-absolute top-0 start-0 ms-3 mt-3">Mon avatar</p>
+      <Button
+          class="position-absolute top-0 end-0 me-3 mt-3"
+          data-bs-toggle="modal"
+          :data-bs-target="`#${formId}`"
+          :label="avatarImg ? 'modifier' : 'ajouter'"
+          color-class="warning"
+          type="button"
+          round-class="pill"
+      />
+    </div>
+    <Avatar v-if="avatarImg" :avatar-img="avatarImg"/>
+  </div>
 </template>
 
 <style scoped>
