@@ -4,7 +4,8 @@ import {onMounted, ref} from "vue";
 import Button from "../../controllers/components/Button.vue";
 
 const props = defineProps({
-  showreelThumbnailPath: {type: String, required: false}
+  showreelThumbnailPath: {type: String, required: false},
+  anchor: {type: String, required: true}
 })
 
 const showreelWidth = ref(1600);
@@ -34,8 +35,7 @@ const destroyShowreelVideo = () => {
 </script>
 
 <template>
-  <div id="showreel"></div>
-  <BaseTemplate>
+  <BaseTemplate :anchor="anchor">
     <template #context>
       <div class="fs-1">
         <div>

@@ -16,7 +16,7 @@ class CVItemType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('linkLabel', TextType::class)
+            ->add('labelLink', TextType::class)
             ->add('link', UrlType::class)
             ->add('description', TextareaType::class)
         ;

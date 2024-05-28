@@ -20,7 +20,7 @@ class CVItem
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $linkLabel = null;
+    private ?string $labelLink = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
@@ -56,14 +56,14 @@ class CVItem
         return $this;
     }
 
-    public function getLinkLabel(): ?string
+    public function getLabelLink(): ?string
     {
-        return $this->linkLabel;
+        return $this->labelLink;
     }
 
-    public function setLinkLabel(?string $linkLabel): static
+    public function setLabelLink(?string $labelLink): static
     {
-        $this->linkLabel = $linkLabel;
+        $this->labelLink = $labelLink;
 
         return $this;
     }

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
+use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
 use App\Service\VueDataFormatter;
 use ReflectionException;
@@ -13,7 +15,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private readonly MediaRepository $mediaRepository
+        private readonly MediaRepository $mediaRepository,
+        private readonly CVItemRepository $CVItemRepository
     )
     {
     }
@@ -25,22 +28,39 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $showreelThumbnailPath = $this->mediaRepository->findOneBy(['mediaPath' => 'media/showreel-thumbnail.jpeg'])->getMediaPath();
-        $motionGifsData = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value], null, 6),
+        $motionGifsData = VueDataFormatter::makeVueObjectOf(
+            $this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value], null, 6),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
-        $illustrationImgsData = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value], null, 6),
+        $illustrationImgsData = VueDataFormatter::makeVueObjectOf(
+            $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value], null, 6),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
         $avatarImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::AVATAR->value])],
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
+        $interventions = VueDataFormatter::makeVueObjectOf(
+            $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::INTERVENTION->value]),
+                ['id', 'type', 'title', 'labelLink', 'link', 'description']
+        )->get();
+        $experiences = VueDataFormatter::makeVueObjectOf(
+            $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::EXPERIENCE->value]),
+            ['id', 'type', 'title', 'labelLink', 'link', 'description']
+        )->get();
+        $skills = VueDataFormatter::makeVueObjectOf(
+            $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::SKILL->value]),
+            ['id', 'type', 'title', 'labelLink', 'link', 'description']
+        )->get();
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
             'motionGifsData' => $motionGifsData,
             'illustrationImgsData' => $illustrationImgsData,
-            'avatarImg' => $avatarImg
+            'avatarImg' => $avatarImg,
+            'interventions' => $interventions,
+            'experiences' => $experiences,
+            'skills' => $skills,
         ]);
     }
 }

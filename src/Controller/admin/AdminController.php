@@ -75,7 +75,7 @@ class AdminController extends AbstractController
             'id',
             'type',
             'title',
-            'linkLabel',
+            'labelLink',
             'link',
             'description'
         ])->get();

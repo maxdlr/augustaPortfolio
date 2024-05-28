@@ -3,7 +3,8 @@ import BaseTemplate from "../atom/BaseTemplate.vue";
 import MediaGallery from "../molecule/MediaGallery.vue";
 
 const props = defineProps({
-  illustrationImgs: {type: Object, required: true}
+  illustrationImgs: {type: Object, required: true},
+  anchor: {type: String, required: true}
 })
 
 const site = window.location.origin;
@@ -11,8 +12,7 @@ const site = window.location.origin;
 </script>
 
 <template>
-  <div id="illustration"></div>
-<BaseTemplate>
+<BaseTemplate :anchor="anchor">
   <template #context>
     <div class="fs-1">
       <div>
