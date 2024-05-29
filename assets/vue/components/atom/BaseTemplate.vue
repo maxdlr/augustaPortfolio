@@ -7,8 +7,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-if="anchor" aria-hidden="true" :id="anchor"></div>
-  <section class="row mx-5 py-4" style="min-height: 40vw !important;">
+  <div
+      v-if="anchor"
+      aria-hidden="true"
+      :id="anchor"
+      class="py-3"
+  ></div>
+  <section class="row mx-5" style="min-height: 40vw !important;">
     <div class="col-5 d-flex"
          :class="`justify-content-${contextFlex.justify} align-items-${contextFlex.align}`"
     >

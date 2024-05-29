@@ -1,8 +1,7 @@
 <script setup>
 import Button from "../components/Button.vue";
-import {toTitle, truncate} from '../../composable/formatter/string'
 import {Modal} from 'bootstrap';
-import CVItem from "../../components/molecule/CVItem.vue";
+import CVItem from "../../components/atom/CVItem.vue";
 
 const props = defineProps({
   CVItems: {type: Object, default: null}

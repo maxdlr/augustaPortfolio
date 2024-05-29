@@ -57,6 +57,26 @@ class UploadManager extends AbstractController
         }
     }
 
+    public function saveFile(UploadedFile $mediaFile, $directory = 'media'): array
+    {
+        $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension();
+        $fileSize = $mediaFile->getSize();
+
+        try {
+            $mediaFile->move(
+                $this->getParameter($directory . '_directory'),
+                $newFilename
+            );
+            return ['newFilename' => $newFilename, 'fileSize' => $fileSize];
+
+        } catch (FileException $e) {
+            throw new FileException($e);
+        }
+    }
+
     public function uploadMany(
         FormInterface $form,
         MediaTypeEnum $mediaType
@@ -74,6 +94,7 @@ class UploadManager extends AbstractController
                     MediaTypeEnum::SHOWREEL_THUMBNAIL => 'media',
                     MediaTypeEnum::ILLUSTRATION => 'illustration',
                     MediaTypeEnum::AVATAR => 'avatar',
+                    MediaTypeEnum::MEUF => 'meuf'
                 };
 
                 $savedFile = $this->saveFile($mediaFile, $directory);
@@ -91,25 +112,5 @@ class UploadManager extends AbstractController
             }
         }
         return !in_array(false, $validation);
-    }
-
-    public function saveFile(UploadedFile $mediaFile, $directory = 'media'): array
-    {
-        $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
-
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension();
-        $fileSize = $mediaFile->getSize();
-
-        try {
-            $mediaFile->move(
-                $this->getParameter($directory.'_directory'),
-                $newFilename
-            );
-            return ['newFilename' => $newFilename, 'fileSize' => $fileSize];
-
-        } catch (FileException $e) {
-            throw new FileException($e);
-        }
     }
 }

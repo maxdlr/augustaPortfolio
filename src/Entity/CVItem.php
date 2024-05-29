@@ -25,7 +25,7 @@ class CVItem
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 500)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

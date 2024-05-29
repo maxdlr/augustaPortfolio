@@ -6,12 +6,13 @@ import HomeAbout from "../components/template/HomeAbout.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
-  motionGifs: {type: Object, required:true},
-  illustrationImgs: {type: Object, required:true},
-  avatarImg: {type: Object, required:true},
+  motionGifs: {type: Object, required: true},
+  illustrationImgs: {type: Object, required: true},
+  avatarImg: {type: Object, required: true},
   interventions: {type: Object},
   experiences: {type: Object},
   skills: {type: Object},
+  meuf: {type: Object}
 })
 </script>
 
@@ -21,15 +22,25 @@ const props = defineProps({
     <span class="text-info">.</span>
     <span class="fs-title text-primary">sarlin</span>
   </h1>
-  <HomeShowReel :showreel-thumbnail-path="showreelThumbnailPath" anchor="showreel"/>
-  <HomeMotion :motion-gifs="motionGifs" anchor="motion"/>
-  <HomeIllustration :illustration-imgs="illustrationImgs" anchor="illustration"/>
+  <HomeShowReel
+      :showreel-thumbnail-path="showreelThumbnailPath"
+      anchor="showreel"
+  />
+  <HomeMotion
+      :motion-gifs="motionGifs"
+      anchor="motion"
+  />
+  <HomeIllustration
+      :illustration-imgs="illustrationImgs"
+      anchor="illustration"
+  />
   <HomeAbout
       :avatar-img="avatarImg"
-      anchor="about"
-      :interventions="interventions"
       :experiences="experiences"
+      :interventions="interventions"
+      :meuf="meuf"
       :skills="skills"
+      anchor="about"
   />
 </template>
 

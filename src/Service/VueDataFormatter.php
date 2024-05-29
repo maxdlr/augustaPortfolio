@@ -2,15 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Address;
-use App\Entity\BedType;
-use App\Entity\Conversation;
-use App\Entity\Lodging;
-use App\Entity\Message;
-use App\Entity\Reservation;
-use App\Entity\ReservationStatus;
-use App\Entity\Review;
-use App\Entity\User;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use ReflectionException;
@@ -26,6 +17,7 @@ class VueDataFormatter
     public static function makeVueObjectOf(?array $entities, array $properties): static
     {
         if ($entities === [] || is_null($entities) || is_null($entities[0])) {
+            self::$vueObject = null;
             return new static;
         }
 
@@ -52,7 +44,15 @@ class VueDataFormatter
     }
     public function getOne(): ?array
     {
-        return count(self::$vueObject) === 0 ? null : self::$vueObject[0];
+        if (self::$vueObject === null) {
+            return null;
+        }
+
+        if (count(self::$vueObject) === 0) {
+            return null;
+        }
+
+        return self::$vueObject[rand(0, count(self::$vueObject) - 1)];
     }
 
     /**

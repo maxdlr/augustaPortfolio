@@ -7,10 +7,7 @@ import Button from "../../controllers/components/Button.vue";
 import {goTo} from "../../composable/action/redirect";
 
 const props = defineProps({
-  media: {type: Object, required: true},
-  lazyLoadTrigger: {type: [String, Boolean], default: null, required: false, validator(value) {
-    return ['hover', 'click', false].includes(value)
-    }},
+  media: {type: Object, required: false},
   buttons: {type: Boolean, required: false, default: false}
 })
 
@@ -31,10 +28,11 @@ const fetchMedia = async () => {
 }
 
 const setMediaSrc = async (e) => {
-  isLoading.value = true
-  const isMediaFetched = await fetchMedia();
+  const isMediaFetched = props.media ? await fetchMedia() : false;
 
   if (isMediaFetched) {
+    isLoading.value = true
+
     loadedSrc.value = `${site}/build/media/${props.media.mediaPath}`
     e.src = loadedSrc.value
     e.addEventListener('load', () => {
@@ -48,7 +46,7 @@ onMounted(async () => {
   img.value = imgRef.value
   const hash = Number(window.location.hash.replace('#media-', ''))
 
-  if (props.media.id === hash) {
+  if (props.media?.id === hash) {
     emit('show', props.media.id)
   }
 
@@ -59,12 +57,12 @@ const deleteMedia = async () => {
   if (confirm('Sure de vouloir supprimer ' + props.media.mediaPath + ' ?')) {
     await fetch(`${site}/media/${props.media.id}/delete`)
         .then(r => r.json().then(data => ({ok: r.ok, body: data}))
-        .then(obj => {
-          if (obj.ok) {
-            console.log(obj.body.message);
-            emit('delete', props.media.id);
-          }
-        }));
+            .then(obj => {
+              if (obj.ok) {
+                console.log(obj.body.message);
+                emit('delete', props.media.id);
+              }
+            }));
   }
 }
 
@@ -76,17 +74,18 @@ const show = (id) => {
 
 <template>
   <div v-if="!isLoading" class="position-relative">
-    <div class="position-absolute top-0 start-0 p-2" v-if="buttons" style="z-index: 1050;">
-      <Button icon-class-start="trash-fill" color-class="danger" round-class="pill" @click.prevent="deleteMedia"/>
+    <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
+      <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
     </div>
     <div class="rounded-4 overflow-hidden" @click.prevent="show(media.id)">
       <img
-          :src="loadedSrc"
-          :alt="media.mediaPath"
-          class="w-100 object-fit-cover freezeframe"
+          v-if="media"
           :id="`media-${media.id}`"
-          style="aspect-ratio: 1/1 !important;"
           ref="imgRef"
+          :alt="media.mediaPath"
+          :src="loadedSrc"
+          class="w-100 object-fit-cover freezeframe"
+          style="aspect-ratio: 1/1 !important;"
       >
     </div>
   </div>

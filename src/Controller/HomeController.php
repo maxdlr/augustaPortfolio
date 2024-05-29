@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private readonly MediaRepository $mediaRepository,
+        private readonly MediaRepository  $mediaRepository,
         private readonly CVItemRepository $CVItemRepository
     )
     {
@@ -42,7 +42,7 @@ class HomeController extends AbstractController
         )->getOne();
         $interventions = VueDataFormatter::makeVueObjectOf(
             $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::INTERVENTION->value]),
-                ['id', 'type', 'title', 'labelLink', 'link', 'description']
+            ['id', 'type', 'title', 'labelLink', 'link', 'description']
         )->get();
         $experiences = VueDataFormatter::makeVueObjectOf(
             $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::EXPERIENCE->value]),
@@ -52,6 +52,11 @@ class HomeController extends AbstractController
             $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::SKILL->value]),
             ['id', 'type', 'title', 'labelLink', 'link', 'description']
         )->get();
+        $meuf = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::MEUF->value])],
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->getOne();
+
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
@@ -61,6 +66,7 @@ class HomeController extends AbstractController
             'interventions' => $interventions,
             'experiences' => $experiences,
             'skills' => $skills,
+            'meuf' => $meuf,
         ]);
     }
 }

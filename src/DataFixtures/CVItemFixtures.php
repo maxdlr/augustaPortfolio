@@ -19,9 +19,9 @@ class CVItemFixtures extends Fixture
 
             $item
                 ->setType($faker->randomElement(CVItemTypeEnum::cases()))
-                ->setDescription($faker->paragraph())
+                ->setDescription($faker->paragraph(2))
                 ->setLink($faker->url())
-                ->setLinkLabel($faker->word())
+                ->setLabelLink($faker->word())
                 ->setTitle($faker->words(asText: true));
 
             $manager->persist($item);

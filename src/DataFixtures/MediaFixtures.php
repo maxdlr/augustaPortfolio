@@ -22,6 +22,7 @@ class MediaFixtures extends Fixture
 
         $this->makeSpecificMedia('assets/media/motion', $manager, MediaTypeEnum::MOTION);
         $this->makeSpecificMedia('assets/media/illustration', $manager, MediaTypeEnum::ILLUSTRATION);
+        $this->makeSpecificMedia('assets/media/meuf', $manager, MediaTypeEnum::MEUF);
 
 
         $manager->flush();
@@ -33,19 +34,19 @@ class MediaFixtures extends Fixture
      * @param MediaTypeEnum $mediaTypeEnum
      * @return void
      */
-    private function makeSpecificMedia(string $illustrationImgsDir, ObjectManager $manager, MediaTypeEnum $mediaTypeEnum): void
+    private function makeSpecificMedia(string $directory, ObjectManager $manager, MediaTypeEnum $mediaTypeEnum): void
     {
-        $illustrationImgs = [];
-        foreach (array_diff(scandir($illustrationImgsDir), ['.', '..']) as $illustrationImg) {
-            $illustrationImgPath = str_replace('assets/media/', '', $illustrationImgsDir);
-            $illustrationImgs[] = $illustrationImgPath . '/' . $illustrationImg;
+        $medias = [];
+        foreach (array_diff(scandir($directory), ['.', '..']) as $media) {
+            $mediaPath = str_replace('assets/media/', '', $directory);
+            $medias[] = $mediaPath . '/' . $media;
         }
 
-        for ($i = 0; $i < count($illustrationImgs); $i++) {
+        for ($i = 0; $i < count($medias); $i++) {
             $media = new Media();
             $media
-                ->setMediaPath($illustrationImgs[$i])
-                ->setMediaSize(filesize('assets/media/' . $illustrationImgs[$i]))
+                ->setMediaPath($medias[$i])
+                ->setMediaSize(filesize('assets/media/' . $medias[$i]))
                 ->setType($mediaTypeEnum);
 
             $manager->persist($media);
