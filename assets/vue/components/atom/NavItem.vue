@@ -16,12 +16,13 @@ const props = defineProps({
 
 <template>
   <a
-      :href="value"
-      class="link-underline-opacity-0 link-underline fs-4"
+      v-smooth-scroll="{ duration: 200, easingFunction: t => 1+(--t)*t*t*t }"
       :class="[
           `link-${colorClass}`
       ]"
-  >{{toTitle(label)}}</a>
+      :href="value"
+      class="link-underline-opacity-0 link-underline fs-4"
+  >{{ toTitle(label) }}</a>
 </template>
 
 <style scoped>
