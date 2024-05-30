@@ -1,48 +1,36 @@
 <script setup>
-import NavItem from "../components/atom/NavItem.vue";
-import {Collapse} from "bootstrap";
+
+import NavBarDesktop from "../components/atom/NavBarDesktop.vue";
+import NavBarMobile from "../components/atom/NavBarMobile.vue";
+import {onMounted, onUnmounted, ref} from "vue";
+import {BREAKPOINTS} from "../constant/bootstrap-constants";
 
 const props = defineProps({
   navigation: {type: Object, required: true}
 })
 
+const screenWidth = ref(0);
+const screenHeight = ref(0);
+
+onMounted(() => {
+  handleResize();
+  window.addEventListener("resize", handleResize);
+});
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
+});
+
+const handleResize = () => {
+  screenWidth.value = window.innerWidth;
+  screenHeight.value = window.innerHeight;
+};
+
+
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand fs-4 fw-bold" href="/">
-        <span class="text-primary">augusta</span>
-        <span class="text-info">.</span>
-        <span class="text-primary">sarlin</span>
-      </a>
-      <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end d-flex align-items-center w-100">
-          <li v-for="(link, index) in navigation" :key="index" class="nav-item">
-            <div class="py-1 px-5">
-              <NavItem
-                  :label="link.label"
-                  :value="link.link"
-                  color-class="secondary"
-                  size="lg"
-              />
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <NavBarDesktop v-if="screenWidth > BREAKPOINTS.SM" :navigation="navigation"/>
+  <NavBarMobile v-else :navigation="navigation"/>
 </template>
 
 <style scoped>

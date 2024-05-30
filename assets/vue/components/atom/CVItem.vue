@@ -1,5 +1,5 @@
 <script setup>
-import {toTitle} from "../../composable/formatter/string";
+import {toTitle, truncate} from "../../composable/formatter/string";
 import {ref} from "vue";
 import {SLIDE_LEFT} from "../../constant/animation";
 import Button from "../../controllers/components/Button.vue";
@@ -32,11 +32,13 @@ const hovering = ref();
           class="link-underline link-underline-opacity-0"
       >
         <h6 class="fs-6 m-0 text-nowrap">
-          <span class="fs-title">{{ toTitle(item.title) + ' ' }}</span>
-          <span>@{{ item.labelLink }}</span>
+          <span>{{ toTitle(item.title) + ' ' }}</span>
+          <span class="text-info fs-title">@{{ item.labelLink }}</span>
         </h6>
         <div>
-          <span class="ps-2 d-inline-block text-truncate" style="max-width: 350px;">{{ item.description }}</span>
+          <span class="ps-2 d-inline-block text-secondary" style="max-width: 350px;">{{
+              truncate(item.description, 50, '...')
+            }}</span>
         </div>
       </a>
     </div>

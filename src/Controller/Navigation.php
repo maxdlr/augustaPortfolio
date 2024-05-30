@@ -20,14 +20,6 @@ class Navigation extends AbstractController
             'about' => [
                 'label' => 'about',
                 'link' => '#about'
-            ],
-            'admin' => [
-                'label' => 'admin',
-                'link' => $this->generateUrl('app_admin_dashboard')
-            ],
-            'sources' => [
-                'label' => 'sources',
-                'link' => "https://drive.google.com/drive/folders/1URgUf00WLXEMbYfHywGWjNlHh6fes0gd"
             ]
         ];
     }
@@ -40,8 +32,8 @@ class Navigation extends AbstractController
                 'link' => $this->generateUrl('app_home')
             ],
             'dashboard' => [
-              'label' => 'dashboard',
-              'link' => $this->generateUrl('app_admin_dashboard')
+                'label' => 'dashboard',
+                'link' => $this->generateUrl('app_admin_dashboard')
             ],
             'interventions' => [
                 'label' => 'interventions',

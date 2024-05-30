@@ -17,7 +17,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <h1 class="ms-5" style="font-size: 100px !important;">
+  <h1 class="ms-5 d-md-block d-none" style="font-size: 100px !important;">
     <span class="fs-title text-primary">augusta</span>
     <span class="text-info">.</span>
     <span class="fs-title text-primary">sarlin</span>
