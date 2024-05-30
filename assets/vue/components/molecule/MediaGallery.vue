@@ -7,9 +7,11 @@ import {Modal} from 'bootstrap';
 const props = defineProps({
   medias: {type: Object, required: true},
   colCount: {type: [Number, String], default: 4, required: false},
-  lazyLoadTrigger: {type: [String, Boolean], default: null, required: false, validator(value) {
+  lazyLoadTrigger: {
+    type: [String, Boolean], default: null, required: false, validator(value) {
       return ['hover', 'click', false].includes(value)
-    }},
+    }
+  },
   buttons: {type: Boolean, required: false, default: false},
   galleryName: {type: String, required: true},
   ignoreHash: {type: Boolean, required: false, default: false}
@@ -66,11 +68,10 @@ const openModal = (id) => {
 }
 
 
-
 </script>
 
 <template>
-  <section class="row my-4" :class="`row-cols-${colCount}`">
+  <section :class="`row-cols-${colCount}`" class="row my-4">
     <div v-for="media in filteredMedias"
          :key="media.id"
          class="p-1 position-relative"
@@ -78,8 +79,9 @@ const openModal = (id) => {
          type="button"
     >
       <MediaThumbnail
-          :media="media"
           :buttons="buttons"
+          :media="media"
+          hover-action
           @delete="deleteMedia"
           @loaded="freezeFrame"
           @show="showImg"
@@ -87,11 +89,13 @@ const openModal = (id) => {
     </div>
   </section>
 
-  <div class="modal modal-xl fade" :id="`${galleryName}-mediaLightBox`" tabindex="-1" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`" aria-hidden="true" ref="modalElRef">
+  <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`"
+       aria-hidden="true" class="modal modal-xl fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered rounded-4 overflow-hidden" style="width: fit-content !important;">
       <div class="modal-content w-100 rounded-4 overflow-hidden">
         <div class="modal-body bg-dark text-center w-100 p-0 rounded-4 overflow-hidden">
-          <img src="" alt="" ref="shownImgRef" style="max-width: 100% !important; max-height: 80vh !important;" class="rounded-4">
+          <img ref="shownImgRef" alt="" class="rounded-4" src=""
+               style="max-width: 100% !important; max-height: 80vh !important;">
         </div>
       </div>
     </div>

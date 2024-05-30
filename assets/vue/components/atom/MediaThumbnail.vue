@@ -8,7 +8,8 @@ import {goTo} from "../../composable/action/redirect";
 
 const props = defineProps({
   media: {type: Object, required: false},
-  buttons: {type: Boolean, required: false, default: false}
+  buttons: {type: Boolean, required: false, default: false},
+  hoverAction: {type: Boolean, default: false, required: false}
 })
 
 const imgRef = ref(null);
@@ -73,11 +74,19 @@ const show = (id) => {
 </script>
 
 <template>
-  <div v-if="!isLoading" class="position-relative">
+  <div
+      v-if="!isLoading"
+      :class="{'animate-stage-hover': hoverAction}"
+      class="position-relative"
+  >
     <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
       <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
     </div>
-    <div class="rounded-4 overflow-hidden" @click.prevent="show(media.id)">
+
+    <div
+        :class="{'animate-stage-target': hoverAction}"
+        class="rounded-4 overflow-hidden"
+        @click.prevent="show(media.id)">
       <img
           v-if="media"
           :id="`media-${media.id}`"
@@ -92,6 +101,34 @@ const show = (id) => {
   <LoadingSpinner v-else/>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../styles/animation';
+@import "../../../styles/var-override";
+
+.animate-stage-hover {
+  & .animate-stage-target {
+    background-color: transparent;
+    z-index: 5;
+
+    transition: all $duration $timing;
+
+    img {
+      transition: all $duration $timing;
+    }
+  }
+
+  &:hover {
+    & .animate-stage-target {
+      background: $info;
+      overflow: hidden;
+      height: 100%;
+      z-index: 2;
+
+      img {
+        opacity: 50%;
+      }
+    }
+  }
+}
 
 </style>

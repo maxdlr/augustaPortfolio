@@ -10,10 +10,10 @@ const props = defineProps({
 <template>
   <div class="w-75 my-3">
     <h2 class="fs-1 fs-title text-info mb-4">
-      {{title}}
+      {{ title }}
     </h2>
     <div v-for="item in items" :key="item.id">
-      <CVItem :item="item"/>
+      <CVItem :item="item" hover-action/>
     </div>
   </div>
 </template>

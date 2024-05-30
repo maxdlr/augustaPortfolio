@@ -1,41 +1,31 @@
 <script setup>
 import {toTitle} from "../../composable/formatter/string";
-import {onBeforeMount, onMounted, ref, watch} from "vue";
-import {SLIDE_LEFT, SLIDE_RIGHT, SLIDE_UP} from "../../constant/animation";
+import {ref} from "vue";
+import {SLIDE_LEFT} from "../../constant/animation";
+import Button from "../../controllers/components/Button.vue";
 
 const props = defineProps({
-  item: {type: Object, required: true}
+  item: {type: Object, required: true},
+  hoverAction: {type: Boolean, default: false, required: false}
 })
 
 const hovering = ref();
-const rand = ref();
-const minRand = ref();
-const randNumber = () => {
-  return Math.round(Math.random() * 50)
-};
-
-const getRand = () => {
-  const randValue = randNumber();
-  rand.value = randValue + 'px';
-  minRand.value = -randValue + 'px';
-}
-
-onBeforeMount(() => {
-  getRand();
-})
-const reRenderKey = ref(0);
-
-const reRender = () => {
-  reRenderKey.value++
-  getRand()
-}
 </script>
 
 <template>
-  <div class="position-relative"
+  <div :class="{'animate-slide-right': hoverAction}"
+       class="position-relative"
        @mouseenter="hovering = true"
        @mouseleave="hovering = false"
   >
+    <Transition :name="SLIDE_LEFT">
+      <Button
+          v-if="hovering && hoverAction"
+          class="position-absolute start-0 top-50 translate-middle text-primary"
+          color-class=""
+          icon-class-start="arrow-right-circle-fill"
+      />
+    </Transition>
     <div class="p-2 pt-3 px-4 rounded-5">
       <a
           :href="item.link"
@@ -54,5 +44,19 @@ const reRender = () => {
 </template>
 
 <style lang="scss" scoped>
+@import '../../../styles/slide-left';
+@import '../../../styles/animation';
+
+.animate-slide-right {
+  & div {
+    transition: transform $duration $timing
+  }
+
+  &:hover {
+    & div {
+      transform: translateX(30px);
+    }
+  }
+}
 
 </style>
