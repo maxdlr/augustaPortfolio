@@ -14,7 +14,8 @@ const props = defineProps({
   },
   buttons: {type: Boolean, required: false, default: false},
   galleryName: {type: String, required: true},
-  ignoreHash: {type: Boolean, required: false, default: false}
+  ignoreHash: {type: Boolean, required: false, default: false},
+  isOnMobile: {type: Boolean, default: true, required: true}
 })
 
 const filteredMedias = ref({})
@@ -48,11 +49,12 @@ const freezeFrame = () => {
 }
 
 const showImg = (id) => {
-  shownImg.value.src = `${site}/build/media/${filteredMedias.value[id].mediaPath}`
-  shownImg.value.alt = `show image of ${filteredMedias.value[id].mediaPath}`
-  if (!props.ignoreHash) window.location.hash = `#media-${id}`
-
-  openModal(id)
+  if (!props.isOnMobile) {
+    shownImg.value.src = `${site}/build/media/${filteredMedias.value[id].mediaPath}`
+    shownImg.value.alt = `show image of ${filteredMedias.value[id].mediaPath}`
+    if (!props.ignoreHash) window.location.hash = `#media-${id}`
+    openModal(id)
+  }
 }
 
 const openModal = (id) => {
@@ -62,7 +64,6 @@ const openModal = (id) => {
   if (!props.ignoreHash) {
     modalEl.value.addEventListener('hide.bs.modal', () => {
       window.location.hash = filteredMedias.value[id].type.toLowerCase()
-      console.log('caca')
     }, {once: true})
   }
 }
@@ -71,17 +72,17 @@ const openModal = (id) => {
 </script>
 
 <template>
-  <section :class="`row-cols-${colCount}`" class="row my-4">
+  <section :class="`row-cols-md-${colCount}`" class="row row-cols-1 row-cols-sm-2 my-4">
     <div v-for="media in filteredMedias"
          :key="media.id"
+         :data-bs-toggle="!isOnMobile ? 'modal' : ''"
+         :type="!isOnMobile ? 'button' : ''"
          class="p-1 position-relative"
-         data-bs-toggle="modal"
-         type="button"
     >
       <MediaThumbnail
           :buttons="buttons"
+          :hover-action="!isOnMobile"
           :media="media"
-          hover-action
           @delete="deleteMedia"
           @loaded="freezeFrame"
           @show="showImg"
@@ -89,7 +90,8 @@ const openModal = (id) => {
     </div>
   </section>
 
-  <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef" :aria-labelledby="`${galleryName}-mediaLightBoxLabel`"
+  <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
+       :aria-labelledby="`${galleryName}-mediaLightBoxLabel`"
        aria-hidden="true" class="modal modal-xl fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered rounded-4 overflow-hidden" style="width: fit-content !important;">
       <div class="modal-content w-100 rounded-4 overflow-hidden">

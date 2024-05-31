@@ -1,6 +1,7 @@
 <script setup>
 import BaseTemplate from "../atom/BaseTemplate.vue";
 import MediaGallery from "../molecule/MediaGallery.vue";
+import {BREAKPOINTS} from "../../constant/bootstrap-constants";
 
 const props = defineProps({
   motionGifs: {type: Object, required: true},
@@ -27,7 +28,12 @@ const site = window.location.origin;
       </div>
     </template>
     <template #content="{screenWidth, screenHeight}">
-      <MediaGallery :medias="motionGifs" col-count="3" gallery-name="homeMotion"/>
+      <MediaGallery
+          :is-on-mobile="screenWidth < BREAKPOINTS.MD"
+          :medias="motionGifs"
+          col-count="3"
+          gallery-name="homeMotion"
+      />
     </template>
   </BaseTemplate>
 </template>

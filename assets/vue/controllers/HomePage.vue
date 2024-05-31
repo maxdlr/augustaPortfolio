@@ -17,11 +17,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <h1 class="ms-5 d-md-block d-none" style="font-size: 100px !important;">
+  <h1 class="ms-md-5 text-md-start text-center" style="font-size: 10vw !important;">
     <span class="fs-title text-primary">augusta</span>
     <span class="text-info">.</span>
     <span class="fs-title text-primary">sarlin</span>
   </h1>
+  <div class="text-end pe-5 d-md-none">
+    <span class="fst-italic text-secondary">Freelance 🤙 from Lyon with ❤️</span>
+  </div>
   <HomeShowReel
       :showreel-thumbnail-path="showreelThumbnailPath"
       anchor="showreel"
