@@ -13,8 +13,6 @@ const props = defineProps({
   meuf: {type: Object}
 })
 
-const site = window.location.origin;
-
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const site = window.location.origin;
       :content-flex="{justify: 'center', align: 'start'}"
       :context-flex="{justify: 'center', align: 'start'}"
   >
-    <template #context>
+    <template #context="{screenWidth, screenHeight}">
       <div class="sticky-top pt-5">
         <Avatar :avatar-img="avatarImg"/>
         <div class="fs-1">
@@ -39,13 +37,13 @@ const site = window.location.origin;
         </div>
       </div>
     </template>
-    <template #content>
+    <template #content="{screenWidth, screenHeight}">
       <div class="h-100">
         <AboutSection :items="interventions" title="Interventions"/>
         <AboutSection :items="experiences" title="Experiences"/>
         <AboutSection :items="skills" title="Skills"/>
       </div>
-      <div class="sticky-top">
+      <div class="sticky-top d-none d-md-block">
         <MediaThumbnail :media="meuf"/>
       </div>
     </template>

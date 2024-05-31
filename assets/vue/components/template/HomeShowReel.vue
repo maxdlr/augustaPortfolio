@@ -2,6 +2,7 @@
 import BaseTemplate from "../atom/BaseTemplate.vue";
 import {onMounted, ref} from "vue";
 import Button from "../../controllers/components/Button.vue";
+import {BREAKPOINTS} from "../../constant/bootstrap-constants";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: false},
@@ -36,8 +37,10 @@ const destroyShowreelVideo = () => {
 
 <template>
   <BaseTemplate :anchor="anchor">
-    <template #context>
-      <div class="fs-1">
+    <template #context="{screenWidth}">
+      <div :class="screenWidth < BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
+
+      >
         <div>
           <span class="text-secondary">Freelance</span>
         </div>
@@ -52,11 +55,11 @@ const destroyShowreelVideo = () => {
       </div>
     </template>
 
-    <template #content>
+    <template #content="{screenWidth}">
       <div class="rounded-4 overflow-hidden">
-        <img class="img-fluid" :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail"
-             data-bs-toggle="modal"
+        <img :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail" class="img-fluid"
              data-bs-target="#showreel-mediaLightBox"
+             data-bs-toggle="modal"
              type="button"
              @click="createShowreelVideo"
         >
@@ -64,14 +67,16 @@ const destroyShowreelVideo = () => {
     </template>
   </BaseTemplate>
 
-  <div class="modal modal-xl fade" id="showreel-mediaLightBox" tabindex="-1" aria-labelledby="showreel-mediaLightBoxLabel" aria-hidden="true" @keydown.esc="destroyShowreelVideo">
+  <div id="showreel-mediaLightBox" aria-hidden="true" aria-labelledby="showreel-mediaLightBoxLabel"
+       class="modal modal-xl fade" tabindex="-1" @keydown.esc="destroyShowreelVideo">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header bg-dark d-flex justify-content-between align-items-center border-0">
           <span class="text-light z-3 p-4">[ESC] - Close</span>
-          <Button color-class="" class="text-white" size="lg" icon-class-start="x-lg" data-bs-dismiss="modal" aria-label="Close" type="button" @click="destroyShowreelVideo" />
+          <Button aria-label="Close" class="text-white" color-class="" data-bs-dismiss="modal" icon-class-start="x-lg"
+                  size="lg" type="button" @click="destroyShowreelVideo"/>
         </div>
-        <div class="modal-body bg-dark d-flex align-items-center justify-content-center" ref="modalContentRef"/>
+        <div ref="modalContentRef" class="modal-body bg-dark d-flex align-items-center justify-content-center"/>
       </div>
     </div>
   </div>

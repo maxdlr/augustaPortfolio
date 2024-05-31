@@ -12,24 +12,24 @@ const site = window.location.origin;
 </script>
 
 <template>
-<BaseTemplate :anchor="anchor">
-  <template #context>
-    <div class="fs-1">
-      <div>
-        <span class="text-secondary">Creative Lab</span>
-        <span class="text-info">.</span>
+  <BaseTemplate :anchor="anchor">
+    <template #context="{screenWidth, screenHeight}">
+      <div class="fs-1">
+        <div>
+          <span class="text-secondary">Creative Lab</span>
+          <span class="text-info">.</span>
+        </div>
+        <div>
+          <span class="text-info">2D </span>
+          <span class="text-secondary">& </span>
+          <span class="text-primary">character animation</span>
+        </div>
       </div>
-      <div>
-        <span class="text-info">2D </span>
-        <span class="text-secondary">& </span>
-        <span class="text-primary">character animation</span>
-      </div>
-    </div>
-  </template>
-  <template #content>
-    <MediaGallery :medias="motionGifs" col-count="3" gallery-name="homeMotion"/>
-  </template>
-</BaseTemplate>
+    </template>
+    <template #content="{screenWidth, screenHeight}">
+      <MediaGallery :medias="motionGifs" col-count="3" gallery-name="homeMotion"/>
+    </template>
+  </BaseTemplate>
 </template>
 
 <style scoped>
