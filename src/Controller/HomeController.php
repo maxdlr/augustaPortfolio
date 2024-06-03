@@ -29,11 +29,11 @@ class HomeController extends AbstractController
     {
         $showreelThumbnailPath = $this->mediaRepository->findOneBy(['mediaPath' => 'media/showreel-thumbnail.jpeg'])->getMediaPath();
         $motionGifsData = VueDataFormatter::makeVueObjectOf(
-            $this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value], null, 6),
+            $this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
         $illustrationImgsData = VueDataFormatter::makeVueObjectOf(
-            $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value], null, 6),
+            $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
         $avatarImg = VueDataFormatter::makeVueObjectOf(

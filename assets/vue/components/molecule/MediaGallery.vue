@@ -3,6 +3,7 @@ import MediaThumbnail from "../atom/MediaThumbnail.vue";
 import {onMounted, ref} from "vue";
 import Freezeframe from "freezeframe";
 import {Modal} from 'bootstrap';
+import Button from "../../controllers/components/Button.vue";
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -15,7 +16,8 @@ const props = defineProps({
   buttons: {type: Boolean, required: false, default: false},
   galleryName: {type: String, required: true},
   ignoreHash: {type: Boolean, required: false, default: false},
-  isOnMobile: {type: Boolean, default: true, required: true}
+  isOnMobile: {type: Boolean, default: true, required: true},
+  onMountedCount: {type: [String, Number], default: null, required: true}
 })
 
 const filteredMedias = ref({})
@@ -33,6 +35,7 @@ onMounted(() => {
 })
 
 const filter = () => {
+
   for (const mediaKey in props.medias) {
     filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
   }
@@ -88,6 +91,7 @@ const openModal = (id) => {
           @show="showImg"
       />
     </div>
+    <Button icon-class-start="plus" label="more"/>
   </section>
 
   <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
