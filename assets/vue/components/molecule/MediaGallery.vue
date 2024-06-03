@@ -1,6 +1,6 @@
 <script setup>
 import MediaThumbnail from "../atom/MediaThumbnail.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import Freezeframe from "freezeframe";
 import {Modal} from 'bootstrap';
 import Button from "../../controllers/components/Button.vue";
@@ -17,7 +17,7 @@ const props = defineProps({
   galleryName: {type: String, required: true},
   ignoreHash: {type: Boolean, required: false, default: false},
   isOnMobile: {type: Boolean, default: true, required: true},
-  onMountedCount: {type: [String, Number], default: null, required: true}
+  startMediaCount: {type: [String, Number], default: null, required: true}
 })
 
 const filteredMedias = ref({})
@@ -31,13 +31,38 @@ onMounted(() => {
   shownImg.value = shownImgRef.value
   modalEl.value = modalElRef.value
 
+  if (props.startMediaCount === 'all') {
+    shownMediaCount.value = props.medias.length
+  } else {
+    shownMediaCount.value = Number(props.startMediaCount)
+  }
   filter()
 })
+const emit = defineEmits(['allShown']);
+const shownMediaCount = ref(0);
+const isAllShown = computed(() => {
+  return shownMediaCount.value === props.medias.length
+})
+
+const showAll = () => {
+  shownMediaCount.value = props.medias.length;
+  emit('allShown');
+  filter()
+}
+const showSix = () => {
+  shownMediaCount.value = 6;
+  emit('lessShown');
+  filter()
+}
 
 const filter = () => {
-
+  let i = 0;
+  filteredMedias.value = {};
   for (const mediaKey in props.medias) {
-    filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
+    if (i < shownMediaCount.value) {
+      filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
+    }
+    i++
   }
 }
 
@@ -75,7 +100,7 @@ const openModal = (id) => {
 </script>
 
 <template>
-  <section :class="`row-cols-md-${colCount}`" class="row row-cols-1 row-cols-sm-2 my-4">
+  <section :class="`row-cols-lg-${colCount}`" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4">
     <div v-for="media in filteredMedias"
          :key="media.id"
          :data-bs-toggle="!isOnMobile ? 'modal' : ''"
@@ -91,7 +116,8 @@ const openModal = (id) => {
           @show="showImg"
       />
     </div>
-    <Button icon-class-start="plus" label="more"/>
+    <Button v-if="!isAllShown" icon-class-start="plus" label="more" @click.prevent="showAll"/>
+    <Button v-else icon-class-start="minus" label="less" @click.prevent="showSix"/>
   </section>
 
   <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
