@@ -11,7 +11,9 @@ const props = defineProps({
   <HomeGalleryTemplate
       :anchor="anchor"
       :media="motionGifs"
-      gallery-name="homeMotion">
+      gallery-name="homeMotion"
+      lazy-load-trigger="hover"
+  >
 
     <template #title>
       <div class="fs-1">

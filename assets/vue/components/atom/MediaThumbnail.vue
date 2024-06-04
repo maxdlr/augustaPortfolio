@@ -1,10 +1,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
-import Freezeframe from "freezeframe";
-import {onDOMContentLoaded} from "bootstrap/js/src/util";
 import Button from "../../controllers/components/Button.vue";
-import {goTo} from "../../composable/action/redirect";
 
 const props = defineProps({
   media: {type: Object, required: false},
@@ -29,13 +26,14 @@ const fetchMedia = async () => {
 }
 
 const setMediaSrc = async (e) => {
+  isLoading.value = true
+
   const isMediaFetched = props.media ? await fetchMedia() : false;
 
   if (isMediaFetched) {
-    isLoading.value = true
-
     loadedSrc.value = `${site}/build/media/${props.media.mediaPath}`
-    e.src = loadedSrc.value
+    e.src = loadedSrc.value;
+    e.alt = props.media.mediaPath;
     e.addEventListener('load', () => {
       emit('loaded');
       isLoading.value = false
@@ -45,6 +43,7 @@ const setMediaSrc = async (e) => {
 
 onMounted(async () => {
   img.value = imgRef.value
+
   const hash = Number(window.location.hash.replace('#media-', ''))
 
   if (props.media?.id === hash) {
@@ -91,7 +90,6 @@ const show = (id) => {
           v-if="media"
           :id="`media-${media.id}`"
           ref="imgRef"
-          :alt="media.mediaPath"
           :src="loadedSrc"
           class="w-100 object-fit-cover freezeframe"
           style="aspect-ratio: 1/1 !important;"

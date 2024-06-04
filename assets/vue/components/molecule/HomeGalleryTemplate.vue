@@ -7,7 +7,12 @@ import {ref} from "vue";
 const props = defineProps({
   media: {type: Object, required: true},
   galleryName: {type: String, required: true},
-  anchor: {type: String, required: true}
+  anchor: {type: String, required: true},
+  lazyLoadTrigger: {
+    type: [String, Boolean], default: false, required: false, validator(value) {
+      return ['hover', 'click', false].includes(value)
+    }
+  },
 })
 
 const isShowingAllMedia = ref(false);
