@@ -28,7 +28,6 @@ const handleNavItemPositions = () => {
 }
 
 onMounted(() => {
-  console.log(currentAnchor.value)
   currentAnchor.value = window.location.hash
   handleNavItemPositions()
 })

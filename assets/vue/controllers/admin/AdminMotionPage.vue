@@ -10,6 +10,7 @@ const props = defineProps({
 
 <template>
   <MediaGallery
+      :admin="true"
       :buttons="true"
       :ignore-hash="true"
       :is-on-mobile="false"

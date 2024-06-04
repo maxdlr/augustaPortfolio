@@ -21,7 +21,6 @@ const props = defineProps({
       :cols="[4, 8]"
       :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
       :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
-      main-break-point="lg"
   >
     <template #context="{screenWidth, screenHeight}">
       <div class="sticky-top pt-5">
@@ -46,8 +45,10 @@ const props = defineProps({
           <AboutSection :items="experiences" title="Experiences"/>
           <AboutSection :items="skills" title="Skills"/>
         </div>
-        <div class="sticky-top col-lg-4">
-          <MediaThumbnail :media="meuf"/>
+        <div class="col-lg-4">
+          <div class="sticky-top">
+            <MediaThumbnail :animate="false" :media="meuf"/>
+          </div>
         </div>
       </div>
     </template>

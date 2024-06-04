@@ -4,6 +4,7 @@ import {computed, onMounted, ref} from "vue";
 import Freezeframe from "freezeframe";
 import {Modal} from 'bootstrap';
 import Button from "../../controllers/components/Button.vue";
+import {SLIDE_RIGHT} from "../../constant/animation";
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -17,7 +18,8 @@ const props = defineProps({
   galleryName: {type: String, required: true},
   ignoreHash: {type: Boolean, required: false, default: false},
   isOnMobile: {type: Boolean, default: true, required: true},
-  startMediaCount: {type: [String, Number], default: null, required: true}
+  startMediaCount: {type: [String, Number], default: null, required: true},
+  admin: {type: Boolean, default: false, required: false}
 })
 
 const filteredMedias = ref({})
@@ -43,6 +45,8 @@ const shownMediaCount = ref(0);
 const isAllShown = computed(() => {
   return shownMediaCount.value === props.medias.length
 })
+const loadedMediaCount = ref(0);
+const isAllLoaded = ref(false);
 
 const showAll = () => {
   shownMediaCount.value = props.medias.length;
@@ -60,10 +64,11 @@ const filter = () => {
   filteredMedias.value = {};
   for (const mediaKey in props.medias) {
     if (i < shownMediaCount.value) {
-      filteredMedias.value[props.medias[mediaKey].id] = props.medias[mediaKey]
+      filteredMedias.value[i] = props.medias[mediaKey]
     }
     i++
   }
+  console.log(filteredMedias.value)
 }
 
 const deleteMedia = (mediaId) => {
@@ -76,16 +81,34 @@ const freezeFrame = () => {
   }
 }
 
+const handleOnLoaded = () => {
+  loadedMediaCount.value++
+
+  if (loadedMediaCount.value === Object.keys(filteredMedias.value).length) {
+    freezeFrame()
+    isAllLoaded.value = true;
+  }
+}
 const showImg = (id) => {
+  const media = Object.entries(filteredMedias.value).filter((media) => {
+    return media[1].id === id
+  })[0][1]
+
   if (!props.isOnMobile) {
-    shownImg.value.src = `${site}/build/media/${filteredMedias.value[id].mediaPath}`
-    shownImg.value.alt = `show image of ${filteredMedias.value[id].mediaPath}`
-    if (!props.ignoreHash) window.location.hash = `#media-${id}`
+    shownImg.value.src = `${site}/build/media/${media.mediaPath}`
+    shownImg.value.alt = `show image of ${media.mediaPath}`
+    shownImg.value.id = media.id;
+    if (!props.ignoreHash) window.location.hash = `#media-${media.id}`
     openModal(id)
   }
 }
 
-const openModal = (id) => {
+const nextImage = () => {
+  // const currentMediaIndex =
+  console.log(filteredMedias.value)
+}
+
+const openModal = () => {
   const modal = new Modal(modalEl.value)
   modal.show()
 
@@ -100,29 +123,57 @@ const openModal = (id) => {
 </script>
 
 <template>
-  <section :class="`row-cols-lg-${colCount}`" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4">
-    <div v-for="media in filteredMedias"
-         :key="media.id"
-         :data-bs-toggle="!isOnMobile ? 'modal' : ''"
-         :type="!isOnMobile ? 'button' : ''"
-         class="p-1 position-relative"
-    >
-      <MediaThumbnail
-          :buttons="buttons"
-          :hover-action="!isOnMobile"
-          :media="media"
-          @delete="deleteMedia"
-          @loaded="freezeFrame"
-          @show="showImg"
-      />
+  <section>
+    <div class="text-end">
+      <Transition :name="SLIDE_RIGHT">
+        <Button
+            v-if="isAllShown && !admin"
+            class="p-3"
+            color-class="info"
+            icon-class-start="dash-circle-fill"
+            label="see less"
+            size="sm"
+            @click.prevent="showSix"
+        />
+      </Transition>
     </div>
-    <Button v-if="!isAllShown" icon-class-start="plus" label="more" @click.prevent="showAll"/>
-    <Button v-else icon-class-start="minus" label="less" @click.prevent="showSix"/>
+    <div :class="`row-cols-lg-${colCount}`" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
+      <div v-for="media in filteredMedias"
+           :key="media.id"
+           :data-bs-toggle="!isOnMobile ? 'modal' : ''"
+           :type="!isOnMobile ? 'button' : ''"
+           class="p-1 position-relative"
+      >
+        <MediaThumbnail
+            :buttons="buttons"
+            :hover-action="!isOnMobile"
+            :media="media"
+            @delete="deleteMedia"
+            @loaded="handleOnLoaded"
+            @show="showImg"
+        />
+      </div>
+      <div class="position-absolute bottom-0 end-0 p-3 text-end">
+        <Transition :name="SLIDE_RIGHT">
+          <Button
+              v-if="!isAllShown && isAllLoaded && !admin"
+              color-class="light"
+              icon-class-start="plus-circle-fill"
+              label="see more"
+              @click.prevent="showAll"
+          />
+        </Transition>
+      </div>
+    </div>
+
   </section>
+
 
   <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
        :aria-labelledby="`${galleryName}-mediaLightBoxLabel`"
-       aria-hidden="true" class="modal modal-xl fade" tabindex="-1">
+       aria-hidden="true" class="modal modal-xl fade" tabindex="-1"
+       @keydown.right="nextImage"
+  >
     <div class="modal-dialog modal-dialog-centered rounded-4 overflow-hidden" style="width: fit-content !important;">
       <div class="modal-content w-100 rounded-4 overflow-hidden">
         <div class="modal-body bg-dark text-center w-100 p-0 rounded-4 overflow-hidden">
@@ -135,6 +186,7 @@ const openModal = (id) => {
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../../../styles/slide-right';
 
 </style>

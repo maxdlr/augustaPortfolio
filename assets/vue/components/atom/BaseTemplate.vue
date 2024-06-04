@@ -6,7 +6,7 @@ const props = defineProps({
   contextFlex: {type: Object, default: {justify: {md: 'start'}, align: {md: 'center'}}},
   contentFlex: {type: Object, default: {justify: {md: 'center'}, align: {md: 'center'}}},
   cols: {type: Array, default: [5, 7], required: false},
-  mainBreakPoint: {type: String, default: 'md', required: false}
+  mainBreakPoint: {type: String, default: 'lg', required: false}
 })
 
 const screenWidth = ref(0);
@@ -34,7 +34,7 @@ const handleResize = () => {
       aria-hidden="true"
       class="py-3"
   ></div>
-  <section :class="`mx-${mainBreakPoint}-5`" class="row my-5 mx-1">
+  <section :class="`mx-${mainBreakPoint}-5 my-${mainBreakPoint}-5`" class="row my-2 mx-1">
     <div
         :class="[
             contextFlex ? [

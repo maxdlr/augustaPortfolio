@@ -2,11 +2,13 @@
 import {onMounted, ref} from "vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import Button from "../../controllers/components/Button.vue";
+import {SCALE_UP_ROTATE, SLIDE_RIGHT} from "../../constant/animation";
 
 const props = defineProps({
   media: {type: Object, required: false},
   buttons: {type: Boolean, required: false, default: false},
-  hoverAction: {type: Boolean, default: false, required: false}
+  hoverAction: {type: Boolean, default: false, required: false},
+  animate: {type: Boolean, default: true, required: false}
 })
 
 const imgRef = ref(null);
@@ -73,33 +75,36 @@ const show = (id) => {
 </script>
 
 <template>
-  <div
-      v-if="!isLoading"
-      :class="{'animate-stage-hover': hoverAction}"
-      class="position-relative"
-  >
-    <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
-      <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
-    </div>
-
+  <TransitionGroup :name=" animate ? SLIDE_RIGHT : ''">
     <div
-        :class="{'animate-stage-target': hoverAction}"
-        class="rounded-4 overflow-hidden"
-        @click.prevent="show(media.id)">
-      <img
-          v-if="media"
-          :id="`media-${media.id}`"
-          ref="imgRef"
-          :src="loadedSrc"
-          class="w-100 object-fit-cover freezeframe"
-          style="aspect-ratio: 1/1 !important;"
-      >
+        v-if="!isLoading"
+        :class="{'animate-stage-hover': hoverAction}"
+        class="position-relative"
+    >
+      <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
+        <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
+      </div>
+
+      <div
+          :class="{'animate-stage-target': hoverAction}"
+          class="rounded-4 overflow-hidden"
+          @click.prevent="show(media.id)">
+        <img
+            v-if="media"
+            :id="`media-${media.id}`"
+            ref="imgRef"
+            :src="loadedSrc"
+            class="w-100 object-fit-cover freezeframe"
+            style="aspect-ratio: 1/1 !important;"
+        >
+      </div>
     </div>
-  </div>
-  <LoadingSpinner v-else/>
+  </TransitionGroup>
+  <LoadingSpinner v-if="isLoading"/>
 </template>
 
 <style lang="scss" scoped>
+@import '../../../styles/slide-right';
 @import '../../../styles/animation';
 @import "../../../styles/var-override";
 
