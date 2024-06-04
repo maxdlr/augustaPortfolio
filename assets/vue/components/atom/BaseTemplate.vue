@@ -3,9 +3,10 @@ import {onMounted, onUnmounted, ref} from "vue";
 
 const props = defineProps({
   anchor: {type: String, required: false, default: null},
-  contextFlex: {type: Object, default: {justify: 'start', align: 'center'}},
-  contentFlex: {type: Object, default: {justify: 'center', align: 'center'}},
-  cols: {type: Array, default: [5, 7], required: false}
+  contextFlex: {type: Object, default: {justify: {md: 'start'}, align: {md: 'center'}}},
+  contentFlex: {type: Object, default: {justify: {md: 'center'}, align: {md: 'center'}}},
+  cols: {type: Array, default: [5, 7], required: false},
+  mainBreakPoint: {type: String, default: 'md', required: false}
 })
 
 const screenWidth = ref(0);
@@ -33,14 +34,48 @@ const handleResize = () => {
       aria-hidden="true"
       class="py-3"
   ></div>
-  <section class="row my-5 mx-md-5 mx-1">
-    <div :class="`justify-content-${contextFlex.justify} align-items-${contextFlex.align} col-md-${cols[0]}`"
-         class="col-12 d-flex"
+  <section :class="`mx-${mainBreakPoint}-5`" class="row my-5 mx-1">
+    <div
+        :class="[
+            contextFlex ? [
+                contextFlex.justify ? [
+                    contextFlex.justify.sm ? `justify-content-${contextFlex.justify.sm}`: '',
+                    contextFlex.justify.md ? `justify-content-md-${contextFlex.justify.md}`: '',
+                    contextFlex.justify.lg ? `justify-content-lg-${contextFlex.justify.lg}`: '',
+                    contextFlex.justify.xl ? `justify-content-xl-${contextFlex.justify.xl}`: '',
+                ] : '',
+                contextFlex.align ? [
+                    contextFlex.align.sm ? `align-items-${contextFlex.align.sm}`: '',
+                    contextFlex.align.md ? `align-items-md-${contextFlex.align.md}`: '',
+                    contextFlex.align.lg ? `align-items-lg-${contextFlex.align.lg}`: '',
+                    contextFlex.align.xl ? `align-items-xl-${contextFlex.align.xl}`: '',
+                ] : '',
+            ] : '',
+            `col-${mainBreakPoint}-${cols[0]}`
+            ]"
+        class="col-12 d-flex"
     >
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="context"/>
     </div>
-    <div :class="`justify-content-${contentFlex.justify} align-items-${contentFlex.align} col-md-${cols[1]}`"
-         class="col-12 d-flex"
+    <div
+        :class="[
+            contentFlex ? [
+                contentFlex.justify ? [
+                    contentFlex.justify.sm ? `justify-content-${contentFlex.justify.sm}`: '',
+                    contentFlex.justify.md ? `justify-content-md-${contentFlex.justify.md}`: '',
+                    contentFlex.justify.lg ? `justify-content-lg-${contentFlex.justify.lg}`: '',
+                    contentFlex.justify.xl ? `justify-content-xl-${contentFlex.justify.xl}`: '',
+                ] : '',
+                contentFlex.align ? [
+                    contentFlex.align.sm ? `align-items-${contentFlex.align.sm}`: '',
+                    contentFlex.align.md ? `align-items-md-${contentFlex.align.md}`: '',
+                    contentFlex.align.lg ? `align-items-lg-${contentFlex.align.lg}`: '',
+                    contentFlex.align.xl ? `align-items-xl-${contentFlex.align.xl}`: '',
+                ] : '',
+            ] : '',
+            `col-${mainBreakPoint}-${cols[1]}`
+            ]"
+        class="col-12 d-flex"
     >
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="content"/>
     </div>

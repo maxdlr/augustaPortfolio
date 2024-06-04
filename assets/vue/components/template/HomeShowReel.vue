@@ -3,23 +3,47 @@ import BaseTemplate from "../atom/BaseTemplate.vue";
 import {onMounted, ref} from "vue";
 import Button from "../../controllers/components/Button.vue";
 import {BREAKPOINTS} from "../../constant/bootstrap-constants";
+import {Modal} from 'bootstrap';
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: false},
   anchor: {type: String, required: true}
 })
 
-const showreelWidth = ref(1600);
+const showreelWidth = ref(1400);
 
 const modalContentRef = ref(null)
 const modalContent = ref();
 const showreelIframeElement = ref();
+const modalElRef = ref(null)
+const modalEl = ref();
 
 onMounted(() => {
   modalContent.value = modalContentRef.value
+  modalEl.value = modalElRef.value
+
+  if (window.location.hash === '#showreel') showShowReel();
 })
 
-const createShowreelVideo = () => {
+const openModal = () => {
+  const modal = new Modal(modalEl.value)
+  modal.show()
+
+  modalEl.value.addEventListener('hide.bs.modal', () => {
+    window.location.hash = '/';
+    destroyShowreelVideo();
+  }, {once: true})
+}
+
+const closeModal = () => {
+  const modal = new Modal(modalEl.value)
+  modal.hide();
+  destroyShowreelVideo();
+  window.location.hash = '/'
+}
+
+const showShowReel = () => {
+  window.location.hash = 'showreel'
   const showreelIframe = document.createElement('iframe')
   showreelIframe.setAttribute('src', "https://player.vimeo.com/video/823390186?h=39dc51fa45&autoplay=1&byline=0")
   showreelIframe.setAttribute('width', showreelWidth.value + '')
@@ -27,6 +51,8 @@ const createShowreelVideo = () => {
   showreelIframe.setAttribute('allowfullscreen', true + '')
   showreelIframeElement.value = showreelIframe;
   modalContent.value.appendChild(showreelIframeElement.value)
+
+  openModal();
 }
 
 const destroyShowreelVideo = () => {
@@ -38,7 +64,7 @@ const destroyShowreelVideo = () => {
 <template>
   <BaseTemplate
       :anchor="anchor"
-      :context-flex="{justify: 'md-start justify-content-center', align: 'center'}"
+      :context-flex="{justify: {sm: 'center', md: 'start'}, align: {sm: 'center'}}"
   >
     <template #context="{screenWidth}">
       <div
@@ -66,25 +92,25 @@ const destroyShowreelVideo = () => {
     <template #content="{screenWidth}">
       <div class="rounded-4 overflow-hidden">
         <img :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail" class="img-fluid"
-             data-bs-target="#showreel-mediaLightBox"
-             data-bs-toggle="modal"
              type="button"
-             @click="createShowreelVideo"
+             @click.prevent="showShowReel"
         >
       </div>
     </template>
   </BaseTemplate>
 
-  <div id="showreel-mediaLightBox" aria-hidden="true" aria-labelledby="showreel-mediaLightBoxLabel"
-       class="modal modal-xl fade" tabindex="-1" @keydown.esc="destroyShowreelVideo">
+  <div id="showreel-mediaLightBox" ref="modalElRef" aria-hidden="true" aria-labelledby="showreel-mediaLightBoxLabel"
+       class="modal modal-xl fade" tabindex="-1" @keydown.esc="closeModal">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
-        <div class="modal-header bg-dark d-flex justify-content-between align-items-center border-0">
+        <div class="modal-header bg-dark d-flex justify-content-between align-items-center border-0"
+             @keydown.esc="closeModal">
           <span class="text-light z-3 p-4">[ESC] - Close</span>
           <Button aria-label="Close" class="text-white" color-class="" data-bs-dismiss="modal" icon-class-start="x-lg"
-                  size="lg" type="button" @click="destroyShowreelVideo"/>
+                  size="lg" type="button" @click.prevent="closeModal"/>
         </div>
-        <div ref="modalContentRef" class="modal-body bg-dark d-flex align-items-center justify-content-center"/>
+        <div ref="modalContentRef" class="modal-body bg-dark d-flex align-items-center justify-content-center"
+             @keydown.esc="closeModal"/>
       </div>
     </div>
   </div>

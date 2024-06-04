@@ -30,13 +30,14 @@ const hovering = ref();
       <a
           :href="item.link"
           class="link-underline link-underline-opacity-0"
+          target="_blank"
       >
         <h6 class="fs-6 m-0 text-nowrap">
           <span>{{ toTitle(item.title) + ' ' }}</span>
           <span class="text-info fs-title">@{{ item.labelLink }}</span>
         </h6>
         <div>
-          <span class="ps-2 d-inline-block text-secondary" style="max-width: 350px;">{{
+          <span class="ps-2 d-inline-block text-secondary">{{
               truncate(item.description, 50, '...')
             }}</span>
         </div>

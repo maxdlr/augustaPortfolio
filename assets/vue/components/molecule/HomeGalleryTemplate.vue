@@ -27,8 +27,11 @@ const showDefaultLayout = () => {
 </script>
 
 <template>
-  <BaseTemplate :anchor="anchor" :cols="isShowingAllMedia ? [0, 12] : [5, 7]"
-                :content-flex="{justify: 'center', align: 'start'}">
+  <BaseTemplate
+      :anchor="anchor"
+      :cols="isShowingAllMedia ? [0, 12] : [5, 7]"
+      :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+  >
     <template #context="{screenWidth, screenHeight}">
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="title"/>
     </template>

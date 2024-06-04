@@ -91,7 +91,7 @@ const openModal = (id) => {
 
   if (!props.ignoreHash) {
     modalEl.value.addEventListener('hide.bs.modal', () => {
-      window.location.hash = filteredMedias.value[id].type.toLowerCase()
+      window.location.hash = '/';
     }, {once: true})
   }
 }
