@@ -83,20 +83,11 @@ class UploadManager extends AbstractController
     ): bool
     {
         $mediaFiles = $form->get('media')->getData();
+        $directory = $mediaType->value;
         $validation = [];
 
         foreach ($mediaFiles as $mediaFile) {
-
             if ($mediaFile) {
-
-                $directory = match ($mediaType) {
-                    MediaTypeEnum::MOTION => 'motion',
-                    MediaTypeEnum::SHOWREEL_THUMBNAIL => 'media',
-                    MediaTypeEnum::ILLUSTRATION => 'illustration',
-                    MediaTypeEnum::AVATAR => 'avatar',
-                    MediaTypeEnum::MEUF => 'meuf'
-                };
-
                 $savedFile = $this->saveFile($mediaFile, $directory);
 
                 $media = new Media();

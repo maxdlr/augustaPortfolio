@@ -3,6 +3,7 @@ import HomeShowReel from "../components/template/HomeShowReel.vue";
 import HomeMotion from "../components/template/HomeMotion.vue";
 import HomeIllustration from "../components/template/HomeIllustration.vue";
 import HomeAbout from "../components/template/HomeAbout.vue";
+import {goTo} from "../composable/action/redirect";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
@@ -17,7 +18,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <h1 class="ms-md-5 text-md-start text-center" style="font-size: 4vw !important;">
+  <h1 class="ms-md-5 text-md-start text-center d-inline-block" role="button" style="font-size: 4vw !important;"
+      @click.prevent="goTo('/')">
     <span class="fs-title text-primary">augusta</span>
     <span class="text-info">.</span>
     <span class="fs-title text-primary">sarlin</span>

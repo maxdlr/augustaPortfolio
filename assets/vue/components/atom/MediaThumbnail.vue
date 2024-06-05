@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import Button from "../../controllers/components/Button.vue";
-import {SCALE_UP_ROTATE, SLIDE_RIGHT} from "../../constant/animation";
+import {SLIDE_RIGHT} from "../../constant/animation";
 
 const props = defineProps({
   media: {type: Object, required: false},
@@ -91,7 +91,7 @@ const show = (id) => {
           @click.prevent="show(media.id)">
         <img
             v-if="media"
-            :id="`media-${media.id}`"
+            :id="`mediaThumbnail-${media.id}`"
             ref="imgRef"
             :src="loadedSrc"
             class="w-100 object-fit-cover freezeframe"

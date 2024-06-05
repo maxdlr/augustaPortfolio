@@ -11,25 +11,16 @@ class MediaFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $showreelThumbnail = new Media();
-
-        $showreelThumbnail
-            ->setMediaPath('media/showreel-thumbnail.jpeg')
-            ->setMediaSize(filesize('assets/media/showreel-thumbnail.jpeg'))
-            ->setType(MediaTypeEnum::SHOWREEL_THUMBNAIL);
-
-        $manager->persist($showreelThumbnail);
-
+        $this->makeSpecificMedia('assets/media/showreel', $manager, MediaTypeEnum::SHOWREEL_THUMBNAIL);
         $this->makeSpecificMedia('assets/media/motion', $manager, MediaTypeEnum::MOTION);
         $this->makeSpecificMedia('assets/media/illustration', $manager, MediaTypeEnum::ILLUSTRATION);
         $this->makeSpecificMedia('assets/media/meuf', $manager, MediaTypeEnum::MEUF);
-
 
         $manager->flush();
     }
 
     /**
-     * @param string $illustrationImgsDir
+     * @param string $directory
      * @param ObjectManager $manager
      * @param MediaTypeEnum $mediaTypeEnum
      * @return void
@@ -38,17 +29,17 @@ class MediaFixtures extends Fixture
     {
         $medias = [];
         foreach (array_diff(scandir($directory), ['.', '..']) as $media) {
-            $mediaPath = str_replace('assets/media/', '', $directory);
-            $medias[] = $mediaPath . '/' . $media;
-        }
+            $mediaPath = str_replace('assets/media/', '', $directory) . '/' . $media;
+            $mediaLocation = 'assets/media/' . $mediaPath;
 
-        for ($i = 0; $i < count($medias); $i++) {
-            $media = new Media();
-            $media
-                ->setMediaPath($medias[$i])
-                ->setMediaSize(filesize('assets/media/' . $medias[$i]))
-                ->setType($mediaTypeEnum);
+            if (is_file($mediaLocation)) {
 
+                $media = new Media();
+                $media
+                    ->setMediaPath($mediaPath)
+                    ->setMediaSize(filesize($mediaLocation))
+                    ->setType($mediaTypeEnum);
+            }
             $manager->persist($media);
         }
     }

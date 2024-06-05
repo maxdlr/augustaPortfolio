@@ -28,6 +28,14 @@ const shownImg = ref();
 const site = window.location.origin;
 const modalElRef = ref(null)
 const modalEl = ref();
+const emit = defineEmits(['allShown']);
+const shownMediaCount = ref(0);
+const isAllShown = computed(() => {
+  return shownMediaCount.value === props.medias.length
+})
+const loadedMediaCount = ref(0);
+const isAllLoaded = ref(false);
+const isModalOpen = ref(false)
 
 onMounted(() => {
   shownImg.value = shownImgRef.value
@@ -40,13 +48,6 @@ onMounted(() => {
   }
   filter()
 })
-const emit = defineEmits(['allShown']);
-const shownMediaCount = ref(0);
-const isAllShown = computed(() => {
-  return shownMediaCount.value === props.medias.length
-})
-const loadedMediaCount = ref(0);
-const isAllLoaded = ref(false);
 
 const showAll = () => {
   shownMediaCount.value = props.medias.length;
@@ -68,7 +69,6 @@ const filter = () => {
     }
     i++
   }
-  console.log(filteredMedias.value)
 }
 
 const deleteMedia = (mediaId) => {
@@ -90,33 +90,72 @@ const handleOnLoaded = () => {
   }
 }
 const showImg = (id) => {
-  const media = Object.entries(filteredMedias.value).filter((media) => {
-    return media[1].id === id
-  })[0][1]
-
   if (!props.isOnMobile) {
-    shownImg.value.src = `${site}/build/media/${media.mediaPath}`
-    shownImg.value.alt = `show image of ${media.mediaPath}`
-    shownImg.value.id = media.id;
-    if (!props.ignoreHash) window.location.hash = `#media-${media.id}`
+    setModalImg(id)
     openModal(id)
   }
 }
 
-const nextImage = () => {
-  // const currentMediaIndex =
-  console.log(filteredMedias.value)
+const setModalImgLocationHash = (id) => {
+  if (!props.ignoreHash) {
+    window.location.hash = `#media-${id}`
+  }
+  focusShownImg()
 }
 
-const openModal = () => {
+const focusShownImg = () => {
+  modalEl.value.focus()
+}
+
+const setModalImg = (id) => {
+  const media = Object.entries(filteredMedias.value).filter((media) => {
+    return media[1].id === id
+  })[0][1]
+
+  shownImg.value.src = `${site}/build/media/${media.mediaPath}`
+  shownImg.value.alt = `show image of ${media.mediaPath}`
+  shownImg.value.id = media.id;
+
+  window.addEventListener('hashchange', focusShownImg)
+}
+
+const changeShownImg = (next) => {
+  let nextMedia = {};
+  let nextKey = 0;
+
+  for (const key in filteredMedias.value) {
+    if (filteredMedias.value[key].id === Number(shownImg.value.id)) {
+      nextKey = next ? Number(key) + 1 : Number(key) - 1
+
+      if (Number(key) + 1 === Object.keys(filteredMedias.value).length && next) {
+        nextKey = 0
+      } else if (Number(key) === 0 && !next) {
+        nextKey = Object.keys(filteredMedias.value).length - 1
+      }
+
+      nextMedia = filteredMedias.value[nextKey]
+    }
+  }
+  if (nextMedia) {
+    setModalImg(nextMedia.id)
+    setModalImgLocationHash(nextMedia.id)
+  }
+  focusShownImg()
+}
+
+const openModal = (id) => {
+  setModalImgLocationHash(id)
   const modal = new Modal(modalEl.value)
   modal.show()
+  isModalOpen.value = true
 
-  if (!props.ignoreHash) {
-    modalEl.value.addEventListener('hide.bs.modal', () => {
-      window.location.hash = '/';
-    }, {once: true})
-  }
+  modalEl.value.addEventListener('hide.bs.modal', () => {
+    if (!props.ignoreHash) window.location.hash = '/';
+    isModalOpen.value = false
+
+    window.removeEventListener('hashchange', focusShownImg)
+
+  }, {once: true})
 }
 
 
@@ -172,13 +211,49 @@ const openModal = () => {
   <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
        :aria-labelledby="`${galleryName}-mediaLightBoxLabel`"
        aria-hidden="true" class="modal modal-xl fade" tabindex="-1"
-       @keydown.right="nextImage"
+       @keydown.right="changeShownImg(true)" @keydown.left="changeShownImg(false)"
   >
-    <div class="modal-dialog modal-dialog-centered rounded-4 overflow-hidden" style="width: fit-content !important;">
-      <div class="modal-content w-100 rounded-4 overflow-hidden">
-        <div class="modal-body bg-dark text-center w-100 p-0 rounded-4 overflow-hidden">
-          <img ref="shownImgRef" alt="" class="rounded-4" src=""
-               style="max-width: 100% !important; max-height: 80vh !important;">
+    <div class="modal-dialog modal-dialog-centered rounded-4">
+
+      <div class="modal-content w-100 rounded-4 bg-transparent border-0">
+        <div class="modal-header border-0 justify-content-center position-relative">
+          <div>
+            <Button
+                class="mx-1"
+                color-class="info"
+                icon-class-end="arrow-left-circle-fill"
+                @click.prevent="changeShownImg(false)"
+            />
+            <Button
+                class="mx-1"
+                color-class="info"
+                icon-class-end="arrow-right-circle-fill"
+                @click.prevent="changeShownImg(true)"
+            />
+          </div>
+          <button
+              aria-label="Close"
+              class="btn-close position-absolute top-0 end-0"
+              data-bs-dismiss="modal"
+              type="button"></button>
+        </div>
+
+        <div class="modal-body bg-transparent text-center w-100 p-0 rounded-4 position-relative">
+
+          <div class="position-absolute start-0 top-0 w-50 h-100 previous-cursor"
+               role="button"
+               @click.prevent="changeShownImg(false)"></div>
+          <div class="position-absolute end-0 top-0 w-50 h-100 next-cursor"
+               role="button"
+               @click.prevent="changeShownImg(true)"></div>
+
+          <img
+              ref="shownImgRef"
+              alt=""
+              class="rounded-4"
+              src=""
+              style="max-width: 100% !important; max-height: 80vh !important;"
+          >
         </div>
       </div>
     </div>
@@ -188,5 +263,13 @@ const openModal = () => {
 
 <style lang="scss" scoped>
 @import '../../../styles/slide-right';
+
+.next-cursor {
+  cursor: url("../../../../public/build/media/misc/arrow-right-cursor.png"), w-resize;
+}
+
+.previous-cursor {
+  cursor: url("../../../../public/build/media/misc/arrow-left-cursor.png"), e-resize;
+}
 
 </style>
