@@ -5,6 +5,11 @@ import Freezeframe from "freezeframe";
 import {Modal} from 'bootstrap';
 import Button from "../../controllers/components/Button.vue";
 import {SLIDE_RIGHT} from "../../constant/animation";
+import {useClipboard} from '@vueuse/core'
+
+const currentHref = ref()
+const {text, copy, copied, isSupported} = useClipboard({currentHref})
+
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -104,6 +109,7 @@ const setModalImgLocationHash = (id) => {
 }
 
 const focusShownImg = () => {
+  currentHref.value = window.location.href
   modalEl.value.focus()
 }
 
@@ -187,6 +193,7 @@ const openModal = (id) => {
             :buttons="buttons"
             :hover-action="!isOnMobile"
             :media="media"
+            class="eye-cursor"
             @delete="deleteMedia"
             @loaded="handleOnLoaded"
             @show="showImg"
@@ -213,32 +220,48 @@ const openModal = (id) => {
        aria-hidden="true" class="modal modal-xl fade" tabindex="-1"
        @keydown.right="changeShownImg(true)" @keydown.left="changeShownImg(false)"
   >
-    <div class="modal-dialog modal-dialog-centered rounded-4">
+    <div class="modal-dialog modal-fullscreen rounded-4">
 
       <div class="modal-content w-100 rounded-4 bg-transparent border-0">
         <div class="modal-header border-0 justify-content-center position-relative">
-          <div>
-            <Button
-                class="mx-1"
-                color-class="info"
-                icon-class-end="arrow-left-circle-fill"
-                @click.prevent="changeShownImg(false)"
-            />
-            <Button
-                class="mx-1"
-                color-class="info"
-                icon-class-end="arrow-right-circle-fill"
-                @click.prevent="changeShownImg(true)"
-            />
+          <div class="text-center">
+            <div>
+              <Button
+                  class="m-1"
+                  color-class="primary"
+                  icon-class-end="arrow-left-circle-fill"
+                  @click.prevent="changeShownImg(false)"
+              />
+              <Button
+                  class="m-1"
+                  color-class="primary"
+                  icon-class-end="arrow-right-circle-fill"
+                  @click.prevent="changeShownImg(true)"
+              />
+            </div>
+
+            <div v-if="isSupported">
+              <Button
+                  :label="copied ? 'link copied!' : null"
+                  animate="right"
+                  class="m-1"
+                  color-class="info"
+                  icon-class-start="copy"
+                  @click.prevent="copy(currentHref)"
+              />
+            </div>
           </div>
-          <button
-              aria-label="Close"
-              class="btn-close position-absolute top-0 end-0"
+          <Button
+              class="position-absolute top-0 end-0 m-3"
+              color-class="primary"
               data-bs-dismiss="modal"
-              type="button"></button>
+              icon-class-end="x-circle-fill"
+              size="lg"
+          />
         </div>
 
-        <div class="modal-body bg-transparent text-center w-100 p-0 rounded-4 position-relative">
+        <div
+            class="modal-body d-flex justify-content-center align-items-start bg-transparent text-center w-100 p-0 rounded-4 position-relative">
 
           <div class="position-absolute start-0 top-0 w-50 h-100 previous-cursor"
                role="button"
@@ -265,11 +288,11 @@ const openModal = (id) => {
 @import '../../../styles/slide-right';
 
 .next-cursor {
-  cursor: url("../../../../public/build/media/misc/arrow-right-cursor.png"), w-resize;
+  cursor: url("../../../../public/build/media/misc/arrow-right-cursor.png"), w-resize !important;
 }
 
 .previous-cursor {
-  cursor: url("../../../../public/build/media/misc/arrow-left-cursor.png"), e-resize;
+  cursor: url("../../../../public/build/media/misc/arrow-left-cursor.png"), e-resize !important;
 }
 
 </style>

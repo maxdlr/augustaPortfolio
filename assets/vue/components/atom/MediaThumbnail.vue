@@ -87,8 +87,10 @@ const show = (id) => {
 
       <div
           :class="{'animate-stage-target': hoverAction}"
-          class="rounded-4 overflow-hidden"
-          @click.prevent="show(media.id)">
+          class="rounded-4 overflow-hidden eye-cursor"
+          role="button"
+          @click.prevent="show(media.id)"
+      >
         <img
             v-if="media"
             :id="`mediaThumbnail-${media.id}`"
@@ -107,6 +109,10 @@ const show = (id) => {
 @import '../../../styles/slide-right';
 @import '../../../styles/animation';
 @import "../../../styles/var-override";
+
+.eye-cursor {
+  cursor: url("../../../../public/build/media/misc/eye-cursor.webp"), wait !important;
+}
 
 .animate-stage-hover {
   & .animate-stage-target {

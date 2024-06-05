@@ -91,7 +91,7 @@ const destroyShowreelVideo = () => {
 
     <template #content="{screenWidth}">
       <div class="rounded-4 overflow-hidden">
-        <img :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail" class="img-fluid"
+        <img :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail" class="img-fluid eye-cursor"
              type="button"
              @click.prevent="showShowReel"
         >
@@ -117,6 +117,10 @@ const destroyShowreelVideo = () => {
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.eye-cursor {
+  cursor: url("../../../../public/build/media/misc/eye-cursor.png"), zoom-in;
+}
 
 </style>

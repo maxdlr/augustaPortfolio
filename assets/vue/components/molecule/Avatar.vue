@@ -18,7 +18,7 @@ const props = defineProps({
       </div>
       <div
           :style="`width: ${size * 0.75}px !important; aspect-ratio: 1/1 !important; translate: -${size * 0.25}px -${size * 0.25}px !important`"
-          class="bg-info rounded-circle position-absolute top-0 start-0"></div>
+          class="bg-info rounded-circle position-absolute top-0 start-0 z-n1"></div>
     </div>
   </div>
 </template>

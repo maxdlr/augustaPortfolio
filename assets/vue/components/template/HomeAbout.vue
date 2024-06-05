@@ -3,6 +3,7 @@ import BaseTemplate from "../atom/BaseTemplate.vue";
 import Avatar from "../molecule/Avatar.vue";
 import AboutSection from "../molecule/AboutSection.vue";
 import MediaThumbnail from "../atom/MediaThumbnail.vue";
+import {onMounted} from "vue";
 
 const props = defineProps({
   avatarImg: {type: Object, required: false},
