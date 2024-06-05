@@ -20,6 +20,11 @@ Encore
     })
 
     .copyFiles({
+        from: './assets/media/misc',
+        to: 'media/misc/[path][name].[ext]',
+    })
+
+    .copyFiles({
         from: './assets/media/illustration',
         to: 'media/illustration/[path][name].[ext]',
     })
@@ -32,6 +37,16 @@ Encore
     .copyFiles({
         from: './assets/media/avatar',
         to: 'media/avatar/[path][name].[ext]',
+    })
+
+    .copyFiles({
+        from: './assets/media/meuf',
+        to: 'media/meuf/[path][name].[ext]',
+    })
+
+    .copyFiles({
+        from: './assets/media/showreel',
+        to: 'media/showreel/[path][name].[ext]',
     })
 
     /*
@@ -81,18 +96,18 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment if you use React
-    //.enableReactPreset()
+// uncomment if you use React
+//.enableReactPreset()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+//.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

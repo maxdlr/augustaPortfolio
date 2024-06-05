@@ -39,6 +39,14 @@ class Navigation extends AbstractController
                 'label' => 'interventions',
                 'link' => $this->generateUrl('app_admin_CVItem_intervention')
             ],
+            'skills' => [
+                'label' => 'skills',
+                'link' => $this->generateUrl('app_admin_CVItem_skill')
+            ],
+            'experiences' => [
+                'label' => 'experiences',
+                'link' => $this->generateUrl('app_admin_CVItem_experience')
+            ],
             'motion' => [
                 'label' => 'motion',
                 'link' => $this->generateUrl('app_admin_motion')

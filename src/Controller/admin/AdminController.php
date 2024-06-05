@@ -31,13 +31,14 @@ use Symfony\Component\Routing\Attribute\Route;
 class AdminController extends AbstractController
 {
     use AfterCrudTrait;
+
     public function __construct(
-        private readonly UploadManager $uploadManager,
+        private readonly UploadManager          $uploadManager,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MediaRepository $mediaRepository,
-        private readonly CVItemCrud $CVItemCrud,
-        private readonly CVItemRepository $CVItemRepository,
-        private readonly FormFactoryInterface $formFactory
+        private readonly MediaRepository        $mediaRepository,
+        private readonly CVItemCrud             $CVItemCrud,
+        private readonly CVItemRepository       $CVItemRepository,
+        private readonly FormFactoryInterface   $formFactory
     )
     {
     }
@@ -62,110 +63,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws Exception
-     */
-    #[Route(path: '/CVItem/intervention', name: 'CVItem_intervention', methods: ['GET', 'POST'])]
-    public function CVItem(Request $request): Response
-    {
-        $CVItemObjects = $this->CVItemRepository->findBy(['type' => CVItemTypeEnum::INTERVENTION->value]);
-
-        $CVItems = VueDataFormatter::makeVueObjectOf($CVItemObjects,
-        [
-            'id',
-            'type',
-            'title',
-            'labelLink',
-            'link',
-            'description'
-        ])->get();
-
-        $CVItemForms = [];
-        foreach ($CVItemObjects as $CVItem) {
-            $CVItemForms[$CVItem->getId()] = $this->formFactory
-                ->createNamed('form-CVItem-'.$CVItem->getId(), CVItemType::class, $CVItem);
-        }
-
-        $CVItemFormViews = array_map(fn(FormInterface $form) => $form->createView(), $CVItemForms);
-
-        foreach ($CVItemForms as $CVItemForm) {
-            if ($CVItemForm->isSubmitted() && $CVItemForm->isValid()) {
-                $CVItem = $this->CVItemRepository->findOneById(str_replace('form-CVItem-', '', $CVItemForm->getName()));
-                dd($CVItem);
-                $this->entityManager->persist($CVItem);
-                $this->entityManager->flush();
-                return $this->redirectTo('referer', $request);
-            }
-        }
-
-        $newCVItem = new CVItem();
-        $newCVItemForm = $this->CVItemCrud->save($request, $newCVItem, [], function () use ($newCVItem) {
-            $newCVItem->setType(CVItemTypeEnum::INTERVENTION);
-        });
-
-        if ($newCVItemForm === true) return $this->redirectTo('referer', $request);
-
-        return $this->render('admin/intervention.html.twig', [
-            'CVItemForms' => $CVItemFormViews,
-            'newCVItemForm' => $newCVItemForm,
-            'CVItems' => $CVItems
-        ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    #[Route(path: '/motion', name: 'motion', methods: ['GET', 'POST'])]
-    public function motion(Request $request): Response
-    {
-        $motionForm = $this->mediaUploadForm($request, MediaTypeEnum::MOTION);
-        if ($motionForm === true) return $this->redirectTo('referer', $request);
-
-        $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
-        )->get();
-
-        return $this->render('admin/motion.html.twig', [
-            'motionForm' => $motionForm->createView(),
-            'motionGifs' => $motionGifs
-        ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    #[Route(path: '/illustration', name: 'illustration', methods: ['GET', 'POST'])]
-    public function illustration(Request $request): Response
-    {
-        $illustrationForm = $this->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
-        if ($illustrationForm === true) return $this->redirectTo('referer', $request);
-
-        $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
-        )->get();
-
-        return $this->render('admin/illustration.html.twig', [
-            'illustrationForm' => $illustrationForm->createView(),
-            'illustrationImgs' => $illustrationImgs
-        ]);
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------------------------
-
-    public function mediaUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
-    {
-        $mediaForm = $this->createForm(MediaType::class);
-        $mediaForm->handleRequest($request);
-
-        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
-            $this->uploadManager->uploadMany($mediaForm, $mediaType);
-            $this->entityManager->flush();
-            return true;
-        }
-
-        return $mediaForm;
-    }
-
     public function mediaSingleUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
     {
         $mediaForm = $this->createForm(SingleMediaType::class);
@@ -186,5 +83,157 @@ class AdminController extends AbstractController
         }
 
         return $mediaForm;
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/CVItem/experience', name: 'CVItem_experience', methods: ['GET', 'POST'])]
+    public function experiences(Request $request): Response
+    {
+        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
+        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+
+        return $this->render('admin/experience.html.twig', [
+            'CVItemForms' => $itemsAndForms['CVItemForms'],
+            'newCVItemForm' => $itemsAndForms['newCVItemForm'],
+            'CVItems' => $itemsAndForms['CVItems']
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getCVItemsFormViewAndObjects(Request $request, CVItemTypeEnum $CVItemTypeEnum): array|true
+    {
+        $CVItemObjects = $this->CVItemRepository->findBy(['type' => $CVItemTypeEnum->value]);
+
+        $CVItems = VueDataFormatter::makeVueObjectOf($CVItemObjects,
+            [
+                'id',
+                'type',
+                'title',
+                'labelLink',
+                'link',
+                'description'
+            ])->get();
+
+        $CVItemForms = [];
+        foreach ($CVItemObjects as $CVItem) {
+            $CVItemForms[$CVItem->getId()] = $this->formFactory
+                ->createNamed('form-CVItem-' . $CVItem->getId(), CVItemType::class, $CVItem);
+        }
+
+        $CVItemFormViews = array_map(fn(FormInterface $form) => $form->createView(), $CVItemForms);
+
+        foreach ($CVItemForms as $CVItemForm) {
+            $CVItemForm->handleRequest($request);
+            if ($CVItemForm->isSubmitted() && $CVItemForm->isValid()) {
+                $CVItem = $CVItemForm->getData();
+                $this->entityManager->persist($CVItem);
+                $this->entityManager->flush();
+                return true;
+            }
+        }
+
+        $newCVItem = new CVItem();
+        $newCVItemForm = $this->CVItemCrud->save($request, $newCVItem, [], function () use ($CVItemTypeEnum, $newCVItem) {
+            $newCVItem->setType($CVItemTypeEnum);
+        });
+
+        if ($newCVItemForm === true) return true;
+
+        return [
+            'CVItemForms' => $CVItemFormViews,
+            'newCVItemForm' => $newCVItemForm,
+            'CVItems' => $CVItems
+        ];
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/CVItem/skill', name: 'CVItem_skill', methods: ['GET', 'POST'])]
+    public function skills(Request $request): Response
+    {
+        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
+        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+
+        return $this->render('admin/skill.html.twig', [
+            'CVItemForms' => $itemsAndForms['CVItemForms'],
+            'newCVItemForm' => $itemsAndForms['newCVItemForm'],
+            'CVItems' => $itemsAndForms['CVItems']
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/CVItem/intervention', name: 'CVItem_intervention', methods: ['GET', 'POST'])]
+    public function interventions(Request $request): Response
+    {
+        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
+        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+
+
+        return $this->render('admin/intervention.html.twig', [
+            'CVItemForms' => $itemsAndForms['CVItemForms'],
+            'newCVItemForm' => $itemsAndForms['newCVItemForm'],
+            'CVItems' => $itemsAndForms['CVItems']
+        ]);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/motion', name: 'motion', methods: ['GET', 'POST'])]
+    public function motion(Request $request): Response
+    {
+        $motionForm = $this->mediaUploadForm($request, MediaTypeEnum::MOTION);
+        if ($motionForm === true) return $this->redirectTo('referer', $request);
+
+        $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
+
+        return $this->render('admin/motion.html.twig', [
+            'motionForm' => $motionForm->createView(),
+            'motionGifs' => $motionGifs
+        ]);
+    }
+
+    public function mediaUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
+    {
+        $mediaForm = $this->createForm(MediaType::class);
+        $mediaForm->handleRequest($request);
+
+        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
+            $this->uploadManager->uploadMany($mediaForm, $mediaType);
+            $this->entityManager->flush();
+            return true;
+        }
+
+        return $mediaForm;
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/illustration', name: 'illustration', methods: ['GET', 'POST'])]
+    public function illustration(Request $request): Response
+    {
+        $illustrationForm = $this->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
+        if ($illustrationForm === true) return $this->redirectTo('referer', $request);
+
+        $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
+
+        return $this->render('admin/illustration.html.twig', [
+            'illustrationForm' => $illustrationForm->createView(),
+            'illustrationImgs' => $illustrationImgs
+        ]);
     }
 }

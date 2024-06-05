@@ -10,7 +10,7 @@
     {% for CVItemForm in CVItemForms %}
         {{ include('components/_modal-window.html.twig', {
             modalId: 'form-CVItem-' ~ CVItemForm.vars.value.id,
-            title: "Modifier l'intervention",
+            title: "Modifier l'experience",
             body: include('components/_CVItem-form.html.twig', {
                 form: CVItemForm
             })
