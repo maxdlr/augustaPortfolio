@@ -27,7 +27,7 @@ class HomeController extends AbstractController
     #[Route(path: '/', name: 'app_home', methods: ['POST', 'GET'])]
     public function index(): Response
     {
-        $showreelThumbnailPath = 'build/media/' . $this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_THUMBNAIL->value])?->getMediaPath();
+        $showreelThumbnailPath = $this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_THUMBNAIL->value])?->getMediaPath();
         $motionGifsData = VueDataFormatter::makeVueObjectOf(
             $this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']

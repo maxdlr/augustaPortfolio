@@ -70,7 +70,6 @@ const destroyShowreelVideo = () => {
       <div
           :class="screenWidth < BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
           class="text-center text-md-start"
-
       >
         <div class="d-none d-md-block">
           <span class="text-secondary">Freelance </span>
@@ -88,10 +87,10 @@ const destroyShowreelVideo = () => {
         </div>
       </div>
     </template>
-
     <template #content="{screenWidth}">
-      <div class="rounded-4 overflow-hidden">
-        <img :src="showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail" class="img-fluid eye-cursor"
+      <div v-if="showreelThumbnailPath" class="rounded-4 overflow-hidden">
+        <img :src="'build/media/' + showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail"
+             class="img-fluid eye-cursor"
              type="button"
              @click.prevent="showShowReel"
         >

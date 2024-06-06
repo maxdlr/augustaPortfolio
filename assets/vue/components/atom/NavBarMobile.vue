@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import NavItemMobile from "./NavItemMobile.vue";
 
 const props = defineProps({
@@ -40,7 +40,7 @@ const navigate = (link) => {
 </script>
 
 <template>
-  <nav class="fixed-bottom">
+  <nav class="fixed-bottom nav-parent-container">
 
     <div :style="currentAnchor !== '' ?
     `transform: translate(calc(-50% + ${currentNavItemPosition}), -100%);` : 'opacity: 0 !important;'"
@@ -104,9 +104,28 @@ $transition: all $duration $timing;
   top: 0;
 }
 
+.nav-parent-container {
+  animation-name: slideInUp;
+  animation-delay: 0s;
+  animation-duration: $duration * 2;
+  animation-timing-function: $timing;
+}
+
 .mb-nav-container {
   width: 100%;
   height: 75px;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(200%);
+  }
+  5% {
+    transform: translateY(200%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 
 .mb-nav-container-locator {
