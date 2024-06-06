@@ -175,6 +175,7 @@ const openModal = (id) => {
             v-if="isAllShown && !admin"
             class="p-3"
             color-class="info"
+            custom-pointer
             icon-class-start="dash-circle-fill"
             label="see less"
             size="sm"
@@ -204,6 +205,7 @@ const openModal = (id) => {
           <Button
               v-if="!isAllShown && isAllLoaded && !admin"
               color-class="light"
+              custom-pointer
               icon-class-start="plus-circle-fill"
               label="see more"
               @click.prevent="showAll"
@@ -229,6 +231,7 @@ const openModal = (id) => {
               <Button
                   class="m-1"
                   color-class="primary"
+                  custom-pointer
                   icon-class-end="arrow-left-circle-fill"
                   @click.prevent="changeShownImg(false)"
               />
@@ -246,6 +249,7 @@ const openModal = (id) => {
                   animate="right"
                   class="m-1"
                   color-class="info"
+                  custom-pointer
                   icon-class-start="copy"
                   @click.prevent="copy(currentHref)"
               />
@@ -254,6 +258,7 @@ const openModal = (id) => {
           <Button
               class="position-absolute top-0 end-0 m-3"
               color-class="primary"
+              custom-pointer
               data-bs-dismiss="modal"
               icon-class-end="x-circle-fill"
               size="lg"

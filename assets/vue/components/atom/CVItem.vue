@@ -29,7 +29,7 @@ const hovering = ref();
     <div class="p-2 pt-3 px-4 rounded-5">
       <a
           :href="item.link"
-          class="link-underline link-underline-opacity-0"
+          class="link-underline link-underline-opacity-0 cursor-pointer"
           target="_blank"
       >
         <h6 class="fs-6 m-0 text-nowrap">
@@ -49,6 +49,10 @@ const hovering = ref();
 <style lang="scss" scoped>
 @import '../../../styles/slide-left';
 @import '../../../styles/animation';
+
+.cursor-pointer {
+  cursor: url("../../../../public/build/media/misc/pointer.webp"), pointer;
+}
 
 .animate-slide-right {
   & div {

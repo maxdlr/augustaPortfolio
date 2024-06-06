@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-md">
     <div class="container-fluid">
       <a class="navbar-brand fs-4 fw-bold d-md-none d-inline" href="/">
         <span class="text-primary">augusta</span>
@@ -33,6 +33,7 @@ const props = defineProps({
               <NavItem
                   :label="link.label"
                   :value="link.link"
+                  class="cursor-pointer"
                   color-class="secondary"
                   size="lg"
               />
@@ -45,5 +46,8 @@ const props = defineProps({
 </template>
 
 <style scoped>
+.cursor-pointer {
+  cursor: url("../../../../public/build/media/misc/pointer.webp"), pointer;
+}
 
 </style>

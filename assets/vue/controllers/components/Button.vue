@@ -18,7 +18,8 @@ defineProps({
     type: [String, Boolean], default: false, validator(value) {
       return ['right', 'left'].includes(value);
     }
-  }
+  },
+  customPointer: {type: Boolean, default: false, required: false},
 });
 </script>
 
@@ -28,6 +29,7 @@ defineProps({
       `btn-${colorClass}`,
       !size ? '' : `btn-${size}`,
       roundClass ? `rounded-${roundClass}` : '',
+      customPointer ? 'cursor-pointer' : ''
     ]"
       :type="type"
       class="btn text-nowrap"
@@ -53,4 +55,8 @@ defineProps({
 <style lang="scss" scoped>
 @import "../../../styles/slide-left";
 @import "../../../styles/slide-right";
+
+.cursor-pointer {
+  cursor: url("../../../../public/build/media/misc/pointer.webp"), pointer;
+}
 </style>
