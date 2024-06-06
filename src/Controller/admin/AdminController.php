@@ -38,7 +38,8 @@ class AdminController extends AbstractController
         private readonly MediaRepository        $mediaRepository,
         private readonly CVItemCrud             $CVItemCrud,
         private readonly CVItemRepository       $CVItemRepository,
-        private readonly FormFactoryInterface   $formFactory
+        private readonly FormFactoryInterface   $formFactory,
+        private readonly MediaCrud              $mediaCrud,
     )
     {
     }
@@ -49,7 +50,7 @@ class AdminController extends AbstractController
     #[Route(path: '/', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(Request $request): Response
     {
-        $avatarForm = $this->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR);
+        $avatarForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR);
         if ($avatarForm === true) return $this->redirectTo('referer', $request);
 
         $avatarImg = VueDataFormatter::makeVueObjectOf(
@@ -63,38 +64,17 @@ class AdminController extends AbstractController
         ]);
     }
 
-    public function mediaSingleUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
-    {
-        $mediaForm = $this->createForm(SingleMediaType::class);
-        $mediaForm->handleRequest($request);
-
-        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
-
-            if ($mediaType === MediaTypeEnum::AVATAR) {
-                $fetchedAvatar = $this->mediaRepository->findOneBy(['type' => $mediaType]);
-                $media = is_null($fetchedAvatar) ? new Media() : $fetchedAvatar;
-            } else {
-                $media = new Media();
-            }
-
-            if ($this->uploadManager->uploadOne($mediaForm, $media, $mediaType) === true) $this->entityManager->persist($media);
-            $this->entityManager->flush();
-            return true;
-        }
-
-        return $mediaForm;
-    }
-
     /**
      * @throws Exception
      */
-    #[Route(path: '/CVItem/experience', name: 'CVItem_experience', methods: ['GET', 'POST'])]
-    public function experiences(Request $request): Response
+    #[Route(path: '/CVItem/intervention', name: 'CVItem_intervention', methods: ['GET', 'POST'])]
+    public function interventions(Request $request): Response
     {
-        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
+        $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
-        return $this->render('admin/experience.html.twig', [
+
+        return $this->render('admin/intervention.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
             'newCVItemForm' => $itemsAndForms['newCVItemForm'],
             'CVItems' => $itemsAndForms['CVItems']
@@ -104,59 +84,10 @@ class AdminController extends AbstractController
     /**
      * @throws Exception
      */
-    public function getCVItemsFormViewAndObjects(Request $request, CVItemTypeEnum $CVItemTypeEnum): array|true
-    {
-        $CVItemObjects = $this->CVItemRepository->findBy(['type' => $CVItemTypeEnum->value]);
-
-        $CVItems = VueDataFormatter::makeVueObjectOf($CVItemObjects,
-            [
-                'id',
-                'type',
-                'title',
-                'labelLink',
-                'link',
-                'description'
-            ])->get();
-
-        $CVItemForms = [];
-        foreach ($CVItemObjects as $CVItem) {
-            $CVItemForms[$CVItem->getId()] = $this->formFactory
-                ->createNamed('form-CVItem-' . $CVItem->getId(), CVItemType::class, $CVItem);
-        }
-
-        $CVItemFormViews = array_map(fn(FormInterface $form) => $form->createView(), $CVItemForms);
-
-        foreach ($CVItemForms as $CVItemForm) {
-            $CVItemForm->handleRequest($request);
-            if ($CVItemForm->isSubmitted() && $CVItemForm->isValid()) {
-                $CVItem = $CVItemForm->getData();
-                $this->entityManager->persist($CVItem);
-                $this->entityManager->flush();
-                return true;
-            }
-        }
-
-        $newCVItem = new CVItem();
-        $newCVItemForm = $this->CVItemCrud->save($request, $newCVItem, [], function () use ($CVItemTypeEnum, $newCVItem) {
-            $newCVItem->setType($CVItemTypeEnum);
-        });
-
-        if ($newCVItemForm === true) return true;
-
-        return [
-            'CVItemForms' => $CVItemFormViews,
-            'newCVItemForm' => $newCVItemForm,
-            'CVItems' => $CVItems
-        ];
-    }
-
-    /**
-     * @throws Exception
-     */
     #[Route(path: '/CVItem/skill', name: 'CVItem_skill', methods: ['GET', 'POST'])]
     public function skills(Request $request): Response
     {
-        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
+        $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
         return $this->render('admin/skill.html.twig', [
@@ -169,21 +100,18 @@ class AdminController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route(path: '/CVItem/intervention', name: 'CVItem_intervention', methods: ['GET', 'POST'])]
-    public function interventions(Request $request): Response
+    #[Route(path: '/CVItem/experience', name: 'CVItem_experience', methods: ['GET', 'POST'])]
+    public function experiences(Request $request): Response
     {
-        $itemsAndForms = $this->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
+        $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
-
-        return $this->render('admin/intervention.html.twig', [
+        return $this->render('admin/experience.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
             'newCVItemForm' => $itemsAndForms['newCVItemForm'],
             'CVItems' => $itemsAndForms['CVItems']
         ]);
     }
-
-    // -----------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * @throws Exception
@@ -191,7 +119,7 @@ class AdminController extends AbstractController
     #[Route(path: '/motion', name: 'motion', methods: ['GET', 'POST'])]
     public function motion(Request $request): Response
     {
-        $motionForm = $this->mediaUploadForm($request, MediaTypeEnum::MOTION);
+        $motionForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::MOTION);
         if ($motionForm === true) return $this->redirectTo('referer', $request);
 
         $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
@@ -204,27 +132,13 @@ class AdminController extends AbstractController
         ]);
     }
 
-    public function mediaUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
-    {
-        $mediaForm = $this->createForm(MediaType::class);
-        $mediaForm->handleRequest($request);
-
-        if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
-            $this->uploadManager->uploadMany($mediaForm, $mediaType);
-            $this->entityManager->flush();
-            return true;
-        }
-
-        return $mediaForm;
-    }
-
     /**
      * @throws Exception
      */
     #[Route(path: '/illustration', name: 'illustration', methods: ['GET', 'POST'])]
     public function illustration(Request $request): Response
     {
-        $illustrationForm = $this->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
+        $illustrationForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
         if ($illustrationForm === true) return $this->redirectTo('referer', $request);
 
         $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
