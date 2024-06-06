@@ -150,4 +150,23 @@ class AdminController extends AbstractController
             'illustrationImgs' => $illustrationImgs
         ]);
     }
+
+    /**
+     * @throws Exception
+     */
+    #[Route(path: '/contact', name: 'contact', methods: ['GET', 'POST'])]
+    public function contact(Request $request): Response
+    {
+        $contactForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::CONTACT);
+        if ($contactForm === true) return $this->redirectTo('referer', $request);
+
+        $contactImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::CONTACT->value]),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
+
+        return $this->render('admin/contact.html.twig', [
+            'contactForm' => $contactForm->createView(),
+            'contactImgs' => $contactImgs
+        ]);
+    }
 }

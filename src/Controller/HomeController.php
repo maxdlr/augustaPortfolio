@@ -56,7 +56,10 @@ class HomeController extends AbstractController
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::MEUF->value])],
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
-
+        $contactImgs = VueDataFormatter::makeVueObjectOf(
+            $this->mediaRepository->findBy(['type' => MediaTypeEnum::CONTACT->value]),
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
@@ -67,6 +70,7 @@ class HomeController extends AbstractController
             'experiences' => $experiences,
             'skills' => $skills,
             'meuf' => $meuf,
+            'contactImgs' => $contactImgs
         ]);
     }
 }

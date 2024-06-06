@@ -20,6 +20,10 @@ class Navigation extends AbstractController
             'about' => [
                 'label' => 'about',
                 'link' => '#about'
+            ],
+            'contact' => [
+                'label' => 'contact me',
+                'link' => '#contact'
             ]
         ];
     }
@@ -54,6 +58,10 @@ class Navigation extends AbstractController
             'illustration' => [
                 'label' => 'illustration',
                 'link' => $this->generateUrl('app_admin_illustration')
+            ],
+            'contact' => [
+                'label' => 'contact',
+                'link' => $this->generateUrl('app_admin_contact')
             ]
         ];
     }

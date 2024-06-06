@@ -3,7 +3,8 @@ import HomeShowReel from "../components/template/HomeShowReel.vue";
 import HomeMotion from "../components/template/HomeMotion.vue";
 import HomeIllustration from "../components/template/HomeIllustration.vue";
 import HomeAbout from "../components/template/HomeAbout.vue";
-import HomeTitle from "./HomeTitle.vue";
+import HomeContact from "../components/template/HomeContact.vue";
+import HomeTitle from "../components/atom/HomeTitle.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
@@ -13,30 +14,39 @@ const props = defineProps({
   interventions: {type: Object},
   experiences: {type: Object},
   skills: {type: Object},
-  meuf: {type: Object}
+  meuf: {type: Object},
+  contactImgs: {type: Object}
 })
 </script>
 
 <template>
   <HomeTitle/>
   <HomeShowReel
+      v-if="showreelThumbnailPath"
       :showreel-thumbnail-path="showreelThumbnailPath"
       anchor="showreel"
   />
   <HomeMotion
+      v-if="motionGifs"
       :motion-gifs="motionGifs"
       anchor="motion"
   />
   <HomeIllustration
+      v-if="illustrationImgs"
       :illustration-imgs="illustrationImgs"
       anchor="illustration"
   />
   <HomeAbout
+      v-if="experiences || interventions || skills"
       :avatar-img="avatarImg"
       :experiences="experiences"
       :interventions="interventions"
       :meuf="meuf"
       :skills="skills"
       anchor="about"
+  />
+  <HomeContact
+      :contact-imgs="contactImgs"
+      anchor="contact"
   />
 </template>

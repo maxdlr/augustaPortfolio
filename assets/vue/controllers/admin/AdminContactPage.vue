@@ -1,33 +1,31 @@
 <script setup>
 import MediaGallery from "../../components/molecule/MediaGallery.vue";
-import Button from "../components/Button.vue";
 import HelpBox from "../../components/atom/HelpBox.vue";
 
 const props = defineProps({
-  motionGifs: {type: Object, required: true}
+  contactImgs: {type: Object, required: true}
 })
 
 </script>
 
 <template>
+
   <HelpBox
       :instructions="[
       'Acceptés: .jpeg, .png, .webp, .gif',
-      'Les 6 derniers uploadés sont celles affichées au chargement de la page d\'accueil.'
+      '3 images maximum',
+      'Si tu en mets plus que 3, il prendra les 3 plus récentes en date d\'upload.',
+      'Essaye de ne pas en laisser trainer, pour ne pas alourdir la page.'
   ]"
       class="mt-3"/>
+
   <MediaGallery
       :admin="true"
       :buttons="true"
       :ignore-hash="true"
       :is-on-mobile="false"
-      :medias="motionGifs"
-      gallery-name="adminMotion"
-      lazy-load-trigger="hover"
+      :medias="contactImgs"
+      gallery-name="adminContact"
       start-media-count="all"
   />
 </template>
-
-<style scoped>
-
-</style>

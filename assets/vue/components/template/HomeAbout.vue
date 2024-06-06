@@ -41,10 +41,10 @@ const props = defineProps({
     </template>
     <template #content="{screenWidth, screenHeight}">
       <div class="row">
-        <div class="h-100 col-lg-8">
-          <AboutSection :items="interventions" title="Interventions"/>
-          <AboutSection :items="experiences" title="Experiences"/>
-          <AboutSection :items="skills" title="Skills"/>
+        <div class="col-lg-8">
+          <AboutSection v-if="interventions" :items="interventions" title="Interventions"/>
+          <AboutSection v-if="experiences" :items="experiences" title="Experiences"/>
+          <AboutSection v-if="skills" :items="skills" title="Skills"/>
         </div>
         <div class="col-lg-4">
           <div class="sticky-top">

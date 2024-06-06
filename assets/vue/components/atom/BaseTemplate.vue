@@ -51,14 +51,20 @@ const handleResize = () => {
                     contextFlex.align.xl ? `align-items-xl-${contextFlex.align.xl}`: '',
                 ] : '',
             ] : '',
-            `col-${mainBreakPoint}-${cols[0]}`
+            $slots.content ? `col-${mainBreakPoint}-${cols[0]}` : 'text-center'
             ]"
         class="col-12 d-flex"
     >
-      <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="context"/>
+      <div :class="!$slots.content ? 'mx-auto' : ''">
+        <slot
+            :screenHeight="screenHeight"
+            :screenWidth="screenWidth"
+            name="context"
+        />
+      </div>
     </div>
-    <div
-        :class="[
+    <div v-if="$slots.content"
+         :class="[
             contentFlex ? [
                 contentFlex.justify ? [
                     contentFlex.justify.sm ? `justify-content-${contentFlex.justify.sm}`: '',
@@ -75,7 +81,7 @@ const handleResize = () => {
             ] : '',
             `col-${mainBreakPoint}-${cols[1]}`
             ]"
-        class="col-12 d-flex"
+         class="col-12 d-flex"
     >
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="content"/>
     </div>

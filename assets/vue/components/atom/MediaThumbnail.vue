@@ -5,7 +5,7 @@ import Button from "../../controllers/components/Button.vue";
 import {SLIDE_RIGHT} from "../../constant/animation";
 
 const props = defineProps({
-  media: {type: Object, required: false},
+  media: {type: Object, required: true},
   buttons: {type: Boolean, required: false, default: false},
   hoverAction: {type: Boolean, default: false, required: false},
   animate: {type: Boolean, default: true, required: false}

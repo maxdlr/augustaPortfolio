@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use function Symfony\Component\String\u;
 
 /**
  * @author Maxime de la Rocheterie
@@ -36,12 +37,7 @@ class UploadManager extends AbstractController
             $mediaFile = $form->get('media')->getData();
 
             if ($mediaFile) {
-                $directory = match ($mediaType) {
-                    MediaTypeEnum::MOTION => 'motion',
-                    MediaTypeEnum::SHOWREEL_THUMBNAIL => 'media',
-                    MediaTypeEnum::ILLUSTRATION => 'illustration',
-                    MediaTypeEnum::AVATAR => 'avatar',
-                };
+                $directory = u($mediaType->value)->lower();
                 $savedFile = $this->saveFile($mediaFile, $directory);
 
                 $object

@@ -15,6 +15,7 @@ class MediaFixtures extends Fixture
         $this->makeSpecificMedia('assets/media/motion', $manager, MediaTypeEnum::MOTION);
         $this->makeSpecificMedia('assets/media/illustration', $manager, MediaTypeEnum::ILLUSTRATION);
         $this->makeSpecificMedia('assets/media/meuf', $manager, MediaTypeEnum::MEUF);
+        $this->makeSpecificMedia('assets/media/contact', $manager, MediaTypeEnum::CONTACT);
 
         $manager->flush();
     }
