@@ -75,34 +75,36 @@ const show = (id) => {
 </script>
 
 <template>
-  <TransitionGroup :name=" animate ? SLIDE_RIGHT : ''">
-    <div
-        v-if="!isLoading"
-        :class="{'animate-stage-hover': hoverAction}"
-        class="position-relative"
-    >
-      <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
-        <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
-      </div>
-
+  <div>
+    <TransitionGroup :name=" animate ? SLIDE_RIGHT : ''">
       <div
-          :class="{'animate-stage-target': hoverAction}"
-          class="rounded-4 overflow-hidden eye-cursor"
-          role="button"
-          @click.prevent="show(media.id)"
+          v-if="!isLoading"
+          :class="{'animate-stage-hover': hoverAction}"
+          class="position-relative"
       >
-        <img
-            v-if="media"
-            :id="`mediaThumbnail-${media.id}`"
-            ref="imgRef"
-            :src="loadedSrc"
-            class="w-100 object-fit-cover freezeframe"
-            style="aspect-ratio: 1/1 !important;"
+        <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
+          <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
+        </div>
+
+        <div
+            :class="[hoverAction ? 'animate-stage-target eye-cursor' : '']"
+            :role="hoverAction ? 'button' : ''"
+            class="rounded-4 overflow-hidden"
+            @click.prevent="show(media.id)"
         >
+          <img
+              v-if="media"
+              :id="`mediaThumbnail-${media.id}`"
+              ref="imgRef"
+              :src="loadedSrc"
+              class="w-100 object-fit-cover freezeframe"
+              style="aspect-ratio: 1/1 !important;"
+          >
+        </div>
       </div>
-    </div>
-  </TransitionGroup>
-  <LoadingSpinner v-if="isLoading"/>
+    </TransitionGroup>
+    <LoadingSpinner v-if="isLoading"/>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -111,7 +113,7 @@ const show = (id) => {
 @import "../../../styles/var-override";
 
 .eye-cursor {
-  cursor: url("../../../../public/build/media/misc/eye-cursor.webp"), wait !important;
+  cursor: url("../../../../public/build/media/cursor/eye-cursor.webp"), wait !important;
 }
 
 .animate-stage-hover {

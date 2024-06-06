@@ -293,11 +293,11 @@ const openModal = (id) => {
 @import '../../../styles/slide-right';
 
 .next-cursor {
-  cursor: url("../../../../public/build/media/misc/arrow-right-cursor.png"), w-resize !important;
+  cursor: url("../../../../public/build/media/cursor/arrow-right-cursor.webp"), w-resize !important;
 }
 
 .previous-cursor {
-  cursor: url("../../../../public/build/media/misc/arrow-left-cursor.png"), e-resize !important;
+  cursor: url("../../../../public/build/media/cursor/arrow-left-cursor.webp"), e-resize !important;
 }
 
 </style>

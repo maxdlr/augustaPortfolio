@@ -58,9 +58,35 @@ class AdminController extends AbstractController
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
 
+        $cursors = $this->mediaRepository->findBy(['type' => MediaTypeEnum::CURSOR->value]);
+
+        $cursorForms = [];
+        foreach ($cursors as $cursor) {
+            $cursorForms[$cursor->getId()] = $this->mediaCrud->mediaSingleUploadForm(
+                $request,
+                MediaTypeEnum::CURSOR,
+                'form-cursor-' . $cursor->getId(),
+                $cursor
+            );
+        }
+
+
+        if (in_array(true, $cursorForms, true)) {
+            return $this->redirectTo('referer', $request);
+        } else {
+            $cursorFormViews = array_map(fn(FormInterface $form) => $form->createView(), $cursorForms);
+        }
+
+        $cursorImgs = VueDataFormatter::makeVueObjectOf(
+            $cursors,
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->get();
+
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
-            'avatarImg' => $avatarImg
+            'avatarImg' => $avatarImg,
+            'cursorImgs' => $cursorImgs,
+            'cursorForms' => $cursorFormViews
         ]);
     }
 

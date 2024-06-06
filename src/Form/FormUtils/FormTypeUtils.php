@@ -35,6 +35,8 @@ class FormTypeUtils
                 'image/jpeg',
                 'image/jpg',
                 'image/png',
+                'image/webp',
+                'image/gif'
             ],
             'mimeTypesMessage' => 'Types de ficher accepté: jpg, jpeg, png',
         ]);

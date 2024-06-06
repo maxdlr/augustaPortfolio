@@ -25,6 +25,11 @@ Encore
     })
 
     .copyFiles({
+        from: './assets/media/cursor',
+        to: 'media/cursor/[path][name].[ext]',
+    })
+
+    .copyFiles({
         from: './assets/media/illustration',
         to: 'media/illustration/[path][name].[ext]',
     })

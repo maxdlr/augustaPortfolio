@@ -3,7 +3,9 @@
 {% block body %}
     <div {{ vue_component('admin/AdminDashboard', {
         avatarImg: avatarImg,
-        avatarFormId: 'avatarForm'
+        avatarFormId: 'avatarForm',
+        cursorImgs: cursorImgs,
+        cursorFormIds: ['cursorForm-0', 'cursorForm-1', 'cursorForm-2', 'cursorForm-3']
     }) }}>
         {{ include('components/_spinner.html.twig') }}
     </div>
@@ -13,6 +15,13 @@
         title: 'Changer mon avatar',
         body: include('components/_media-upload-form.html.twig', {form: avatarForm})
     }) }}
+
+    {% for cursorForm in cursorForms %}
+        {{ include('components/_modal-window.html.twig', {
+            modalId: 'cursorForm-'~loop.index0 ,
+            body: include('components/_media-upload-form.html.twig', {form: cursorForm})
+        }) }}
+    {% endfor %}
 
 {% endblock %}
 

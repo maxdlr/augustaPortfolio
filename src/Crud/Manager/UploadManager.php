@@ -5,6 +5,7 @@ namespace App\Crud\Manager;
 use App\Entity\Media;
 use App\Enum\MediaTypeEnum;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -26,7 +27,7 @@ class UploadManager extends AbstractController
 
     public function uploadOne(
         FormInterface $form,
-        object        $object,
+        Media         $object,
         MediaTypeEnum $mediaType,
     ): bool
     {
@@ -38,7 +39,7 @@ class UploadManager extends AbstractController
 
             if ($mediaFile) {
                 $directory = u($mediaType->value)->lower();
-                $savedFile = $this->saveFile($mediaFile, $directory);
+                $savedFile = $this->saveFile($mediaFile, $directory, $mediaType, $object);
 
                 $object
                     ->setMediaPath($directory . '/' . $savedFile['newFilename'])
@@ -53,12 +54,22 @@ class UploadManager extends AbstractController
         }
     }
 
-    public function saveFile(UploadedFile $mediaFile, $directory = 'media'): array
+    /**
+     * @throws Exception
+     */
+    public function saveFile(UploadedFile $mediaFile, $directory = 'media', ?MediaTypeEnum $mediaType = null, ?Media $existingMedia = null): array
     {
-        $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
+        if ($mediaType === MediaTypeEnum::CURSOR && $existingMedia === null)
+            throw new Exception('Need existing file to save for cursors');
 
+        $originalFilename = pathinfo($mediaFile->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension();
+
+        $newFilename = match ($mediaType) {
+            MediaTypeEnum::CURSOR => str_replace('cursor/', '', $existingMedia->getMediaPath()),
+            default => $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension()
+        };
+
         $fileSize = $mediaFile->getSize();
 
         try {

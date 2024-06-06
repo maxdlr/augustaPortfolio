@@ -120,7 +120,7 @@ const destroyShowreelVideo = () => {
 <style lang="scss" scoped>
 
 .eye-cursor {
-  cursor: url("../../../../public/build/media/misc/eye-cursor.png"), zoom-in;
+  cursor: url("../../../../public/build/media/cursor/eye-cursor.webp"), zoom-in;
 }
 
 </style>

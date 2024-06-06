@@ -10,4 +10,5 @@ enum MediaTypeEnum: string
     case AVATAR = 'AVATAR';
     case MEUF = 'MEUF';
     case CONTACT = 'CONTACT';
+    case CURSOR = 'CURSOR';
 }

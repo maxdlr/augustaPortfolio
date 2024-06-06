@@ -1,13 +1,18 @@
 <script setup>
 import Button from "../../controllers/components/Button.vue";
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {SLIDE_LEFT} from "../../constant/animation";
 
 const props = defineProps({
-  instructions: {type: Array, required: true}
+  instructions: {type: Array, required: true},
+  startCollapsed: {type: Boolean, default: false, required: false}
 })
 
-const isDisplayOn = ref(true);
+onBeforeMount(() => {
+  isDisplayOn.value = !props.startCollapsed
+})
+
+const isDisplayOn = ref();
 
 </script>
 
@@ -33,11 +38,10 @@ const isDisplayOn = ref(true);
         <div class="card-body">
 
           <ul class="list-group list-group-flush rounded-4">
-            <li v-for="(item, index) in instructions" :key="index" class="list-group-item">
+            <li v-for="(item, index) in instructions" :key="index" class="list-group-item text-start">
               👉 <span class="fst-italic">{{ item }}</span>
             </li>
           </ul>
-
         </div>
       </div>
       <div v-else>

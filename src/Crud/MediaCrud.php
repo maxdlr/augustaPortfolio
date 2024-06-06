@@ -48,19 +48,23 @@ class MediaCrud extends AbstractCrud
         return $mediaForm;
     }
 
-    public function mediaSingleUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
+    public function mediaSingleUploadForm(Request $request, MediaTypeEnum $mediaType, ?string $name = null, Media $existingMedia = null): FormInterface|true
     {
-        $mediaForm = $this->formFactory->create(SingleMediaType::class);
+        $mediaForm = $name !== null ?
+            $this->formFactory->createNamed($name, SingleMediaType::class) :
+            $this->formFactory->create(SingleMediaType::class);
+
         $mediaForm->handleRequest($request);
 
         if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
 
-            if ($mediaType === MediaTypeEnum::AVATAR) {
-                $fetchedAvatar = $this->mediaRepository->findOneBy(['type' => $mediaType]);
-                $media = is_null($fetchedAvatar) ? new Media() : $fetchedAvatar;
-            } else {
-                $media = new Media();
-            }
+            $currentAvatar = $this->mediaRepository->findOneBy(['type' => $mediaType]);
+
+            $media = match ($mediaType) {
+                MediaTypeEnum::AVATAR => is_null($currentAvatar) ? new Media() : $currentAvatar,
+                MediaTypeEnum::CURSOR => $existingMedia,
+                default => new Media()
+            };
 
             if ($this->uploadManager->uploadOne($mediaForm, $media, $mediaType) === true) $this->entityManager->persist($media);
             $this->entityManager->flush();

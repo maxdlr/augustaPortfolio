@@ -22,10 +22,11 @@ run: ## Start project
 	make create-local-env && \
 	clear && \
 	make db && \
-	make cache-clear && \
 	clear && \
 	make yarn-install && \
 	make yarn-build && \
+	make cache-clear && \
+	clear && \
 	make server-start && \
 	clear && \
 	make open-browser && \
@@ -76,7 +77,8 @@ fill-local-env: ## Fill .env.local file with 'root/root'
 
 cache-clear: ## Clear symfony cache
 	@make command-intro-msg msg="Clearing cache"
-	@$(SYMFONY) cache:clear \
+	@$(SYMFONY) cache:clear && \
+	yarn cache clean \
 
 db-drop: ## Drop database
 	@make command-intro-msg msg="Dropping database"

@@ -51,7 +51,7 @@ const hovering = ref();
 @import '../../../styles/animation';
 
 .cursor-pointer {
-  cursor: url("../../../../public/build/media/misc/pointer.webp"), pointer;
+  cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
 }
 
 .animate-slide-right {

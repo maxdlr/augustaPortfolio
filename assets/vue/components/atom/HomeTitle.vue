@@ -22,6 +22,6 @@
 
 <style lang="scss" scoped>
 .cursor-pointer {
-  cursor: url("../../../../public/build/media/misc/pointer.webp"), pointer;
+  cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
 }
 </style>
