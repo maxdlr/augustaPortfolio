@@ -33,6 +33,6 @@ const handleResize = () => {
   <NavBarMobile v-else :navigation="navigation" :screenWidth="screenWidth"/>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

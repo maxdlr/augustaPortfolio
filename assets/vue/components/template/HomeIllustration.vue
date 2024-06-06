@@ -32,6 +32,6 @@ const props = defineProps({
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

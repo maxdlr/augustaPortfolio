@@ -19,9 +19,15 @@ const props = defineProps({
 <template>
   <section>
     <div class="row row-cols-1 row-cols-md-2">
-      <AdminAvatar :avatar-img="avatarImg" :form-id="avatarFormId"/>
-      <AdminShowreel :form-id="showreelFormId" :showreel-img="showreelImg"/>
-      <AdminMeuf :form-id="meufFormId" :meuf-img="meufImg"/>
+      <div class="p-2">
+        <AdminAvatar :avatar-img="avatarImg" :form-id="avatarFormId"/>
+      </div>
+      <div class="p-2">
+        <AdminShowreel :form-id="showreelFormId" :showreel-img="showreelImg"/>
+      </div>
+      <div class="p-2">
+        <AdminMeuf :form-id="meufFormId" :meuf-img="meufImg"/>
+      </div>
     </div>
   </section>
   <AdminCursors :cursor-form-ids="cursorFormIds" :cursor-imgs="cursorImgs" class="mt-3"/>

@@ -55,6 +55,6 @@ const emit = defineEmits(['navigate']);
   </Button>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

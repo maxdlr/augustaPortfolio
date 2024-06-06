@@ -16,15 +16,15 @@ const isCurrentLocation = (link) => {
     <li v-for="(link, index) in navigation" :key="index" class="nav-item">
       <div class="py-1">
         <AdminNavItem
+            :color-class="isCurrentLocation(link.link) ? 'primary' : 'outline-primary'"
             :label="link.label"
             :value="link.link"
-            :color-class="isCurrentLocation(link.link) ? 'primary' : 'outline-primary'"
         />
       </div>
     </li>
   </ul>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

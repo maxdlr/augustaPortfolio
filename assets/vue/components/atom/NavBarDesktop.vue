@@ -45,7 +45,7 @@ const props = defineProps({
   </nav>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .cursor-pointer {
   cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
 }

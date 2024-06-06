@@ -25,6 +25,6 @@ const props = defineProps({
   >{{ toTitle(label) }}</a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

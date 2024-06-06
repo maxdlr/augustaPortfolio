@@ -44,7 +44,7 @@ const props = defineProps({
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .rotateContactStart {
   transform: translate(20%, 5%) rotate(-10deg) !important;

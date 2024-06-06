@@ -60,13 +60,13 @@ const deleteMedia = async () => {
     <div class="text-start">
       <HelpBox :instructions="[
       'Acceptés: .jpeg, .png, .webp, .gif',
-        'L\'meuf est centré, donc si tu mets un format carré, t\'es tranquille'
+        'Fait gaffe que ce soit pas trop lourd - 50mo max'
     ]" :start-collapsed="true" class="mt-4"
       />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

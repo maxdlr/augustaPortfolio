@@ -88,6 +88,6 @@ const handleResize = () => {
   </section>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

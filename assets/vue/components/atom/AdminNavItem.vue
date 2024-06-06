@@ -17,14 +17,14 @@ const props = defineProps({
 </script>
 
 <template>
-  <Button :label="toTitle(label)"
-          @click.prevent="goTo(value)"
+  <Button :color-class="colorClass"
           :icon-class-start="iconClass ? iconClass : null"
-          :color-class="colorClass"
+          :label="toTitle(label)"
           :size="size"
+          @click.prevent="goTo(value)"
   />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

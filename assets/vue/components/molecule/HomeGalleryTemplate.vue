@@ -49,6 +49,6 @@ const showDefaultLayout = () => {
   </BaseTemplate>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>

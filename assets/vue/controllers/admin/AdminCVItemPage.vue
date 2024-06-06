@@ -70,6 +70,6 @@ const deleteMedia = async (id, title, index) => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
