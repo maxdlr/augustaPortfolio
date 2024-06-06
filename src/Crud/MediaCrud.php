@@ -58,10 +58,10 @@ class MediaCrud extends AbstractCrud
 
         if ($mediaForm->isSubmitted() && $mediaForm->isValid()) {
 
-            $currentAvatar = $this->mediaRepository->findOneBy(['type' => $mediaType]);
+            $currentUnique = $this->mediaRepository->findOneBy(['type' => $mediaType->value]);
 
             $media = match ($mediaType) {
-                MediaTypeEnum::AVATAR => is_null($currentAvatar) ? new Media() : $currentAvatar,
+                MediaTypeEnum::AVATAR, MediaTypeEnum::SHOWREEL_THUMBNAIL, MediaTypeEnum::MEUF => is_null($currentUnique) ? new Media() : $currentUnique,
                 MediaTypeEnum::CURSOR => $existingMedia,
                 default => new Media()
             };

@@ -36,7 +36,7 @@ const modalEl = ref();
 const emit = defineEmits(['allShown']);
 const shownMediaCount = ref(0);
 const isAllShown = computed(() => {
-  return shownMediaCount.value === props.medias.length
+  return shownMediaCount.value === props.medias?.length
 })
 const loadedMediaCount = ref(0);
 const isAllLoaded = ref(false);
@@ -47,7 +47,7 @@ onMounted(() => {
   modalEl.value = modalElRef.value
 
   if (props.startMediaCount === 'all') {
-    shownMediaCount.value = props.medias.length
+    shownMediaCount.value = props.medias?.length
   } else {
     shownMediaCount.value = Number(props.startMediaCount)
   }
@@ -203,7 +203,7 @@ const openModal = (id) => {
       <div class="position-absolute bottom-0 end-0 p-3 text-end">
         <Transition :name="SLIDE_RIGHT">
           <Button
-              v-if="!isAllShown && isAllLoaded && !admin"
+              v-if="!isAllShown && isAllLoaded && !admin && Object.keys(medias).length > 6"
               color-class="light"
               custom-pointer
               icon-class-start="plus-circle-fill"

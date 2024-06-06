@@ -90,7 +90,7 @@ class UploadManager extends AbstractController
     ): bool
     {
         $mediaFiles = $form->get('media')->getData();
-        $directory = $mediaType->value;
+        $directory = u($mediaType->value)->lower();
         $validation = [];
 
         foreach ($mediaFiles as $mediaFile) {

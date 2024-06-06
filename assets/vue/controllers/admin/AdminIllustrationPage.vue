@@ -12,6 +12,7 @@ const props = defineProps({
   <HelpBox
       :instructions="[
       'Acceptés: .jpeg, .png, .webp, .gif',
+      'Tu peux uploader tout d\'un coup, si le total fait moins de 50 mo',
       'Les 6 derniers uploadés sont celles affichées au chargement de la page d\'accueil.'
   ]"
       class="mt-3"/>

@@ -13,7 +13,7 @@ const props = defineProps({
   <HelpBox
       :instructions="[
       'Acceptés: .jpeg, .png, .webp, .gif',
-      '3 images maximum',
+      '3 images maximum (tu peux uploader les 3 en meme temps)',
       'Si tu en mets plus que 3, il prendra les 3 plus récentes en date d\'upload.',
       'Essaye de ne pas en laisser trainer, pour ne pas alourdir la page.'
   ]"

@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div class="bg-white shadow rounded-5 position-relative pt-5 ps-0 p-3">
     <p class="position-absolute top-0 start-0 fs-4 fw-bold text-info m-0 ms-3 mt-3">Mes curseurs</p>
-    <div :class="`row-cols-sm-${Object.keys(cursorImgs).length}`" class="row">
+    <div :class="`row-cols-sm-${cursorImgs ? Object.keys(cursorImgs).length : 1}`" class="row">
       <div v-for="(cursorImg, index) in cursorImgs" class="p-2">
         <AdminCursor
             :cursor-img="cursorImg"

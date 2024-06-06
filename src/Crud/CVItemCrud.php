@@ -9,6 +9,7 @@ use App\Crud\Manager\DeleteManager;
 use App\Crud\Manager\SaveManager;
 use App\Crud\Manager\UploadManager;
 use App\Entity\CVItem;
+use App\Entity\Media;
 use App\Enum\CVItemTypeEnum;
 use App\Form\CVItemType;
 use App\Repository\CVItemRepository;
@@ -76,8 +77,10 @@ class CVItemCrud extends AbstractCrud
         }
 
         $newCVItem = new CVItem();
-        $newCVItemForm = $this->save($request, $newCVItem, [], function () use ($CVItemTypeEnum, $newCVItem) {
-            $newCVItem->setType($CVItemTypeEnum);
+        $newCVItemForm = $this->save($request, $newCVItem, [], function ($form, $object) use ($CVItemTypeEnum) {
+            assert($object instanceof CVItem, 'This object needs to be a ' . CVItem::class);
+            $object->setType($CVItemTypeEnum);
+            return true;
         });
 
         if ($newCVItemForm === true) return true;

@@ -4,6 +4,10 @@
     <div {{ vue_component('admin/AdminDashboard', {
         avatarImg: avatarImg,
         avatarFormId: 'avatarForm',
+        showreelImg: showreelImg,
+        showreelFormId: 'showreelForm',
+        meufImg: meufImg,
+        meufFormId: 'meufForm',
         cursorImgs: cursorImgs,
         cursorFormIds: ['cursorForm-0', 'cursorForm-1', 'cursorForm-2', 'cursorForm-3']
     }) }}>
@@ -14,6 +18,18 @@
         modalId: 'avatarForm',
         title: 'Changer mon avatar',
         body: include('components/_media-upload-form.html.twig', {form: avatarForm})
+    }) }}
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'showreelForm',
+        title: 'Changer mon showreel',
+        body: include('components/_media-upload-form.html.twig', {form: showreelForm})
+    }) }}
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'meufForm',
+        title: 'Changer ma meuf',
+        body: include('components/_media-upload-form.html.twig', {form: meufForm})
     }) }}
 
     {% for cursorForm in cursorForms %}

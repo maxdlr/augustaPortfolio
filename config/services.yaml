@@ -9,6 +9,9 @@ parameters:
     illustration_directory: '%kernel.project_dir%/public/build/media/illustration'
     avatar_directory: '%kernel.project_dir%/public/build/media/avatar'
     cursor_directory: '%kernel.project_dir%/public/build/media/cursor'
+    showreel_directory: '%kernel.project_dir%/public/build/media/showreel'
+    meuf_directory: '%kernel.project_dir%/public/build/media/meuf'
+    contact_directory: '%kernel.project_dir%/public/build/media/contact'
 
 services:
     # default configuration for services in *this* file

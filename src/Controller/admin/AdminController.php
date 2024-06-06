@@ -50,11 +50,27 @@ class AdminController extends AbstractController
     #[Route(path: '/', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(Request $request): Response
     {
-        $avatarForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR);
+        $avatarForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR, 'avatarForm');
         if ($avatarForm === true) return $this->redirectTo('referer', $request);
 
         $avatarImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::AVATAR->value])],
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->getOne();
+
+        $showreelForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::SHOWREEL_THUMBNAIL, 'showreelThumbnailForm');
+        if ($showreelForm === true) return $this->redirectTo('referer', $request);
+
+        $showreelImg = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_THUMBNAIL->value])],
+            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+        )->getOne();
+
+        $meufForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::MEUF, 'meufForm');
+        if ($meufForm === true) return $this->redirectTo('referer', $request);
+
+        $meufImg = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::MEUF->value])],
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
 
@@ -70,7 +86,6 @@ class AdminController extends AbstractController
             );
         }
 
-
         if (in_array(true, $cursorForms, true)) {
             return $this->redirectTo('referer', $request);
         } else {
@@ -85,6 +100,10 @@ class AdminController extends AbstractController
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
             'avatarImg' => $avatarImg,
+            'showreelForm' => $showreelForm,
+            'showreelImg' => $showreelImg,
+            'meufForm' => $meufForm,
+            'meufImg' => $meufImg,
             'cursorImgs' => $cursorImgs,
             'cursorForms' => $cursorFormViews
         ]);
@@ -99,11 +118,11 @@ class AdminController extends AbstractController
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
-
-        return $this->render('admin/intervention.html.twig', [
+        return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
             'newCVItemForm' => $itemsAndForms['newCVItemForm'],
-            'CVItems' => $itemsAndForms['CVItems']
+            'CVItems' => $itemsAndForms['CVItems'],
+            'entityName' => 'Intervention'
         ]);
     }
 
@@ -116,10 +135,11 @@ class AdminController extends AbstractController
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
-        return $this->render('admin/skill.html.twig', [
+        return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
             'newCVItemForm' => $itemsAndForms['newCVItemForm'],
-            'CVItems' => $itemsAndForms['CVItems']
+            'CVItems' => $itemsAndForms['CVItems'],
+            'entityName' => 'Skill'
         ]);
     }
 
@@ -132,10 +152,11 @@ class AdminController extends AbstractController
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
         if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
 
-        return $this->render('admin/experience.html.twig', [
+        return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
             'newCVItemForm' => $itemsAndForms['newCVItemForm'],
-            'CVItems' => $itemsAndForms['CVItems']
+            'CVItems' => $itemsAndForms['CVItems'],
+            'entityName' => 'Experience'
         ]);
     }
 
