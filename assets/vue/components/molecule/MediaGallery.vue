@@ -6,6 +6,7 @@ import {Modal} from 'bootstrap';
 import Button from "../../controllers/components/Button.vue";
 import {SLIDE_RIGHT} from "../../constant/animation";
 import {useClipboard} from '@vueuse/core'
+import Toast from "../../controllers/components/Toast.vue";
 
 const currentHref = ref()
 const {copy, copied, isSupported} = useClipboard({currentHref})
@@ -40,8 +41,12 @@ const isAllShown = computed(() => {
 const loadedMediaCount = ref(0);
 const isAllLoaded = ref(false);
 const isModalOpen = ref(false)
+const rawMedias = computed(() => {
+  return props.medias
+})
 
 onMounted(() => {
+  console.log(rawMedias.value)
   shownImg.value = shownImgRef.value
   modalEl.value = modalElRef.value
 
@@ -67,7 +72,7 @@ const showSix = () => {
 const filter = () => {
   let i = 0;
   filteredMedias.value = {};
-  for (const mediaKey in props.medias) {
+  for (const mediaKey in rawMedias.value) {
     if (i < shownMediaCount.value) {
       filteredMedias.value[i] = props.medias[mediaKey]
     }
@@ -75,8 +80,14 @@ const filter = () => {
   }
 }
 
-const deleteMedia = (mediaId) => {
-  delete filteredMedias.value[mediaId]
+const triggerToast = (message, type) => {
+  toast.value = {message, type, trigger: true}
+}
+const toast = ref({})
+
+const deleteMedia = (index) => {
+  delete filteredMedias.value[Number(index)]
+  triggerToast('Image supprimée !', 'success')
 }
 
 const freezeFrame = () => {
@@ -94,9 +105,11 @@ const handleOnLoaded = () => {
   }
 }
 const showImg = (id) => {
-  if (!props.isOnMobile) {
-    setModalImg(id)
-    openModal(id)
+  if (!props.admin) {
+    if (!props.isOnMobile) {
+      setModalImg(id)
+      openModal(id)
+    }
   }
 }
 
@@ -184,17 +197,16 @@ const openModal = (id) => {
     </div>
     <div :class="`row-cols-lg-${colCount}`"
          class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
-      <div v-for="media in filteredMedias"
-           :key="media.id"
-           :data-bs-toggle="!isOnMobile ? 'modal' : ''"
+      <div v-for="(media, index) in filteredMedias"
+           :key="index"
            :type="!isOnMobile ? 'button' : ''"
            class="p-1 position-relative"
       >
         <MediaThumbnail
-            :buttons="buttons"
-            :hover-action="!isOnMobile"
+            :buttons="admin"
+            :hover-action="!admin"
             :media="media"
-            @delete="deleteMedia"
+            @delete="deleteMedia(index)"
             @loaded="handleOnLoaded"
             @show="showImg"
         />
@@ -254,6 +266,7 @@ const openModal = (id) => {
             </div>
           </div>
           <Button
+              :data-bs-target="`#${galleryName}-mediaLightBox`"
               class="position-absolute top-0 end-0 m-3"
               color-class="primary"
               custom-pointer
@@ -284,6 +297,8 @@ const openModal = (id) => {
       </div>
     </div>
   </div>
+
+  <Toast v-model:trigger="toast.trigger" :message="toast.message" :type="toast.type"/>
 
 </template>
 

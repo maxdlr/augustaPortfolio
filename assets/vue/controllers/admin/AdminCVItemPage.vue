@@ -3,6 +3,7 @@ import Button from "../components/Button.vue";
 import {Modal} from 'bootstrap';
 import CVItem from "../../components/atom/CVItem.vue";
 import {onMounted, ref} from "vue";
+import Toast from "../components/Toast.vue";
 
 const props = defineProps({
   CVItems: {type: Object, default: null},
@@ -11,10 +12,16 @@ const props = defineProps({
 
 const site = window.location.origin;
 const items = ref()
+const emit = defineEmits(['toast'])
 
 onMounted(() => {
   items.value = props.CVItems
 })
+
+const triggerToast = (message, type) => {
+  toast.value = {message, type, trigger: true}
+}
+const toast = ref({})
 
 const deleteMedia = async (id, title, index) => {
   if (confirm('Sure de vouloir supprimer ' + title + ' ?')) {
@@ -22,8 +29,8 @@ const deleteMedia = async (id, title, index) => {
         .then(r => r.json().then(data => ({ok: r.ok, body: data}))
             .then(obj => {
               if (obj.ok) {
-                console.log(obj.body.message);
                 delete items.value[index]
+                triggerToast(obj.body.message, 'success')
               }
             }));
   }
@@ -68,6 +75,9 @@ const deleteMedia = async (id, title, index) => {
       />
     </div>
   </div>
+
+  <Toast v-model:trigger="toast.trigger" :message="toast.message" :type="toast.type"/>
+
 </template>
 
 <style lang="scss" scoped>

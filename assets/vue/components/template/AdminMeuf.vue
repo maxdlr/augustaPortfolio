@@ -35,7 +35,7 @@ const deleteMedia = async () => {
 <template>
   <AdminDashboardWidget title="La meuf">
     <template #content1>
-      <MediaThumbnail v-if="meufImg" :media="meufImg" :square="false" class="w-75 mt-5"/>
+      <MediaThumbnail v-if="currentMeufImg" :media="currentMeufImg" :square="false" class="w-75 mt-5"/>
       <div v-else>
         <span class="fs-6 fst-italic text-secondary">
           --- Meuf manquante ---

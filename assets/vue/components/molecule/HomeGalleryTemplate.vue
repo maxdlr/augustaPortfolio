@@ -38,6 +38,7 @@ const showDefaultLayout = () => {
     <template #content="{screenWidth}">
 
       <MediaGallery
+          :admin="false"
           :col-count="isShowingAllMedia ? 6 : Object.keys(medias).length < 3 ? Object.keys(medias).length : 3"
           :gallery-name="galleryName"
           :is-on-mobile="screenWidth < BREAKPOINTS.MD"
