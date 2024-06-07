@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+<div class="row offset-2">
+    <div class="form-floating col-6">
+        {{ form_help(form.mediaPath) }}
+        {{ form_errors(form.mediaPath) }}
+
+        {{ include('components/_form-field/_text-field.html.twig', {
+            formRow: form.mediaPath,
+            placeholder: 'Le tag de ta video vimeo',
+            label: 'Vimeo ID'
+        }) }}
+
+    </div>
+    <div {{ vue_component('components/Button', {
+        label: 'enregistrer',
+        iconClassEnd: 'floppy-fill'
+    }) }} class="col-2 align-self-center"></div>
+</div>
+{{ form_end(form) }}
+<div class="text-center mt-3">
+    <img src="{{ asset('/build/media/misc/tuto-vimeoID.webp') }}" alt="tuto vimeo ID" class="img-fluid rounded-4">
+</div>

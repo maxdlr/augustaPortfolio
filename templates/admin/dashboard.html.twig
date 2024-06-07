@@ -5,7 +5,9 @@
         avatarImg: avatarImg,
         avatarFormId: 'avatarForm',
         showreelImg: showreelImg,
-        showreelFormId: 'showreelForm',
+        showreelThumbnailFormId: 'showreelThumbnailForm',
+        showreelVideoFormId: 'showreelVideoForm',
+        showreelVideoId: showreelVideoId,
         meufImg: meufImg,
         meufFormId: 'meufForm',
         cursorImgs: cursorImgs,
@@ -21,9 +23,15 @@
     }) }}
 
     {{ include('components/_modal-window.html.twig', {
-        modalId: 'showreelForm',
-        title: 'Changer mon showreel',
-        body: include('components/_media-upload-form.html.twig', {form: showreelForm})
+        modalId: 'showreelThumbnailForm',
+        title: 'Changer ma vignette de showreel',
+        body: include('components/_media-upload-form.html.twig', {form: showreelThumbnailForm})
+    }) }}
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'showreelVideoForm',
+        title: 'Changer la video de mon showreel',
+        body: include('components/_showreel-video-form.html.twig', {form: showreelVideoForm})
     }) }}
 
     {{ include('components/_modal-window.html.twig', {

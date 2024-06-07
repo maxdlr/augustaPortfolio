@@ -12,6 +12,7 @@ use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
 use App\Form\CVItemType;
 use App\Form\MediaType;
+use App\Form\ShowreelVideoType;
 use App\Form\SingleMediaType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
@@ -51,23 +52,52 @@ class AdminController extends AbstractController
     public function dashboard(Request $request): Response
     {
         $avatarForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::AVATAR, 'avatarForm');
-        if ($avatarForm === true) return $this->redirectTo('referer', $request);
+        if ($avatarForm === true) {
+            $this->addFlash('success', 'Avatar enregistré !');
+            return $this->redirectTo('referer', $request);
+        }
 
         $avatarImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::AVATAR->value])],
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
 
-        $showreelForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::SHOWREEL_THUMBNAIL, 'showreelThumbnailForm');
-        if ($showreelForm === true) return $this->redirectTo('referer', $request);
+        $showreelThumbnailForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::SHOWREEL_THUMBNAIL, 'showreelThumbnailForm');
+        if ($showreelThumbnailForm === true) {
+            $this->addFlash('success', 'Vignette de showreel enregistrée !');
+            return $this->redirectTo('referer', $request);
+        }
 
         $showreelImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_THUMBNAIL->value])],
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->getOne();
 
+        $showreelVideo = $this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_VIDEO->value]) ?? new Media();
+        $showreelVideoForm = $this->formFactory->createNamed('showreelVideoForm', ShowreelVideoType::class, $showreelVideo);
+
+        $showreelVideoForm->handleRequest($request);
+        if ($showreelVideoForm->isSubmitted() && $showreelVideoForm->isValid()) {
+            $showreelVideo
+                ->setMediaPath($showreelVideoForm->get('mediaPath')->getData())
+                ->setMediaSize(0)
+                ->setType(MediaTypeEnum::SHOWREEL_VIDEO);
+
+            $this->entityManager->persist($showreelVideo);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Video ajoutée !');
+            return $this->redirectTo('referer', $request);
+        }
+
+        $showreelVideoId = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_VIDEO->value])],
+            ['mediaPath'])->getOne();
+
         $meufForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::MEUF, 'meufForm');
-        if ($meufForm === true) return $this->redirectTo('referer', $request);
+        if ($meufForm === true) {
+            $this->addFlash('success', 'Meuf ajoutée ! :)');
+            return $this->redirectTo('referer', $request);
+        }
 
         $meufImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::MEUF->value])],
@@ -87,6 +117,7 @@ class AdminController extends AbstractController
         }
 
         if (in_array(true, $cursorForms, true)) {
+            $this->addFlash('success', 'Curseur modifié !');
             return $this->redirectTo('referer', $request);
         } else {
             $cursorFormViews = array_map(fn(FormInterface $form) => $form->createView(), $cursorForms);
@@ -100,12 +131,15 @@ class AdminController extends AbstractController
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
             'avatarImg' => $avatarImg,
-            'showreelForm' => $showreelForm,
+            'showreelThumbnailForm' => $showreelThumbnailForm,
             'showreelImg' => $showreelImg,
             'meufForm' => $meufForm,
             'meufImg' => $meufImg,
             'cursorImgs' => $cursorImgs,
-            'cursorForms' => $cursorFormViews
+            'cursorForms' => $cursorFormViews,
+            'showreelVideo' => $showreelVideo,
+            'showreelVideoForm' => $showreelVideoForm,
+            'showreelVideoId' => $showreelVideoId
         ]);
     }
 
@@ -116,7 +150,10 @@ class AdminController extends AbstractController
     public function interventions(Request $request): Response
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
-        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+        if ($itemsAndForms === true) {
+            $this->addFlash('success', 'Intervention ajoutée !');
+            return $this->redirectTo('referer', $request);
+        }
 
         return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
@@ -133,7 +170,10 @@ class AdminController extends AbstractController
     public function skills(Request $request): Response
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
-        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+        if ($itemsAndForms === true) {
+            $this->addFlash('success', 'Skill ajouté !');
+            return $this->redirectTo('referer', $request);
+        }
 
         return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
@@ -150,7 +190,10 @@ class AdminController extends AbstractController
     public function experiences(Request $request): Response
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
-        if ($itemsAndForms === true) return $this->redirectTo('referer', $request);
+        if ($itemsAndForms === true) {
+            $this->addFlash('success', 'Experience ajoutée !');
+            return $this->redirectTo('referer', $request);
+        }
 
         return $this->render('admin/cv-item.html.twig', [
             'CVItemForms' => $itemsAndForms['CVItemForms'],
@@ -167,7 +210,10 @@ class AdminController extends AbstractController
     public function motion(Request $request): Response
     {
         $motionForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::MOTION);
-        if ($motionForm === true) return $this->redirectTo('referer', $request);
+        if ($motionForm === true) {
+            $this->addFlash('success', 'Gif ajouté !');
+            return $this->redirectTo('referer', $request);
+        }
 
         $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
@@ -186,7 +232,10 @@ class AdminController extends AbstractController
     public function illustration(Request $request): Response
     {
         $illustrationForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::ILLUSTRATION);
-        if ($illustrationForm === true) return $this->redirectTo('referer', $request);
+        if ($illustrationForm === true) {
+            $this->addFlash('success', 'Illustration ajouté !');
+            return $this->redirectTo('referer', $request);
+        }
 
         $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
@@ -205,7 +254,10 @@ class AdminController extends AbstractController
     public function contact(Request $request): Response
     {
         $contactForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::CONTACT);
-        if ($contactForm === true) return $this->redirectTo('referer', $request);
+        if ($contactForm === true) {
+            $this->addFlash('success', 'Image ajouté !');
+            return $this->redirectTo('referer', $request);
+        }
 
         $contactImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::CONTACT->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']

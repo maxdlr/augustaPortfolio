@@ -30,7 +30,7 @@ const handleResize = () => {
       </h1>
     </a>
     <div class="text-end text-md-start pe-5">
-      <span class="fst-italic text-secondary" style="font-size: clamp(20px, 5vw, 30px) !important;">Freelance 🤙 from Lyon with ❤️</span>
+      <span class="fst-italic text-secondary" style="font-size: clamp(15px, 5vw, 30px) !important;">Freelance 🤙 from Lyon with ❤️</span>
     </div>
   </div>
 

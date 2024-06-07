@@ -2355,6 +2355,11 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
+ejs@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-0.7.1.tgz#6dab41cbdee572986db328a2a8d22040f20fba7c"
+  integrity sha512-f1OYBTjcMoV7ZvXx2yEdwqVWgPKmObDitDCjuo/JJlCjv8+jhI0KOwD3PPyp1mnG/uqFf6YApj2ktzjQSGKKAg==
+
 electron-to-chromium@^1.4.668:
   version "1.4.792"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.792.tgz#738712f99d02f70c5754ca4264782915fa946849"
@@ -3195,6 +3200,13 @@ magic-string@^0.30.10:
   integrity sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.4.15"
+
+masonry@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/masonry/-/masonry-0.0.2.tgz#c06a0b2efc043727eadd16b35fdae93a3908f432"
+  integrity sha512-aYfcEVkuziTYJy82FU1biVATXIK4pJeNjC+cWUIZqcytiwcWL4nAULwrSvfjCqRoKr5iKuktNkjYFNddXB90WQ==
+  dependencies:
+    ejs "0.7.1"
 
 mdn-data@2.0.28:
   version "2.0.28"

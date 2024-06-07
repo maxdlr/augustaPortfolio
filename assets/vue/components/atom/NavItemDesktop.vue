@@ -21,10 +21,50 @@ const props = defineProps({
           `link-${colorClass}`
       ]"
       :href="value"
-      class="link-underline-opacity-0 link-underline fs-4"
+      class="link-underline-opacity-0 link-underline fs-4 item-hover text-nowrap"
   >{{ toTitle(label) }}</a>
 </template>
 
 <style lang="scss" scoped>
+@import '../../../styles/var-override';
+@import '../../../styles/animation';
+
+.item-hover {
+  transition: all $duration $timing;
+
+  &:before, &:after {
+    transform: scale(0);
+  }
+
+  &:hover {
+    color: $info !important;
+    position: relative;
+
+    &:before, &:after {
+      width: 20px;
+      content: '';
+      display: block;
+      position: absolute;
+      translate: -50% -50%;
+      aspect-ratio: 1/1;
+      background-color: $info;
+      border-radius: 10px;
+      transform: scale(50%);
+      top: 50%;
+    }
+
+    &:before {
+      left: -20px;
+    }
+
+    &:after {
+      left: calc(100% + 20px);
+    }
+  }
+
+  &:active {
+    color: $primary !important;
+  }
+}
 
 </style>

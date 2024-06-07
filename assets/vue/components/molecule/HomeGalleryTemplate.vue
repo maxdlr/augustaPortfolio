@@ -5,7 +5,7 @@ import {BREAKPOINTS} from "../../constant/bootstrap-constants";
 import {ref} from "vue";
 
 const props = defineProps({
-  media: {type: Object, required: true},
+  medias: {type: Object, required: true},
   galleryName: {type: String, required: true},
   anchor: {type: String, required: true},
   lazyLoadTrigger: {
@@ -36,11 +36,12 @@ const showDefaultLayout = () => {
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="title"/>
     </template>
     <template #content="{screenWidth}">
+
       <MediaGallery
-          :col-count="isShowingAllMedia ? 6 : 3"
+          :col-count="isShowingAllMedia ? 6 : Object.keys(medias).length < 3 ? Object.keys(medias).length : 3"
           :gallery-name="galleryName"
           :is-on-mobile="screenWidth < BREAKPOINTS.MD"
-          :medias="media"
+          :medias="medias"
           start-media-count="6"
           @all-shown="showOnlyMedia"
           @less-shown="showDefaultLayout"

@@ -13,7 +13,6 @@ document.addEventListener('vue:before-mount', (event) => {
 
     // Example with Vue Router
 
-
     app.use(VueSmoothScroll);
 });
 

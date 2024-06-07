@@ -10,13 +10,12 @@ const props = defineProps({
 <template>
   <HomeGalleryTemplate
       :anchor="anchor"
-      :media="motionGifs"
+      :medias="motionGifs"
       gallery-name="homeMotion"
       lazy-load-trigger="hover"
   >
-
     <template #title>
-      <div class="fs-1">
+      <article class="fs-1">
         <div>
           <span class="text-secondary">Creative Lab</span>
           <span class="text-info">.</span>
@@ -26,9 +25,8 @@ const props = defineProps({
           <span class="text-secondary">& </span>
           <span class="text-primary">character animation</span>
         </div>
-      </div>
+      </article>
     </template>
-
   </HomeGalleryTemplate>
 </template>
 

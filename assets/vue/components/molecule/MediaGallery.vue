@@ -8,8 +8,7 @@ import {SLIDE_RIGHT} from "../../constant/animation";
 import {useClipboard} from '@vueuse/core'
 
 const currentHref = ref()
-const {text, copy, copied, isSupported} = useClipboard({currentHref})
-
+const {copy, copied, isSupported} = useClipboard({currentHref})
 
 const props = defineProps({
   medias: {type: Object, required: true},
@@ -168,7 +167,7 @@ const openModal = (id) => {
 </script>
 
 <template>
-  <section>
+  <article class="w-100">
     <div class="text-end">
       <Transition :name="SLIDE_RIGHT">
         <Button
@@ -183,7 +182,8 @@ const openModal = (id) => {
         />
       </Transition>
     </div>
-    <div :class="`row-cols-lg-${colCount}`" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
+    <div :class="`row-cols-lg-${colCount}`"
+         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
       <div v-for="media in filteredMedias"
            :key="media.id"
            :data-bs-toggle="!isOnMobile ? 'modal' : ''"
@@ -194,7 +194,6 @@ const openModal = (id) => {
             :buttons="buttons"
             :hover-action="!isOnMobile"
             :media="media"
-            class="eye-cursor"
             @delete="deleteMedia"
             @loaded="handleOnLoaded"
             @show="showImg"
@@ -213,8 +212,7 @@ const openModal = (id) => {
         </Transition>
       </div>
     </div>
-
-  </section>
+  </article>
 
 
   <div :id="`${galleryName}-mediaLightBox`" ref="modalElRef"
@@ -245,12 +243,12 @@ const openModal = (id) => {
 
             <div v-if="isSupported">
               <Button
+                  :color-class="copied ? 'success' : 'info'"
+                  :icon-class-start="copied ? 'check-circle-fill' : 'copy'"
                   :label="copied ? 'link copied!' : null"
                   animate="right"
                   class="m-1"
-                  color-class="info"
                   custom-pointer
-                  icon-class-start="copy"
                   @click.prevent="copy(currentHref)"
               />
             </div>

@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <HomeGalleryTemplate
       :anchor="anchor"
-      :media="illustrationImgs"
+      :medias="illustrationImgs"
       gallery-name="homeIllustration">
 
     <template #title>

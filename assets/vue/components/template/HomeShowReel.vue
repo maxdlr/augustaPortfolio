@@ -7,6 +7,7 @@ import {Modal} from 'bootstrap';
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: false},
+  showreelVideoId: {type: String, required: false},
   anchor: {type: String, required: true}
 })
 
@@ -45,7 +46,7 @@ const closeModal = () => {
 const showShowReel = () => {
   window.location.hash = 'showreel'
   const showreelIframe = document.createElement('iframe')
-  showreelIframe.setAttribute('src', "https://player.vimeo.com/video/823390186?h=39dc51fa45&autoplay=1&byline=0")
+  showreelIframe.setAttribute('src', `https://player.vimeo.com/video/${props.showreelVideoId}?h=39dc51fa45&autoplay=1&byline=0`)
   showreelIframe.setAttribute('width', showreelWidth.value + '')
   showreelIframe.setAttribute('height', showreelWidth.value / 16 * 9 + '')
   showreelIframe.setAttribute('allowfullscreen', true + '')
@@ -71,19 +72,10 @@ const destroyShowreelVideo = () => {
           :class="screenWidth < BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
           class="text-center text-md-start"
       >
-        <div class="d-none d-md-block">
-          <span class="text-secondary">Freelance </span>
-        </div>
         <div class="d-block d-sm-inline d-md-block py-3 py-md-0">
           <span class="text-info">Motion designer</span>
           <span class="text-secondary"> & </span>
           <span class="text-primary">Illustrator</span>
-        </div>
-        <div class="d-none d-md-block">
-          <span
-              :class="screenWidth < BREAKPOINTS.SM ? 'fs-6' : 'fs-3'"
-              class="text-secondary"
-          >based in Lyon, France</span>
         </div>
       </div>
     </template>

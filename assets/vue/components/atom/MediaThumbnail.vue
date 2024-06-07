@@ -81,7 +81,7 @@ const show = (id) => {
       <div
           v-if="!isLoading"
           :class="{'animate-stage-hover': hoverAction}"
-          class="position-relative"
+          class="position-relative w-100"
       >
         <div v-if="buttons" class="position-absolute top-0 start-0 p-2" style="z-index: 1050;">
           <Button color-class="danger" icon-class-start="trash-fill" round-class="pill" @click.prevent="deleteMedia"/>
@@ -90,7 +90,7 @@ const show = (id) => {
         <div
             :class="[hoverAction ? 'animate-stage-target eye-cursor' : '']"
             :role="hoverAction ? 'button' : ''"
-            class="rounded-4 overflow-hidden"
+            class="rounded-4 overflow-hidden w-100"
             @click.prevent="show(media.id)"
         >
           <img

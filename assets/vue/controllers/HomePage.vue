@@ -8,6 +8,7 @@ import HomeTitle from "../components/atom/HomeTitle.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
+  showreelVideoId: {type: Object, required: true},
   motionGifs: {type: Object, required: true},
   illustrationImgs: {type: Object, required: true},
   avatarImg: {type: Object, required: true},
@@ -22,8 +23,9 @@ const props = defineProps({
 <template>
   <HomeTitle/>
   <HomeShowReel
-      v-if="showreelThumbnailPath"
+      v-if="showreelThumbnailPath && showreelVideoId"
       :showreel-thumbnail-path="showreelThumbnailPath"
+      :showreel-video-id="showreelVideoId.mediaPath"
       anchor="showreel"
   />
   <HomeMotion

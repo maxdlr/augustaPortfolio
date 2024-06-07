@@ -11,7 +11,7 @@ class MediaFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $this->makeSpecificMedia('assets/media/showreel', $manager, MediaTypeEnum::SHOWREEL_THUMBNAIL);
+        $this->makeSpecificMedia('assets/media/showreel_thumbnail', $manager, MediaTypeEnum::SHOWREEL_THUMBNAIL);
         $this->makeSpecificMedia('assets/media/motion', $manager, MediaTypeEnum::MOTION);
         $this->makeSpecificMedia('assets/media/illustration', $manager, MediaTypeEnum::ILLUSTRATION);
         $this->makeSpecificMedia('assets/media/meuf', $manager, MediaTypeEnum::MEUF);

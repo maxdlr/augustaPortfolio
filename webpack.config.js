@@ -20,6 +20,11 @@ Encore
     })
 
     .copyFiles({
+        from: './assets/media/misc',
+        to: 'media/misc/[path][name].[ext]',
+    })
+
+    .copyFiles({
         from: './assets/media/contact',
         to: 'media/contact/[path][name].[ext]',
     })
@@ -45,8 +50,8 @@ Encore
     })
 
     .copyFiles({
-        from: './assets/media/showreel',
-        to: 'media/showreel/[path][name].[ext]',
+        from: './assets/media/showreel_thumbnail',
+        to: 'media/showreel_thumbnail/[path][name].[ext]',
     })
 
     /*

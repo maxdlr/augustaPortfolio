@@ -9,7 +9,7 @@ parameters:
     illustration_directory: '%kernel.project_dir%/public/build/media/illustration'
     avatar_directory: '%kernel.project_dir%/public/build/media/avatar'
     cursor_directory: '%kernel.project_dir%/public/build/media/cursor'
-    showreel_directory: '%kernel.project_dir%/public/build/media/showreel'
+    showreel_thumbnail_directory: '%kernel.project_dir%/public/build/media/showreel_thumbnail'
     meuf_directory: '%kernel.project_dir%/public/build/media/meuf'
     contact_directory: '%kernel.project_dir%/public/build/media/contact'
 

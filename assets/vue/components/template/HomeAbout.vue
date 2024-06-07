@@ -22,6 +22,7 @@ const props = defineProps({
       :cols="[4, 8]"
       :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
       :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+      sticky-context
   >
     <template #context="{screenWidth, screenHeight}">
       <div class="sticky-top pt-5">

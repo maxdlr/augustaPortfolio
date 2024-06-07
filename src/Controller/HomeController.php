@@ -60,6 +60,9 @@ class HomeController extends AbstractController
             $this->mediaRepository->findBy(['type' => MediaTypeEnum::CONTACT->value]),
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
+        $showreelVideoId = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_VIDEO->value])],
+            ['mediaPath'])->getOne();
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
@@ -70,7 +73,8 @@ class HomeController extends AbstractController
             'experiences' => $experiences,
             'skills' => $skills,
             'meuf' => $meuf,
-            'contactImgs' => $contactImgs
+            'contactImgs' => $contactImgs,
+            'showreelVideoId' => $showreelVideoId
         ]);
     }
 }

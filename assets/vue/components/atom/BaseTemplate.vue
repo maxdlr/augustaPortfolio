@@ -6,7 +6,8 @@ const props = defineProps({
   contextFlex: {type: Object, default: {justify: {md: 'start'}, align: {md: 'center'}}},
   contentFlex: {type: Object, default: {justify: {md: 'center'}, align: {md: 'center'}}},
   cols: {type: Array, default: [5, 7], required: false},
-  mainBreakPoint: {type: String, default: 'lg', required: false}
+  mainBreakPoint: {type: String, default: 'lg', required: false},
+  stickyContext: {type: Boolean, default: false, required: false},
 })
 
 const screenWidth = ref(0);
@@ -55,7 +56,7 @@ const handleResize = () => {
             ]"
         class="col-12 d-flex"
     >
-      <div :class="!$slots.content ? 'mx-auto' : ''">
+      <div :class="[!$slots.content ? 'mx-auto' : '', stickyContext ? 'sticky-top' : '']">
         <slot
             :screenHeight="screenHeight"
             :screenWidth="screenWidth"
