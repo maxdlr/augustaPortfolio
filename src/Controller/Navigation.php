@@ -8,7 +8,7 @@ class Navigation extends AbstractController
 {
     public function getPublicNavigation(): array
     {
-        return [
+        $navigationItem = [
             'motion' => [
                 'label' => 'motion',
                 'link' => '#motion'
@@ -26,6 +26,15 @@ class Navigation extends AbstractController
                 'link' => '#contact'
             ]
         ];
+
+        if ($this->getUser() !== null) {
+            $navigationItem['admin'] = [
+                'label' => 'admin',
+                'link' => $this->generateUrl('app_admin_dashboard')
+            ];
+        }
+
+        return $navigationItem;
     }
 
     public function getAdminNavigation(): array

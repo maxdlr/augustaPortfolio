@@ -16,6 +16,7 @@ const props = defineProps({
 
 <template>
   <a
+      v-if="value.includes('#')"
       v-smooth-scroll="{ duration: 200, easingFunction: t => 1+(--t)*t*t*t }"
       :class="[
           `link-${colorClass}`
@@ -23,6 +24,15 @@ const props = defineProps({
       :href="value"
       class="link-underline-opacity-0 link-underline fs-4 item-hover text-nowrap"
   >{{ toTitle(label) }}</a>
+  <a
+      v-else
+      :class="[
+          `link-${colorClass}`
+      ]"
+      :href="value"
+      class="link-underline-opacity-0 link-underline fs-4 item-hover text-nowrap"
+  >{{ toTitle(label) }}</a>
+
 </template>
 
 <style lang="scss" scoped>

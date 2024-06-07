@@ -128,5 +128,15 @@ start-working: ## Launch server and open website
 	clear && \
 	yarn watch
 
+prod-db: ## Run production ready fixtures
+	@make recipe-intro-msg msg="Reloading database"
+	@make db-drop && \
+	make db-create && \
+	make db-migrate && \
+	make db-migration && \
+	make db-migrate && \
+	$(SYMFONY) d:f:l --no-interaction --group=ProdFixtures && \
+	make success-msg
+
 help: ## Show this help menu
 	@awk -F ':|##' '/^[^\t].+?:.*?##/ {printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF}' $(MAKEFILE_LIST)

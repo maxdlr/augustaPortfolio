@@ -6,14 +6,10 @@ use App\Crud\CVItemCrud;
 use App\Crud\Manager\AfterCrudTrait;
 use App\Crud\Manager\UploadManager;
 use App\Crud\MediaCrud;
-use App\Entity\CVItem;
 use App\Entity\Media;
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
-use App\Form\CVItemType;
-use App\Form\MediaType;
 use App\Form\ShowreelVideoType;
-use App\Form\SingleMediaType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
 use App\Service\VueDataFormatter;
@@ -23,12 +19,13 @@ use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin', name: 'app_admin_')]
+#[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
     use AfterCrudTrait;

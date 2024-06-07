@@ -78,7 +78,7 @@ const deleteMedia = async () => {
       </a>
       <div v-else>
         <span class="fs-6 fst-italic text-secondary">
-          --- Showreel manquant ---
+          --- Video manquante ---
         </span>
       </div>
 
@@ -98,7 +98,9 @@ const deleteMedia = async () => {
     <template #footer>
       <div class="text-start">
         <HelpBox :instructions="[
-      'Acceptés: .jpeg, .png, .webp, .gif',
+      'Extension de vignette acceptés: .jpeg, .png, .webp, .gif',
+      'Pour la video: il faut uniquement l\'id de la vidéo',
+      'Exemple: https://www.vimeo.com/[ -> id <- ] - clique sur le bouton, y a une image'
     ]" :start-collapsed="true"
         />
       </div>

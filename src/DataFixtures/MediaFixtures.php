@@ -18,6 +18,14 @@ class MediaFixtures extends Fixture
         $this->makeSpecificMedia('assets/media/contact', $manager, MediaTypeEnum::CONTACT);
         $this->makeSpecificMedia('assets/media/cursor', $manager, MediaTypeEnum::CURSOR);
 
+        $showreelVideo = new Media();
+
+        $showreelVideo
+            ->setMediaPath('823390186')
+            ->setType(MediaTypeEnum::SHOWREEL_VIDEO)
+            ->setMediaSize(0);
+
+        $manager->persist($showreelVideo);
         $manager->flush();
     }
 
@@ -29,7 +37,6 @@ class MediaFixtures extends Fixture
      */
     private function makeSpecificMedia(string $directory, ObjectManager $manager, MediaTypeEnum $mediaTypeEnum): void
     {
-        $medias = [];
         foreach (array_diff(scandir($directory), ['.', '..']) as $media) {
             $mediaPath = str_replace('assets/media/', '', $directory) . '/' . $media;
             $mediaLocation = 'assets/media/' . $mediaPath;
