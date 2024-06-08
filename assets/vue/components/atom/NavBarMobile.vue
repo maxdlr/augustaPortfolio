@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import NavItemMobile from "./NavItemMobile.vue";
+import {goTo} from "../../composable/action/redirect";
 
 const props = defineProps({
   navigation: {type: Object, required: true},
@@ -33,8 +34,14 @@ onMounted(() => {
 })
 
 const navigate = (link) => {
-  window.location.hash = link
-  currentAnchor.value = window.location.hash
+  const site = window.location.origin;
+
+  if (link.includes('#')) {
+    window.location.hash = link
+    currentAnchor.value = window.location.hash
+  } else {
+    goTo(`${site}${link}`)
+  }
 }
 
 </script>

@@ -1,8 +1,9 @@
 {% extends 'admin-base.html.twig' %}
 
 {% block body %}
-    {{ include('components/_media-upload-form.html.twig', {form: motionForm}) }}
-
+    <div class="my-2">
+        {{ include('components/_media-upload-form.html.twig', {form: motionForm}) }}
+    </div>
     <div {{ vue_component('admin/AdminMotionPage', {
         motionGifs: motionGifs
     }) }}></div>

@@ -41,8 +41,10 @@ defineProps({
     <Transition :name="animate ? animate === 'right' ? SLIDE_RIGHT : SLIDE_LEFT : null">
       <span v-if="label" :class="[
           $slots['iconStart'] || iconClassStart ? 'ps-2' : '',
-          $slots['iconEnd'] || iconClassEnd ? 'pe-2' : ''
-            ]">
+          $slots['iconEnd'] || iconClassEnd ? 'pe-2' : '',
+          $slots['iconEnd'] || iconClassEnd || $slots['iconStart'] || iconClassStart ? 'd-none d-md-inline' : ''
+            ]"
+      >
         {{ typeof label === 'boolean' ? label.toString() : toTitle(label) }}
       </span>
     </Transition>

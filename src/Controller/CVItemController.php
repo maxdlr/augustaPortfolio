@@ -28,6 +28,6 @@ class CVItemController extends AbstractController
         $this->entityManager->remove($cvItem);
         $this->entityManager->flush();
 
-        return new JsonResponse(['message' => $CVItemTitle . ' est bien supprimé !']);
+        return new JsonResponse(['message' => $CVItemTitle . ' supprimé !']);
     }
 }

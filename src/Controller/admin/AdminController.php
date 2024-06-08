@@ -148,7 +148,7 @@ class AdminController extends AbstractController
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::INTERVENTION);
         if ($itemsAndForms === true) {
-            $this->addFlash('success', 'Intervention ajoutée !');
+            $this->addFlash('success', 'Intervention enregistrée !');
             return $this->redirectTo('referer', $request);
         }
 
@@ -168,7 +168,7 @@ class AdminController extends AbstractController
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::SKILL);
         if ($itemsAndForms === true) {
-            $this->addFlash('success', 'Skill ajouté !');
+            $this->addFlash('success', 'Skill enregistré !');
             return $this->redirectTo('referer', $request);
         }
 
@@ -188,7 +188,7 @@ class AdminController extends AbstractController
     {
         $itemsAndForms = $this->CVItemCrud->getCVItemsFormViewAndObjects($request, CVItemTypeEnum::EXPERIENCE);
         if ($itemsAndForms === true) {
-            $this->addFlash('success', 'Experience ajoutée !');
+            $this->addFlash('success', 'Experience enregistrée !');
             return $this->redirectTo('referer', $request);
         }
 
