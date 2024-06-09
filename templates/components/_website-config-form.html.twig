@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+<div class="row offset-2">
+    <div class="form-floating col-6">
+
+        {{ include('components/_form-field/_text-field.html.twig', {
+            formRow: form.name,
+            placeholder: 'Augusta Sarlin - Motion designer - Illustrator - Lyon',
+            label: 'Nom du site'
+        }) }}
+
+        {{ include('components/_form-field/_select-field.html.twig', {
+            formRow: form.seoImg,
+            placeholder: 'Image du site',
+            label: 'Image'
+        }) }}
+
+        {{ include('components/_form-field/_text_area-field.html.twig', {
+            formRow: form.description,
+            placeholder: 'Description',
+            label: 'Description'
+        }) }}
+
+    </div>
+    <div {{ vue_component('components/Button', {
+        label: 'enregistrer',
+        iconClassEnd: 'floppy-fill'
+    }) }} class="col-2 align-self-center"></div>
+</div>
+{{ form_end(form) }}
+<div class="text-center mt-3">
+    <img src="{{ asset('/build/media/misc/tuto-vimeoID.webp') }}" alt="tuto vimeo ID" class="img-fluid rounded-4">
+</div>
