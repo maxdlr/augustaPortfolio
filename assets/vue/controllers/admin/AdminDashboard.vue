@@ -5,6 +5,7 @@ import AdminShowreel from "../../components/template/AdminShowreel.vue";
 import AdminMeuf from "../../components/template/AdminMeuf.vue";
 import Toast from '../components/Toast.vue'
 import {ref} from "vue";
+import AdminWebsiteConfig from "../../components/template/AdminWebsiteConfig.vue";
 
 const props = defineProps({
   avatarImg: {type: Object, required: false},
@@ -16,7 +17,9 @@ const props = defineProps({
   meufImg: {type: Object, required: false},
   meufFormId: {type: String},
   cursorImgs: {type: Object, required: true},
-  cursorFormIds: {type: Array}
+  cursorFormIds: {type: Array},
+  websiteConfigFormId: {type: String},
+  websiteConfig: {type: Object, required: false}
 })
 
 const triggerToast = (message, type) => {
@@ -46,6 +49,9 @@ const toast = ref({})
       </div>
       <div class="p-2">
         <AdminCursors :cursor-form-ids="cursorFormIds" :cursor-imgs="cursorImgs" @toast="triggerToast"/>
+      </div>
+      <div class="p-2">
+        <AdminWebsiteConfig :website-config-form-id="websiteConfigFormId" :websiteConfig="websiteConfig"/>
       </div>
     </div>
   </section>

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Media;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use ReflectionException;
@@ -63,6 +64,7 @@ class VueDataFormatter
     {
         return match (true) {
             $value instanceof DateTimeInterface => $value->format('Y-m-d'),
+            $value instanceof Media => $value->getMediaPath(),
             default => $value
         };
     }

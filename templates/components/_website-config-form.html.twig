@@ -3,7 +3,7 @@
     <div class="form-floating col-6">
 
         {{ include('components/_form-field/_text-field.html.twig', {
-            formRow: form.name,
+            formRow: form.title,
             placeholder: 'Augusta Sarlin - Motion designer - Illustrator - Lyon',
             label: 'Nom du site'
         }) }}
@@ -27,6 +27,3 @@
     }) }} class="col-2 align-self-center"></div>
 </div>
 {{ form_end(form) }}
-<div class="text-center mt-3">
-    <img src="{{ asset('/build/media/misc/tuto-vimeoID.webp') }}" alt="tuto vimeo ID" class="img-fluid rounded-4">
-</div>

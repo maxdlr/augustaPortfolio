@@ -7,11 +7,14 @@ use App\Crud\Manager\AfterCrudTrait;
 use App\Crud\Manager\UploadManager;
 use App\Crud\MediaCrud;
 use App\Entity\Media;
+use App\Entity\WebsiteConfig;
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
 use App\Form\ShowreelVideoType;
+use App\Form\WebsiteConfigType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
+use App\Repository\WebsiteConfigRepository;
 use App\Service\VueDataFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -31,13 +34,14 @@ class AdminController extends AbstractController
     use AfterCrudTrait;
 
     public function __construct(
-        private readonly UploadManager          $uploadManager,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MediaRepository        $mediaRepository,
-        private readonly CVItemCrud             $CVItemCrud,
-        private readonly CVItemRepository       $CVItemRepository,
-        private readonly FormFactoryInterface   $formFactory,
-        private readonly MediaCrud              $mediaCrud,
+        private readonly UploadManager           $uploadManager,
+        private readonly EntityManagerInterface  $entityManager,
+        private readonly MediaRepository         $mediaRepository,
+        private readonly CVItemCrud              $CVItemCrud,
+        private readonly CVItemRepository        $CVItemRepository,
+        private readonly FormFactoryInterface    $formFactory,
+        private readonly MediaCrud               $mediaCrud,
+        private readonly WebsiteConfigRepository $websiteConfigRepository
     )
     {
     }
@@ -125,6 +129,21 @@ class AdminController extends AbstractController
             ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
         )->get();
 
+        $websiteConfigObject = $this->websiteConfigRepository->find(1) ?? new WebsiteConfig();
+        $websiteConfigForm = $this->formFactory->createNamed('websiteConfigForm', WebsiteConfigType::class, $websiteConfigObject);
+        $websiteConfigForm->handleRequest($request);
+        if ($websiteConfigForm->isSubmitted() && $websiteConfigForm->isValid()) {
+            $websiteConfigObject = $websiteConfigForm->getData();
+            $this->entityManager->persist($websiteConfigObject);
+            $this->entityManager->flush();
+            return $this->redirectTo('referer', $request);
+        }
+
+        $websiteConfig = VueDataFormatter::makeVueObjectOf(
+            [$this->websiteConfigRepository->find(1)],
+            ['seoImg', 'title', 'description']
+        )->getOne();
+
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
             'avatarImg' => $avatarImg,
@@ -136,7 +155,9 @@ class AdminController extends AbstractController
             'cursorForms' => $cursorFormViews,
             'showreelVideo' => $showreelVideo,
             'showreelVideoForm' => $showreelVideoForm,
-            'showreelVideoId' => $showreelVideoId
+            'showreelVideoId' => $showreelVideoId,
+            'websiteConfig' => $websiteConfig,
+            'websiteConfigForm' => $websiteConfigForm
         ]);
     }
 

@@ -11,7 +11,9 @@
         meufImg: meufImg,
         meufFormId: 'meufForm',
         cursorImgs: cursorImgs,
-        cursorFormIds: ['cursorForm-0', 'cursorForm-1', 'cursorForm-2', 'cursorForm-3']
+        cursorFormIds: ['cursorForm-0', 'cursorForm-1', 'cursorForm-2', 'cursorForm-3'],
+        websiteConfigFormId: 'websiteConfigForm',
+        websiteConfig: websiteConfig
     }) }}>
         {{ include('components/_spinner.html.twig') }}
     </div>
@@ -38,6 +40,12 @@
         modalId: 'meufForm',
         title: 'Changer ma meuf',
         body: include('components/_media-upload-form.html.twig', {form: meufForm})
+    }) }}
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'websiteConfigForm',
+        title: 'Modifier mes metadata',
+        body: include('components/_website-config-form.html.twig', {form: websiteConfigForm})
     }) }}
 
     {% for cursorForm in cursorForms %}

@@ -17,10 +17,10 @@ class WebsiteConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
+            ->add('title', TextType::class)
             ->add('seoImg', EntityType::class, [
                 'class' => Media::class,
-                'autocomplete' => true
+                'choice_label' => 'mediaPath'
             ])
             ->add('description');
     }
