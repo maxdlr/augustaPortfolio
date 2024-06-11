@@ -24,7 +24,3 @@ const props = defineProps({
           @click.prevent="goTo(value)"
   />
 </template>
-
-<style lang="scss" scoped>
-
-</style>

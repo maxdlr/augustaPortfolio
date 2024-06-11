@@ -57,8 +57,4 @@ defineProps({
 <style lang="scss" scoped>
 @import "../../../styles/slide-left";
 @import "../../../styles/slide-right";
-
-.cursor-pointer {
-  cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
-}
 </style>

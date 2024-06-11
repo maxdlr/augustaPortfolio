@@ -50,10 +50,6 @@ const hovering = ref();
 @import '../../../styles/slide-left';
 @import '../../../styles/animation';
 
-.cursor-pointer {
-  cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
-}
-
 .animate-slide-right {
   & div {
     transition: transform $duration $timing

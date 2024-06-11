@@ -42,7 +42,7 @@ const distributeButtonsSlot = (index) => {
       <div class="text-start">
         <HelpBox :instructions="[
         'Acceptés: .jpeg, .png, .webp, .gif',
-          'L\'cursor est centré, donc si tu mets un format carré, t\'es tranquille'
+          'Taille maximale: 50px / 50px'
       ]" :start-collapsed="true"
         />
       </div>

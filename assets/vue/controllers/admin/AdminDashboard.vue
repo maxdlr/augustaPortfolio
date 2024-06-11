@@ -49,7 +49,5 @@ const toast = ref({})
       </div>
     </div>
   </section>
-
   <Toast v-model:trigger="toast.trigger" :message="toast.message" :type="toast.type"/>
-
 </template>

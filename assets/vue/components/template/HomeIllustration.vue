@@ -5,7 +5,6 @@ const props = defineProps({
   illustrationImgs: {type: Object, required: true},
   anchor: {type: String, required: true}
 })
-
 </script>
 
 <template>
@@ -27,11 +26,5 @@ const props = defineProps({
         </div>
       </div>
     </template>
-
   </HomeGalleryTemplate>
-
 </template>
-
-<style lang="scss" scoped>
-
-</style>

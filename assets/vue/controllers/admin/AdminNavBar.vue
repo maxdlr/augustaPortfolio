@@ -25,7 +25,3 @@ const isCurrentLocation = (link) => {
   </ul>
   <div class="w-100 bg-info-subtle my-3 d-block d-md-none" style="height: 2px !important;"></div>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

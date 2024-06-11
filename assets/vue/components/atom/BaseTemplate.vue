@@ -56,16 +56,16 @@ const handleResize = () => {
             ]"
         class="col-12 d-flex"
     >
-      <div :class="[!$slots.content ? 'mx-auto' : '', stickyContext ? 'sticky-top' : '']">
+      <article :class="[!$slots.content ? 'mx-auto' : '', stickyContext ? 'sticky-top' : '']">
         <slot
             :screenHeight="screenHeight"
             :screenWidth="screenWidth"
             name="context"
         />
-      </div>
+      </article>
     </div>
-    <div v-if="$slots.content"
-         :class="[
+    <article v-if="$slots.content"
+             :class="[
             contentFlex ? [
                 contentFlex.justify ? [
                     contentFlex.justify.sm ? `justify-content-${contentFlex.justify.sm}`: '',
@@ -82,13 +82,9 @@ const handleResize = () => {
             ] : '',
             `col-${mainBreakPoint}-${cols[1]}`
             ]"
-         class="col-12 d-flex"
+             class="col-12 d-flex"
     >
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="content"/>
-    </div>
+    </article>
   </section>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

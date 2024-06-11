@@ -78,6 +78,7 @@ fill-local-env: ## Fill .env.local file with 'root/root'
 cache-clear: ## Clear symfony cache
 	@make command-intro-msg msg="Clearing cache"
 	@$(SYMFONY) cache:clear && \
+	composer clear-cache && \
 	yarn cache clean \
 
 db-drop: ## Drop database

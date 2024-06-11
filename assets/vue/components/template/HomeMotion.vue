@@ -15,7 +15,7 @@ const props = defineProps({
       lazy-load-trigger="hover"
   >
     <template #title>
-      <article class="fs-1">
+      <div class="fs-1">
         <div>
           <span class="text-secondary">Creative Lab</span>
           <span class="text-info">.</span>
@@ -25,11 +25,7 @@ const props = defineProps({
           <span class="text-secondary">& </span>
           <span class="text-primary">character animation</span>
         </div>
-      </article>
+      </div>
     </template>
   </HomeGalleryTemplate>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

@@ -28,7 +28,3 @@ const props = defineProps({
       start-media-count="all"
   />
 </template>
-
-<style lang="scss" scoped>
-
-</style>

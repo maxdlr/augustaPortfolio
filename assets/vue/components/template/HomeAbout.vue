@@ -61,7 +61,3 @@ const props = defineProps({
     </template>
   </BaseTemplate>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

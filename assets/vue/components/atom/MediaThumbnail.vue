@@ -113,10 +113,6 @@ const show = (id) => {
 @import '../../../styles/animation';
 @import "../../../styles/var-override";
 
-.eye-cursor {
-  cursor: url("../../../../public/build/media/cursor/eye-cursor.webp"), wait !important;
-}
-
 .animate-stage-hover {
   & .animate-stage-target {
     background-color: transparent;

@@ -36,7 +36,6 @@ const showDefaultLayout = () => {
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="title"/>
     </template>
     <template #content="{screenWidth}">
-
       <MediaGallery
           :admin="false"
           :col-count="isShowingAllMedia ? 6 : Object.keys(medias).length < 3 ? Object.keys(medias).length : 3"
@@ -50,7 +49,3 @@ const showDefaultLayout = () => {
     </template>
   </BaseTemplate>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

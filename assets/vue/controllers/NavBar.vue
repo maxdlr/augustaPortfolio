@@ -24,15 +24,9 @@ const handleResize = () => {
   screenWidth.value = window.innerWidth;
   screenHeight.value = window.innerHeight;
 };
-
-
 </script>
 
 <template>
   <NavBarDesktop v-if="screenWidth > BREAKPOINTS.MD" id="home" :navigation="navigation"/>
   <NavBarMobile v-else :navigation="navigation" :screenWidth="screenWidth"/>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

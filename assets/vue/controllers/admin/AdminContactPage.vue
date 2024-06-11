@@ -9,7 +9,6 @@ const props = defineProps({
 </script>
 
 <template>
-
   <HelpBox
       :instructions="[
       'Acceptés: .jpeg, .png, .webp, .gif',
@@ -18,7 +17,6 @@ const props = defineProps({
       'Essaye de ne pas en laisser trainer, pour ne pas alourdir la page.'
   ]"
       class="mt-3"/>
-
   <MediaGallery
       :admin="true"
       :buttons="true"

@@ -8,16 +8,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="w-100 my-3">
+  <article class="w-100 my-3">
     <h2 class="fs-1 fs-title text-info mb-4">
       {{ title }}
     </h2>
     <div v-for="item in items" :key="item.id">
       <CVItem :item="item" hover-action/>
     </div>
-  </div>
+  </article>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

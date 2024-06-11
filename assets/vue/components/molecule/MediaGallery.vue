@@ -297,20 +297,9 @@ const openModal = (id) => {
       </div>
     </div>
   </div>
-
   <Toast v-model:trigger="toast.trigger" :message="toast.message" :type="toast.type"/>
-
 </template>
 
 <style lang="scss" scoped>
 @import '../../../styles/slide-right';
-
-.next-cursor {
-  cursor: url("../../../../public/build/media/cursor/arrow-right-cursor.webp"), w-resize !important;
-}
-
-.previous-cursor {
-  cursor: url("../../../../public/build/media/cursor/arrow-left-cursor.webp"), e-resize !important;
-}
-
 </style>

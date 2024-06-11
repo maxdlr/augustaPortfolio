@@ -87,11 +87,6 @@ const handleResize = () => {
               type="button"></button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

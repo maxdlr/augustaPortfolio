@@ -71,11 +71,6 @@ const props = defineProps({
 </template>
 
 <style lang="scss" scoped>
-
-.cursor-pointer {
-  cursor: url("../../../../public/build/media/cursor/pointer.webp"), pointer;
-}
-
 .rotateContactStart {
   transform: translate(20%, 5%) rotate(-10deg) !important;
 }
@@ -87,5 +82,4 @@ const props = defineProps({
 .contactImg {
   width: clamp(100px, 50%, 300px) !important;
 }
-
 </style>

@@ -19,3 +19,19 @@ body {
 .fs-title {
   font-family: AvantGarde, sans-serif;
 }
+
+.cursor-pointer {
+  cursor: url("../../public/build/media/cursor/pointer.webp"), pointer;
+}
+
+.eye-cursor {
+  cursor: url("../../public/build/media/cursor/eye-cursor.webp"), wait !important;
+}
+
+.next-cursor {
+  cursor: url("../../public/build/media/cursor/arrow-right-cursor.webp"), w-resize !important;
+}
+
+.previous-cursor {
+  cursor: url("../../public/build/media/cursor/arrow-left-cursor.webp"), e-resize !important;
+}
