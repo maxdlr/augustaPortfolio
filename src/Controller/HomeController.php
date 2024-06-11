@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
+use App\Form\WebsiteConfigType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
+use App\Repository\WebsiteConfigRepository;
+use App\Seo\Seo;
 use App\Service\VueDataFormatter;
 use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,8 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private readonly MediaRepository  $mediaRepository,
-        private readonly CVItemRepository $CVItemRepository
+        private readonly MediaRepository         $mediaRepository,
+        private readonly CVItemRepository        $CVItemRepository,
+        private readonly WebsiteConfigRepository $websiteConfigRepository
     )
     {
     }
@@ -64,6 +68,18 @@ class HomeController extends AbstractController
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_VIDEO->value])],
             ['mediaPath'])->getOne();
 
+        $allMedia = $this->mediaRepository->findAll();
+        $websiteConfig = $this->websiteConfigRepository?->find(1);
+        $seoImage = $websiteConfig?->getSeoImg() ?? $allMedia[rand(0, count($allMedia) - 1)];
+        $seoTitle = $websiteConfig?->getTitle() ?? 'Augusta Sarlin - Motion designer - Illustratrice';
+        $seoDescription = $websiteConfig?->getDescription() ?? "Augusta Sarlin, motion designer et illustratrice basée à Lyon, créatrice du Motiontober, disponible pour vos projets d'animation ! :)";
+
+        $seo = new Seo(
+            title: $seoTitle,
+            description: $seoDescription,
+            image: $seoImage
+        );
+
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
             'motionGifsData' => $motionGifsData,
@@ -74,7 +90,8 @@ class HomeController extends AbstractController
             'skills' => $skills,
             'meuf' => $meuf,
             'contactImgs' => $contactImgs,
-            'showreelVideoId' => $showreelVideoId
+            'showreelVideoId' => $showreelVideoId,
+            'seo' => $seo
         ]);
     }
 }

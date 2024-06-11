@@ -4,6 +4,7 @@ import Avatar from "../molecule/Avatar.vue";
 import AboutSection from "../molecule/AboutSection.vue";
 import MediaThumbnail from "../atom/MediaThumbnail.vue";
 import {onMounted} from "vue";
+import {BREAKPOINTS} from "../../constant/bootstrap-constants";
 
 const props = defineProps({
   avatarImg: {type: Object, required: false},
@@ -49,7 +50,11 @@ const props = defineProps({
         </div>
         <div class="col-lg-4">
           <div class="sticky-top">
-            <MediaThumbnail :animate="false" :media="meuf"/>
+            <MediaThumbnail
+                :animate="false"
+                :media="meuf"
+                :style="screenWidth > BREAKPOINTS.LG ? 'width: 150% !important;' : ''"
+            />
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import HomeIllustration from "../components/template/HomeIllustration.vue";
 import HomeAbout from "../components/template/HomeAbout.vue";
 import HomeContact from "../components/template/HomeContact.vue";
 import HomeTitle from "../components/atom/HomeTitle.vue";
+import HomeFooter from "../components/template/HomeFooter.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
@@ -51,4 +52,5 @@ const props = defineProps({
       :contact-imgs="contactImgs"
       anchor="contact"
   />
+  <HomeFooter/>
 </template>

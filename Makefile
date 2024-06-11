@@ -17,9 +17,9 @@ END_COLOR=\033[0m
 run: ## Start project
 	@make recipe-intro-msg msg="Starting project"
 
-	@make composer-install && \
+	@make create-local-env && \
 	clear && \
-	make create-local-env && \
+	make composer-install && \
 	clear && \
 	make db && \
 	clear && \
@@ -72,7 +72,7 @@ create-local-env: ## Create .env.local file
 	fi
 
 fill-local-env: ## Fill .env.local file with 'root/root'
-	@make command-intro-msg msg="Filling env , using 'root:root'"
+	@make command-intro-msg msg="Filling env , using '$(MYSQL_USERNAME):$(MYSQL_PASSWORD)'"
 	echo "DATABASE_URL='mysql://$(MYSQL_USERNAME):$(MYSQL_PASSWORD)@$(MYSQL_HOST):$(MYSQL_PORT)/$(APP)?serverVersion=10.5.8-MariaDB'" | tee .env.local; \
 
 cache-clear: ## Clear symfony cache

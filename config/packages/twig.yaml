@@ -1,9 +1,8 @@
 twig:
-    file_name_pattern: '*.twig'
-    globals:
-        navigation: '@App\Controller\Navigation'
-
+  file_name_pattern: '*.twig'
+  globals:
+    navigation: '@App\Controller\Navigation'
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true
