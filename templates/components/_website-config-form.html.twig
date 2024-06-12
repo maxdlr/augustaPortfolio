@@ -1,18 +1,29 @@
 {{ form_start(form) }}
-<div class="row offset-2">
-    <div class="form-floating col-6">
 
         {{ include('components/_form-field/_text-field.html.twig', {
             formRow: form.title,
             placeholder: 'Augusta Sarlin - Motion designer - Illustrator - Lyon',
-            label: 'Nom du site'
+            label: 'Titre'
         }) }}
 
-        {{ include('components/_form-field/_select-field.html.twig', {
-            formRow: form.seoImg,
-            placeholder: 'Image du site',
-            label: 'Image'
-        }) }}
+<div class="py-3">
+    {{ form_help(form.media) }}
+    {{ form_errors(form.media) }}
+    {{ form_row(form.media, {
+        'label': 'Favicon',
+        'attr': {
+            'class': 'form-control rounded-pill bg-info text-white',
+            'placeholder': 'Ajouter un favicon',
+            'type': 'file'
+        }
+    }) }}
+</div>
+
+{{ include('components/_form-field/_select-field.html.twig', {
+    formRow: form.seoImg,
+    placeholder: 'Image du site',
+    label: 'Image'
+}) }}
 
         {{ include('components/_form-field/_text_area-field.html.twig', {
             formRow: form.description,
@@ -20,10 +31,8 @@
             label: 'Description'
         }) }}
 
-    </div>
-    <div {{ vue_component('components/Button', {
-        label: 'enregistrer',
-        iconClassEnd: 'floppy-fill'
-    }) }} class="col-2 align-self-center"></div>
-</div>
+<div {{ vue_component('components/Button', {
+    label: 'enregistrer',
+    iconClassEnd: 'floppy-fill'
+}) }} class="my-3 text-end"></div>
 {{ form_end(form) }}

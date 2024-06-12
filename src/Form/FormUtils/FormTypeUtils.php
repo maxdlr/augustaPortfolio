@@ -38,7 +38,7 @@ class FormTypeUtils
                 'image/webp',
                 'image/gif'
             ],
-            'mimeTypesMessage' => 'Types de ficher accepté: jpg, jpeg, png',
+            'mimeTypesMessage' => 'Types de ficher accepté: jpg, jpeg, png, webp, gif',
         ]);
 
         $parameters = [

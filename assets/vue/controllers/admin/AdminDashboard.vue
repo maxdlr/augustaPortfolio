@@ -19,7 +19,9 @@ const props = defineProps({
   cursorImgs: {type: Object, required: true},
   cursorFormIds: {type: Array},
   websiteConfigFormId: {type: String},
-  websiteConfig: {type: Object, required: false}
+  websiteConfig: {type: Object, required: false},
+  favicon: {type: Object, required: false},
+  isDefaultWebsiteConfig: {type: Object, required: true}
 })
 
 const triggerToast = (message, type) => {
@@ -31,7 +33,8 @@ const toast = ref({})
 
 <template>
   <section>
-    <div class="row row-cols-1 row-cols-md-2" data-masonry='{"percentPosition": true }'>
+    <!--    <div class="row row-cols-1 row-cols-md-2">-->
+    <div class="masonry-with-flex">
       <div class="p-2">
         <AdminAvatar :avatar-img="avatarImg" :form-id="avatarFormId" @toast="triggerToast"/>
       </div>
@@ -51,9 +54,17 @@ const toast = ref({})
         <AdminCursors :cursor-form-ids="cursorFormIds" :cursor-imgs="cursorImgs" @toast="triggerToast"/>
       </div>
       <div class="p-2">
-        <AdminWebsiteConfig :website-config-form-id="websiteConfigFormId" :websiteConfig="websiteConfig"/>
+        <AdminWebsiteConfig
+            :favicon="favicon"
+            :is-default-website-config="isDefaultWebsiteConfig"
+            :website-config-form-id="websiteConfigFormId"
+            :websiteConfig="websiteConfig"
+        />
       </div>
     </div>
   </section>
   <Toast v-model:trigger="toast.trigger" :message="toast.message" :type="toast.type"/>
 </template>
+
+<style lang="scss" scoped>
+</style>

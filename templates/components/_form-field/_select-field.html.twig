@@ -1,9 +1,9 @@
-<div class="form-floating">
+<div class="form-floating py-3">
     {{ form_help(formRow) }}
     {{ form_errors(formRow) }}
     {{ form_widget(formRow, {
         'attr': {
-            'class': 'form-control form-select',
+            'class': 'form-control form-select rounded-4',
             'placeholder': placeholder|default('Add placeholder')
         }
     }) }}

@@ -11,7 +11,7 @@ const props = defineProps({
   formId: {type: String, required: true}
 })
 const site = window.location.origin;
-const emit = defineEmits(['toast'])
+const emit = defineEmits(['toast', 'loaded'])
 const currentMeufImg = ref();
 
 onMounted(() => {
@@ -35,7 +35,8 @@ const deleteMedia = async () => {
 <template>
   <AdminDashboardWidget title="La meuf">
     <template #content1>
-      <MediaThumbnail v-if="currentMeufImg" :media="currentMeufImg" :square="false" class="w-75 mt-5"/>
+      <MediaThumbnail v-if="currentMeufImg" :media="currentMeufImg" :square="false" class="w-75 mt-5"
+                      @loaded="emit('loaded')"/>
       <div v-else>
         <span class="fs-6 fst-italic text-secondary">
           --- Meuf manquante ---

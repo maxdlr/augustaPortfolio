@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use ReflectionException;
 use ReflectionMethod;
+use ReflectionProperty;
 
 class VueDataFormatter
 {
@@ -15,7 +16,7 @@ class VueDataFormatter
     /**
      * @throws ReflectionException
      */
-    public static function makeVueObjectOf(?array $entities, array $properties): static
+    public static function makeVueObjectOf(?array $entities, ?array $properties = null): static
     {
         if ($entities === [] || is_null($entities) || is_null($entities[0])) {
             self::$vueObject = null;
@@ -33,16 +34,25 @@ class VueDataFormatter
     /**
      * @throws ReflectionException
      */
-    private static function makeVueObject(object $object, array $properties): array
+    private static function makeVueObject(object $object, ?array $properties): array
     {
         $vueObject = [];
         $objectFqcn = get_class($object);
         $allProperties = ClassBrowser::findAllProperties($objectFqcn);
 
+        if ($properties === null) {
+            $properties = array_map(fn(ReflectionProperty $property) => $property->getName(), $allProperties);
+        }
+
         foreach ($allProperties as $property) {
             if (in_array($property->getName(), $properties)) {
                 $getter = self::findGetterMethod($objectFqcn, $property->getName());
-                $value = $object->{$getter->getName()}();
+                if ($getter === null) {
+                    $publicProperty = $property->getName();
+                    $value = $object->$publicProperty;
+                } else {
+                    $value = $object->{$getter->getName()}();
+                }
                 $vueObject[$property->getName()] = self::formatValue($value);
             }
         }
@@ -53,7 +63,7 @@ class VueDataFormatter
     /**
      * @throws ReflectionException
      */
-    private static function findGetterMethod(string $objectFqcn, string $propertyName): ReflectionMethod
+    private static function findGetterMethod(string $objectFqcn, string $propertyName): ?ReflectionMethod
     {
         $getter = ClassBrowser::findGetter($objectFqcn, $propertyName);
         assert($getter instanceof ReflectionMethod);

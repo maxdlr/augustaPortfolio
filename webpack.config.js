@@ -20,6 +20,11 @@ Encore
     })
 
     .copyFiles({
+        from: './assets/media/favicon',
+        to: 'media/favicon/[path][name].[ext]',
+    })
+
+    .copyFiles({
         from: './assets/media/misc',
         to: 'media/misc/[path][name].[ext]',
     })

@@ -16,13 +16,15 @@ const distributeButtonsSlot = (index) => {
   return 'buttons' + (index + 1)
 }
 
+const emit = defineEmits(['loaded'])
+
 </script>
 
 <template>
   <AdminDashboardWidget title="Mes curseurs">
     <template v-for="(cursorImg, index) in cursorImgs" :key="index" #[distributeContentSlot(index)]>
       <div class="w-50 mx-auto">
-        <MediaThumbnail :animate="false" :media="cursorImg"/>
+        <MediaThumbnail :animate="false" :media="cursorImg" @loaded="emit('loaded')"/>
       </div>
     </template>
 

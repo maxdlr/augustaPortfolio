@@ -12,7 +12,7 @@ const props = defineProps({
   showreelVideoId: {type: Object, required: true}
 })
 const site = window.location.origin;
-const emit = defineEmits(['toast'])
+const emit = defineEmits(['toast', 'loaded'])
 const currentShowreelImg = ref();
 
 onMounted(() => {
@@ -37,7 +37,7 @@ const deleteMedia = async () => {
 <template>
   <AdminDashboardWidget title="Mon showreel">
     <template #content1>
-      <MediaThumbnail v-if="currentShowreelImg" :media="currentShowreelImg" :square="false"/>
+      <MediaThumbnail v-if="currentShowreelImg" :media="currentShowreelImg" :square="false" @loaded="emit('loaded')"/>
       <div v-else>
         <span class="fs-6 fst-italic text-secondary">
           --- Vignette manquante ---

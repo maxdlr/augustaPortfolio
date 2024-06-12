@@ -25,6 +25,9 @@ class UploadManager extends AbstractController
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function uploadOne(
         FormInterface $form,
         Media         $object,
@@ -33,25 +36,21 @@ class UploadManager extends AbstractController
     {
         $uploaded = false;
 
-        try {
-            /** @var UploadedFile $mediaFile */
-            $mediaFile = $form->get('media')->getData();
+        /** @var UploadedFile $mediaFile */
+        $mediaFile = $form->get('media')->getData();
 
-            if ($mediaFile) {
-                $directory = u($mediaType->value)->lower();
-                $savedFile = $this->saveFile($mediaFile, $directory, $mediaType, $object);
+        if ($mediaFile) {
+            $directory = u($mediaType->value)->lower();
+            $savedFile = $this->saveFile($mediaFile, $directory, $mediaType, $object);
 
-                $object
-                    ->setMediaPath($directory . '/' . $savedFile['newFilename'])
-                    ->setMediaSize($savedFile['fileSize'])
-                    ->setType($mediaType);
+            $object
+                ->setMediaPath($directory . '/' . $savedFile['newFilename'])
+                ->setMediaSize($savedFile['fileSize'])
+                ->setType($mediaType);
 
-                $uploaded = true;
-            }
-            return $uploaded;
-        } catch (FileException $e) {
-            throw new FileException($e);
+            $uploaded = true;
         }
+        return $uploaded;
     }
 
     /**
@@ -67,6 +66,7 @@ class UploadManager extends AbstractController
 
         $newFilename = match ($mediaType) {
             MediaTypeEnum::CURSOR => str_replace('cursor/', '', $existingMedia->getMediaPath()),
+            MediaTypeEnum::FAVICON => 'favicon.png',
             default => $safeFilename . '-' . uniqid() . '.' . $mediaFile->guessExtension()
         };
 

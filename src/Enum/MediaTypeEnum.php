@@ -12,4 +12,5 @@ enum MediaTypeEnum: string
     case MEUF = 'MEUF';
     case CONTACT = 'CONTACT';
     case CURSOR = 'CURSOR';
+    case FAVICON = 'FAVICON';
 }

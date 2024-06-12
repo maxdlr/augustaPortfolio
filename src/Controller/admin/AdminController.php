@@ -10,11 +10,13 @@ use App\Entity\Media;
 use App\Entity\WebsiteConfig;
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
+use App\Enum\SeoDefaultsEnum;
 use App\Form\ShowreelVideoType;
 use App\Form\WebsiteConfigType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
 use App\Repository\WebsiteConfigRepository;
+use App\Seo\Seo;
 use App\Service\VueDataFormatter;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -22,6 +24,7 @@ use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -48,6 +51,7 @@ class AdminController extends AbstractController
 
     /**
      * @throws ReflectionException
+     * @throws Exception
      */
     #[Route(path: '/', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(Request $request): Response
@@ -60,7 +64,7 @@ class AdminController extends AbstractController
 
         $avatarImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::AVATAR->value])],
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->getOne();
 
         $showreelThumbnailForm = $this->mediaCrud->mediaSingleUploadForm($request, MediaTypeEnum::SHOWREEL_THUMBNAIL, 'showreelThumbnailForm');
@@ -71,7 +75,7 @@ class AdminController extends AbstractController
 
         $showreelImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_THUMBNAIL->value])],
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->getOne();
 
         $showreelVideo = $this->mediaRepository->findOneBy(['type' => MediaTypeEnum::SHOWREEL_VIDEO->value]) ?? new Media();
@@ -102,7 +106,7 @@ class AdminController extends AbstractController
 
         $meufImg = VueDataFormatter::makeVueObjectOf(
             [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::MEUF->value])],
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->getOne();
 
         $cursors = $this->mediaRepository->findBy(['type' => MediaTypeEnum::CURSOR->value]);
@@ -126,22 +130,63 @@ class AdminController extends AbstractController
 
         $cursorImgs = VueDataFormatter::makeVueObjectOf(
             $cursors,
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->get();
 
         $websiteConfigObject = $this->websiteConfigRepository->find(1) ?? new WebsiteConfig();
-        $websiteConfigForm = $this->formFactory->createNamed('websiteConfigForm', WebsiteConfigType::class, $websiteConfigObject);
+        $websiteConfigForm = $this->formFactory->createNamed(
+            'websiteConfigForm',
+            WebsiteConfigType::class,
+            $websiteConfigObject,
+            ['illustrations' => $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value])]
+        );
         $websiteConfigForm->handleRequest($request);
         if ($websiteConfigForm->isSubmitted() && $websiteConfigForm->isValid()) {
+            $favicon = $this->mediaRepository->findOneBy(['type' => MediaTypeEnum::FAVICON->value]) ?? new Media();
+
+            if ($this->uploadManager->uploadOne($websiteConfigForm, $favicon, MediaTypeEnum::FAVICON) === true)
+                $this->entityManager->persist($favicon);
+
             $websiteConfigObject = $websiteConfigForm->getData();
+
             $this->entityManager->persist($websiteConfigObject);
             $this->entityManager->flush();
+
+            $this->addFlash('success', 'Meuf ajoutée ! :)');
+
             return $this->redirectTo('referer', $request);
         }
 
         $websiteConfig = VueDataFormatter::makeVueObjectOf(
             [$this->websiteConfigRepository->find(1)],
             ['seoImg', 'title', 'description']
+        )->getOne();
+
+
+        $allIllustrations = $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]);
+        $randomIllustration = $allIllustrations[rand(0, count($allIllustrations) - 1)];
+        $seoObject = new Seo(
+            title: $websiteConfig['title'] ?? SeoDefaultsEnum::TITLE->value,
+            description: $websiteConfig['description'] ?? SeoDefaultsEnum::DESCRIPTION->value,
+            image: $this->mediaRepository->findOneBy(['mediaPath' => $websiteConfig['seoImg'] ?? 'invalid']) ?? $randomIllustration
+        );
+
+        $isDefaultWebsiteConfig = [];
+        if ($websiteConfig !== null) {
+            foreach ($websiteConfig as $key => $config) {
+                $isDefaultWebsiteConfig[$key] = $config === null;
+            }
+        } else {
+            foreach (['seoImg', 'title', 'description'] as $config) {
+                $isDefaultWebsiteConfig[$config] = true;
+            }
+        }
+
+        $seo = VueDataFormatter::makeVueObjectOf([$seoObject])->getOne();
+
+        $favicon = VueDataFormatter::makeVueObjectOf(
+            [$this->mediaRepository->findOneBy(['type' => MediaTypeEnum::FAVICON->value])],
+            ['id', 'mediaPath']
         )->getOne();
 
         return $this->render('admin/dashboard.html.twig', [
@@ -156,8 +201,10 @@ class AdminController extends AbstractController
             'showreelVideo' => $showreelVideo,
             'showreelVideoForm' => $showreelVideoForm,
             'showreelVideoId' => $showreelVideoId,
-            'websiteConfig' => $websiteConfig,
-            'websiteConfigForm' => $websiteConfigForm
+            'websiteConfig' => $seo,
+            'websiteConfigForm' => $websiteConfigForm,
+            'favicon' => $favicon,
+            'isDefaultWebsiteConfig' => $isDefaultWebsiteConfig
         ]);
     }
 
@@ -234,7 +281,7 @@ class AdminController extends AbstractController
         }
 
         $motionGifs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::MOTION->value]),
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->get();
 
         return $this->render('admin/motion.html.twig', [
@@ -256,7 +303,7 @@ class AdminController extends AbstractController
         }
 
         $illustrationImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]),
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->get();
 
         return $this->render('admin/illustration.html.twig', [
@@ -278,7 +325,7 @@ class AdminController extends AbstractController
         }
 
         $contactImgs = VueDataFormatter::makeVueObjectOf($this->mediaRepository->findBy(['type' => MediaTypeEnum::CONTACT->value]),
-            ['id', 'mediaPath', 'mediaSize', 'createdOn', 'type']
+            ['id', 'mediaPath']
         )->get();
 
         return $this->render('admin/contact.html.twig', [

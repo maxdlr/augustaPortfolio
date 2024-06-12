@@ -5,6 +5,9 @@ const props = defineProps({
   avatarImg: {type: Object, required: false},
   size: {type: [Number, String], default: 200}
 })
+
+const emit = defineEmits(['loaded'])
+
 </script>
 
 <template>
@@ -14,7 +17,8 @@ const props = defineProps({
       <div
           :style="`width: ${size}px !important; aspect-ratio: 1/1 !important;`"
           class="rounded-circle position-relative z-1 overflow-hidden">
-        <MediaThumbnail v-if="avatarImg" :animate="false" :media="avatarImg" class="w-100 z-2"/>
+        <MediaThumbnail v-if="avatarImg" :animate="false" :media="avatarImg" class="w-100 z-2"
+                        @loaded="emit('loaded')"/>
       </div>
       <div
           :style="`width: ${size * 0.75}px !important; aspect-ratio: 1/1 !important; translate: -${size * 0.25}px -${size * 0.25}px !important`"

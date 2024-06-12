@@ -26,7 +26,7 @@ class Seo
     {
         $this->ogLocale = 'fr_FR';
         $this->ogType = 'website';
-        $this->ogSiteName = 'Augusta Sarlin - Motion designer - Illustratrice';
+        $this->ogSiteName = 'Augusta Sarlin - Portfolio';
         $this->ogImageSecureUrl = $image->getMediaPath();
         $this->ogImageWidth = '1280';
         $this->ogImageHeight = '521';

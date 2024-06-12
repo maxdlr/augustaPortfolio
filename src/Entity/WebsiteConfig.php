@@ -13,30 +13,18 @@ class WebsiteConfig
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 500)]
-    private ?Media $seoImg = null;
-
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+
+    #[ORM\ManyToOne]
+    private ?Media $seoImg = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSeoImg(): ?Media
-    {
-        return $this->seoImg;
-    }
-
-    public function setSeoImg(?Media $seoImg): static
-    {
-        $this->seoImg = $seoImg;
-
-        return $this;
     }
 
     public function getDescription(): ?string
@@ -44,7 +32,7 @@ class WebsiteConfig
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
@@ -56,9 +44,21 @@ class WebsiteConfig
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSeoImg(): ?Media
+    {
+        return $this->seoImg;
+    }
+
+    public function setSeoImg(?Media $seoImg): static
+    {
+        $this->seoImg = $seoImg;
 
         return $this;
     }

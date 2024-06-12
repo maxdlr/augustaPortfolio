@@ -11,7 +11,7 @@ const props = defineProps({
   formId: {type: String, required: true}
 })
 const site = window.location.origin;
-const emit = defineEmits(['toast'])
+const emit = defineEmits(['toast', 'loaded'])
 
 const currentAvatar = ref();
 
@@ -37,7 +37,7 @@ const deleteMedia = async () => {
 <template>
   <AdminDashboardWidget title="Mon avatar">
     <template #content1>
-      <Avatar v-if="currentAvatar" :avatar-img="currentAvatar"/>
+      <Avatar v-if="currentAvatar" :avatar-img="currentAvatar" @loaded="emit('loaded')"/>
       <div v-else>
         <span class="fs-6 fst-italic text-secondary">
           --- Avatar manquant ---
