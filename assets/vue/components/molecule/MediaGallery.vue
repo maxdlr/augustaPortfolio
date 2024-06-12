@@ -46,7 +46,6 @@ const rawMedias = computed(() => {
 })
 
 onMounted(() => {
-  console.log(rawMedias.value)
   shownImg.value = shownImgRef.value
   modalEl.value = modalElRef.value
 

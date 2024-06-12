@@ -1,6 +1,6 @@
 {{ form_start(form) }}
-<div class="row offset-md-2">
-    <div class="form-floating col-md-6 col-7 p-1 p-md-0">
+<div class="row offset-md-2" id="mediaForm">
+    <div class="form-floating col-md-6 col-auto p-1 p-md-0">
         {{ form_help(form.media) }}
         {{ form_errors(form.media) }}
         {{ form_row(form.media, {
@@ -8,13 +8,20 @@
             'attr': {
                 'class': 'form-control rounded-pill bg-info text-white',
                 'placeholder': placeholder|default('Add placeholder'),
-                'type': type|default('text')
+                'type': type|default('file')
             }
         }) }}
     </div>
     <div {{ vue_component('components/Button', {
         label: 'upload',
         iconClassEnd: 'cloud-upload-fill'
-    }) }} class="col-md-2 col-5 text-center p-1 p-md-0 mx-3"></div>
+    }) }} class="col-md-2 col text-center p-1 p-md-0 mx-3"></div>
 </div>
 {{ form_end(form) }}
+
+<script>
+    const input = document.querySelector('#mediaForm #media_media');
+    const submit = document.querySelector('#mediaForm button')
+
+    console.log(submit)
+</script>

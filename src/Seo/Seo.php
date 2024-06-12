@@ -19,17 +19,17 @@ class Seo
     public ?string $ogImageHeight;
 
     public function __construct(
-        public string $title,
-        public string $description,
-        public Media  $image,
+        public ?string $title,
+        public ?string $description,
+        public ?Media  $image,
     )
     {
         $this->ogLocale = 'fr_FR';
         $this->ogType = 'website';
         $this->ogSiteName = 'Augusta Sarlin - Portfolio';
-        $this->ogImageSecureUrl = $image->getMediaPath();
-        $this->ogImageWidth = '1280';
-        $this->ogImageHeight = '521';
+        $this->ogImageSecureUrl = $image?->getMediaPath();
+        $this->ogImageWidth = '1200';
+        $this->ogImageHeight = '627';
         $this->canonical = 'https://www.augustasarlin.com';
         $this->ogTitle = $this->title;
         $this->ogDescription = $this->description;

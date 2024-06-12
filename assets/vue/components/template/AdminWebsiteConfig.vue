@@ -90,7 +90,7 @@ const isAtLeastOneDefault = computed(() => {
             <img
                 v-if="websiteConfig.image"
                 :src="'/build/media/' + websiteConfig.image"
-                :style="`max-width: ${websiteConfig.ogImageWidth}px !important; max-height: ${websiteConfig.ogImageHeight}px !important;`"
+                :style="`max-width: ${websiteConfig.ogImageWidth}px !important; max-height: ${websiteConfig.ogImageHeight}px !important; aspect-ratio: 1.91/1 !important;`"
                 alt="Augusta Sarlin - image de partage - motion designer lyon"
                 class="card-img object-fit-cover"
             >

@@ -71,7 +71,7 @@ class HomeController extends AbstractController
 
         $allMedia = $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]);
         $websiteConfig = $this->websiteConfigRepository?->find(1);
-        $seoImage = $websiteConfig?->getSeoImg() ?? $allMedia[rand(0, count($allMedia) - 1)];
+        $seoImage = $websiteConfig !== null ? $websiteConfig?->getSeoImg() ?? $allMedia[rand(0, count($allMedia) - 1)] : null;
         $seoTitle = $websiteConfig?->getTitle() ?? SeoDefaultsEnum::TITLE->value;
         $seoDescription = $websiteConfig?->getDescription() ?? SeoDefaultsEnum::DESCRIPTION->value;
 

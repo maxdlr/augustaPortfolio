@@ -9,6 +9,7 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
@@ -84,6 +85,9 @@ class UploadManager extends AbstractController
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function uploadMany(
         FormInterface $form,
         MediaTypeEnum $mediaType
@@ -95,6 +99,7 @@ class UploadManager extends AbstractController
 
         foreach ($mediaFiles as $mediaFile) {
             if ($mediaFile) {
+                assert($mediaFile instanceof UploadedFile);
                 $savedFile = $this->saveFile($mediaFile, $directory);
 
                 $media = new Media();

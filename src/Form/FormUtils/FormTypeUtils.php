@@ -49,7 +49,9 @@ class FormTypeUtils
         if ($multiple === false) {
             $parameters['constraints'] = [$file];
         } else {
-            $parameters['constraints'] = [new All([$file])];
+            $parameters['constraints'] = [new All([
+                $file
+            ])];
             $parameters['multiple'] = true;
         }
 

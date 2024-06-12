@@ -18,13 +18,13 @@ use App\Repository\MediaRepository;
 use App\Repository\WebsiteConfigRepository;
 use App\Seo\Seo;
 use App\Service\VueDataFormatter;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -152,7 +152,7 @@ class AdminController extends AbstractController
             $this->entityManager->persist($websiteConfigObject);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Meuf ajoutée ! :)');
+            $this->addFlash('success', 'Métadata enregistrés !');
 
             return $this->redirectTo('referer', $request);
         }
@@ -164,7 +164,7 @@ class AdminController extends AbstractController
 
 
         $allIllustrations = $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]);
-        $randomIllustration = $allIllustrations[rand(0, count($allIllustrations) - 1)];
+        $randomIllustration = !empty($allIllustrations) ? $allIllustrations[rand(0, count($allIllustrations) - 1)] : null;
         $seoObject = new Seo(
             title: $websiteConfig['title'] ?? SeoDefaultsEnum::TITLE->value,
             description: $websiteConfig['description'] ?? SeoDefaultsEnum::DESCRIPTION->value,
@@ -274,7 +274,12 @@ class AdminController extends AbstractController
     #[Route(path: '/motion', name: 'motion', methods: ['GET', 'POST'])]
     public function motion(Request $request): Response
     {
+        if ($request->isMethod('POST')) {
+            dd($request->get('media')->getData());
+        }
+
         $motionForm = $this->mediaCrud->mediaUploadForm($request, MediaTypeEnum::MOTION);
+
         if ($motionForm === true) {
             $this->addFlash('success', 'Gif ajouté !');
             return $this->redirectTo('referer', $request);

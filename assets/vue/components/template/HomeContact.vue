@@ -38,9 +38,9 @@ const props = defineProps({
         <div class="py-2">
           <Button
               :color-class="copied ? 'success' : 'info'"
-              :custom-pointer="true"
               :icon-class-start="copied ? 'check-circle-fill' : 'copy'"
               :label="copied ? 'email copied!' : 'email'"
+              custom-pointer
               @click.prevent="copy(email)"
           />
         </div>

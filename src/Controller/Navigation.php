@@ -2,29 +2,48 @@
 
 namespace App\Controller;
 
+use App\Enum\MediaTypeEnum;
+use App\Repository\CVItemRepository;
+use App\Repository\MediaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Navigation extends AbstractController
 {
+    public function __construct(
+        private readonly MediaRepository  $mediaRepository,
+        private readonly CVItemRepository $CVItemRepository
+    )
+    {
+    }
+
     public function getPublicNavigation(): array
     {
-        $navigationItem = [
-            'motion' => [
+        $navigationItem = [];
+
+        if (!$this->isMediaBaseEmpty(MediaTypeEnum::MOTION)) {
+            $navigationItem['motion'] = [
                 'label' => 'motion',
                 'link' => '#motion'
-            ],
-            'illustration' => [
+            ];
+        }
+
+        if (!$this->isMediaBaseEmpty(MediaTypeEnum::ILLUSTRATION)) {
+            $navigationItem['illustration'] = [
                 'label' => 'illustration',
                 'link' => '#illustration'
-            ],
-            'about' => [
+            ];
+        }
+
+        if (!$this->isCVItemBaseEmpty()) {
+            $navigationItem['about'] = [
                 'label' => 'about',
                 'link' => '#about'
-            ],
-            'contact' => [
-                'label' => 'contact me',
-                'link' => '#contact'
-            ]
+            ];
+        }
+
+        $navigationItem['contact'] = [
+            'label' => 'contact me',
+            'link' => '#contact'
         ];
 
         if ($this->getUser() !== null) {
@@ -35,6 +54,16 @@ class Navigation extends AbstractController
         }
 
         return $navigationItem;
+    }
+
+    private function isMediaBaseEmpty(MediaTypeEnum $mediaType): bool
+    {
+        return empty($this->mediaRepository->findBy(['type' => $mediaType->value]));
+    }
+
+    private function isCVItemBaseEmpty(): bool
+    {
+        return empty($this->CVItemRepository->findAll());
     }
 
     public function getAdminNavigation(): array

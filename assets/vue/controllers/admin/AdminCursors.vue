@@ -23,7 +23,7 @@ const emit = defineEmits(['loaded'])
 <template>
   <AdminDashboardWidget title="Mes curseurs">
     <template v-for="(cursorImg, index) in cursorImgs" :key="index" #[distributeContentSlot(index)]>
-      <div class="w-50 mx-auto">
+      <div class="w-25 mx-auto">
         <MediaThumbnail :animate="false" :media="cursorImg" @loaded="emit('loaded')"/>
       </div>
     </template>

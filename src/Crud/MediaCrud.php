@@ -34,6 +34,9 @@ class MediaCrud extends AbstractCrud
         parent::__construct($saveManager, $deleteManager, $uploadManager);
     }
 
+    /**
+     * @throws Exception
+     */
     public function mediaUploadForm(Request $request, MediaTypeEnum $mediaType): FormInterface|true
     {
         $mediaForm = $this->formFactory->create(MediaType::class);
