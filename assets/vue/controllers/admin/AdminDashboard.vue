@@ -1,11 +1,12 @@
 <script setup>
 import AdminAvatar from "../../components/template/AdminAvatar.vue";
-import AdminCursors from "./AdminCursors.vue";
+import AdminCursors from "../../components/template/AdminCursors.vue";
 import AdminShowreel from "../../components/template/AdminShowreel.vue";
 import AdminMeuf from "../../components/template/AdminMeuf.vue";
 import Toast from '../components/Toast.vue'
 import {ref} from "vue";
 import AdminWebsiteConfig from "../../components/template/AdminWebsiteConfig.vue";
+import AdminSocialItems from "../../components/template/AdminSocialItems.vue";
 
 const props = defineProps({
   avatarImg: {type: Object, required: false},
@@ -21,7 +22,8 @@ const props = defineProps({
   websiteConfigFormId: {type: String},
   websiteConfig: {type: Object, required: false},
   favicon: {type: Object, required: false},
-  isDefaultWebsiteConfig: {type: Object, required: true}
+  isDefaultWebsiteConfig: {type: Object, required: true},
+  socialItems: {type: Object, required: false}
 })
 
 const triggerToast = (message, type) => {
@@ -59,6 +61,9 @@ const toast = ref({})
             :website-config-form-id="websiteConfigFormId"
             :websiteConfig="websiteConfig"
         />
+      </div>
+      <div class="p-2">
+        <AdminSocialItems :social-items="socialItems"/>
       </div>
     </div>
   </section>

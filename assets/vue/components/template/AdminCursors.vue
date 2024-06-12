@@ -1,8 +1,8 @@
 <script setup>
-import HelpBox from "../../components/atom/HelpBox.vue";
-import AdminDashboardWidget from "../../components/template/AdminDashboardWidget.vue";
-import MediaThumbnail from "../../components/atom/MediaThumbnail.vue";
-import Button from "../components/Button.vue";
+import HelpBox from "../atom/HelpBox.vue";
+import AdminDashboardWidget from "./AdminDashboardWidget.vue";
+import MediaThumbnail from "../atom/MediaThumbnail.vue";
+import Button from "../../controllers/components/Button.vue";
 
 const props = defineProps({
   cursorImgs: {type: Object, required: true},

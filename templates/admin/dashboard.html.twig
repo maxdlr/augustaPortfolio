@@ -15,7 +15,8 @@
         websiteConfigFormId: 'websiteConfigForm',
         websiteConfig: websiteConfig,
         favicon: favicon,
-        isDefaultWebsiteConfig: isDefaultWebsiteConfig
+        isDefaultWebsiteConfig: isDefaultWebsiteConfig,
+        socialItems: socialItems
     }) }}>
         {{ include('components/_spinner.html.twig') }}
     </div>
@@ -54,6 +55,13 @@
         {{ include('components/_modal-window.html.twig', {
             modalId: 'cursorForm-'~loop.index0 ,
             body: include('components/_media-upload-form.html.twig', {form: cursorForm})
+        }) }}
+    {% endfor %}
+
+    {% for socialItem in socialItems %}
+        {{ include('components/_modal-window.html.twig', {
+            modalId: 'socialItemForm-'~socialItem.id,
+            body: include('components/_social-item-form.html.twig')
         }) }}
     {% endfor %}
 

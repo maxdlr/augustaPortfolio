@@ -6,19 +6,21 @@ use App\Crud\CVItemCrud;
 use App\Crud\Manager\AfterCrudTrait;
 use App\Crud\Manager\UploadManager;
 use App\Crud\MediaCrud;
+use App\Crud\SocialItemCrud;
 use App\Entity\Media;
 use App\Entity\WebsiteConfig;
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
 use App\Enum\SeoDefaultsEnum;
 use App\Form\ShowreelVideoType;
+use App\Form\SocialItemType;
 use App\Form\WebsiteConfigType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
+use App\Repository\SocialItemRepository;
 use App\Repository\WebsiteConfigRepository;
 use App\Seo\Seo;
 use App\Service\VueDataFormatter;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use ReflectionException;
@@ -44,7 +46,9 @@ class AdminController extends AbstractController
         private readonly CVItemRepository        $CVItemRepository,
         private readonly FormFactoryInterface    $formFactory,
         private readonly MediaCrud               $mediaCrud,
-        private readonly WebsiteConfigRepository $websiteConfigRepository
+        private readonly WebsiteConfigRepository $websiteConfigRepository,
+        private readonly SocialItemRepository    $socialItemRepository,
+        private readonly SocialItemCrud          $socialItemCrud
     )
     {
     }
@@ -189,6 +193,23 @@ class AdminController extends AbstractController
             ['id', 'mediaPath']
         )->getOne();
 
+        $socialItemObjects = $this->socialItemRepository->findAll();
+        $socialItems = VueDataFormatter::makeVueObjectOf($socialItemObjects);
+
+        $socialItemForms = [];
+        foreach ($socialItemObjects as $socialItem) {
+            $socialItemForms[$socialItem->getId()] = $this->formFactory->createNamed('socialItemForm-' . $socialItem->getId(), SocialItemType::class, $socialItem);
+            $socialItemForms[$socialItem->getId()]->handleRequest($request);
+            if ($socialItemForms[$socialItem->getId()]->isSubmitted() && $socialItemForms[$socialItem->getId()]->isValid()) {
+                $socialItem = $socialItemForms[$socialItem->getId()]->getData();
+                $this->entityManager->persist($socialItem);
+                $this->entityManager->flush();
+                $this->addFlash('success', 'Lien réseau social enregistré !');
+                return $this->redirectTo('referer', $request);
+            }
+        }
+
+
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
             'avatarImg' => $avatarImg,
@@ -204,7 +225,9 @@ class AdminController extends AbstractController
             'websiteConfig' => $seo,
             'websiteConfigForm' => $websiteConfigForm,
             'favicon' => $favicon,
-            'isDefaultWebsiteConfig' => $isDefaultWebsiteConfig
+            'isDefaultWebsiteConfig' => $isDefaultWebsiteConfig,
+            'socialItems' => $socialItems,
+            'socialItemForms' => $socialItemForms,
         ]);
     }
 
