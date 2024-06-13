@@ -9,8 +9,9 @@ const props = defineProps({
 <template>
   <div class="card shadow rounded-5 border-0 overflow-hidden" style="max-width: 100% !important;">
 
-    <div v-if="title" class="card-header bg-white border-0">
+    <div v-if="title" class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
       <p class="fs-4 ps-4 py-2 m-0 fw-bold text-info">{{ title }}</p>
+      <slot name="headerButton"/>
     </div>
 
     <div class="card-body">

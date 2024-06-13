@@ -33,7 +33,7 @@ const handleResize = () => {
       v-if="anchor"
       :id="anchor"
       aria-hidden="true"
-      class="py-3"
+      class="py-5 py-md-3"
   ></div>
   <section :class="`mx-${mainBreakPoint}-5 my-${mainBreakPoint}-5`" class="row my-2 mx-1">
     <div

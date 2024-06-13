@@ -11,7 +11,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ProdFixtures extends Fixture
 {
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly MediaFixtures               $mediaFixtures
+    )
     {
     }
 
@@ -33,26 +36,8 @@ class ProdFixtures extends Fixture
 
         $manager->persist($user);
 
-        $this->makeSpecificMedia('assets/media/cursor', $manager, MediaTypeEnum::CURSOR);
+        $this->mediaFixtures->makeSpecificMedia('assets/media/cursor', $manager, MediaTypeEnum::CURSOR);
 
         $manager->flush();
-    }
-
-    private function makeSpecificMedia(string $directory, ObjectManager $manager, MediaTypeEnum $mediaTypeEnum): void
-    {
-        foreach (array_diff(scandir($directory), ['.', '..']) as $media) {
-            $mediaPath = str_replace('assets/media/', '', $directory) . '/' . $media;
-            $mediaLocation = 'assets/media/' . $mediaPath;
-
-            if (is_file($mediaLocation)) {
-
-                $media = new Media();
-                $media
-                    ->setMediaPath($mediaPath)
-                    ->setMediaSize(filesize($mediaLocation))
-                    ->setType($mediaTypeEnum);
-            }
-            $manager->persist($media);
-        }
     }
 }

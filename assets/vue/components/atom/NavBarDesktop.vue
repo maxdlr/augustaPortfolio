@@ -1,9 +1,10 @@
 <script setup>
 import NavItem from "./NavItemDesktop.vue";
-import {Collapse} from "bootstrap";
+import SocialItem from "./SocialItem.vue";
 
 const props = defineProps({
-  navigation: {type: Object, required: true}
+  navigation: {type: Object, required: true},
+  socialItems: {type: Object, required: true}
 })
 </script>
 
@@ -15,21 +16,11 @@ const props = defineProps({
         <span class="text-info">.</span>
         <span class="text-primary">sarlin</span>
       </a>
-      <button
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          class="navbar-toggler"
-          data-bs-target="#navbarSupportedContent"
-          data-bs-toggle="collapse"
-          type="button"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarSupportedContent" class="collapse navbar-collapse">
-        <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end d-flex align-items-center w-100">
+      <div
+          class="d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center align-items-center w-100">
+        <ul class="list-unstyled justify-content-start d-flex align-items-center">
           <li v-for="(link, index) in navigation" :key="index" class="nav-item">
-            <div class="py-1 px-5">
+            <div class="py-1 px-4">
               <NavItem
                   :label="link.label"
                   :value="link.link"
@@ -38,6 +29,11 @@ const props = defineProps({
                   size="lg"
               />
             </div>
+          </li>
+        </ul>
+        <ul class="list-unstyled justify-content-end d-flex align-items-center">
+          <li v-for="socialItem in socialItems" class="mx-1">
+            <SocialItem :social-item="socialItem"/>
           </li>
         </ul>
       </div>

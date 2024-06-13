@@ -8,6 +8,7 @@ use App\Enum\SeoDefaultsEnum;
 use App\Form\WebsiteConfigType;
 use App\Repository\CVItemRepository;
 use App\Repository\MediaRepository;
+use App\Repository\SocialItemRepository;
 use App\Repository\WebsiteConfigRepository;
 use App\Seo\Seo;
 use App\Service\VueDataFormatter;
@@ -21,7 +22,8 @@ class HomeController extends AbstractController
     public function __construct(
         private readonly MediaRepository         $mediaRepository,
         private readonly CVItemRepository        $CVItemRepository,
-        private readonly WebsiteConfigRepository $websiteConfigRepository
+        private readonly WebsiteConfigRepository $websiteConfigRepository,
+        private readonly SocialItemRepository    $socialItemRepository
     )
     {
     }
@@ -71,15 +73,13 @@ class HomeController extends AbstractController
 
         $allMedia = $this->mediaRepository->findBy(['type' => MediaTypeEnum::ILLUSTRATION->value]);
         $websiteConfig = $this->websiteConfigRepository?->find(1);
-        $seoImage = $websiteConfig !== null ? $websiteConfig?->getSeoImg() ?? $allMedia[rand(0, count($allMedia) - 1)] : null;
-        $seoTitle = $websiteConfig?->getTitle() ?? SeoDefaultsEnum::TITLE->value;
-        $seoDescription = $websiteConfig?->getDescription() ?? SeoDefaultsEnum::DESCRIPTION->value;
-
         $seo = new Seo(
-            title: $seoTitle,
-            description: $seoDescription,
-            image: $seoImage
+            title: $websiteConfig?->getTitle() ?? SeoDefaultsEnum::TITLE->value,
+            description: $websiteConfig?->getDescription() ?? SeoDefaultsEnum::DESCRIPTION->value,
+            image: $websiteConfig !== null ? $websiteConfig?->getSeoImg() ?? $allMedia[rand(0, count($allMedia) - 1)] : null
         );
+
+        $socialItems = VueDataFormatter::makeVueObjectOf($this->socialItemRepository->findAll())->get();
 
         return $this->render('pages/home.html.twig', [
             'showreelThumbnailPath' => $showreelThumbnailPath,
@@ -92,7 +92,8 @@ class HomeController extends AbstractController
             'meuf' => $meuf,
             'contactImgs' => $contactImgs,
             'showreelVideoId' => $showreelVideoId,
-            'seo' => $seo
+            'seo' => $seo,
+            'socialItems' => $socialItems,
         ]);
     }
 }

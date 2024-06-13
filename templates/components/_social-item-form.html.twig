@@ -1,14 +1,14 @@
 {{ form_start(form) }}
+{{ include('components/_form-field/_select-field.html.twig', {
+    formRow: form.icon,
+    label: 'réseau',
+    placeholder: 'instagram',
+}) }}
 {{ include('components/_form-field/_text-field.html.twig', {
     formRow: form.link,
     label: 'lien',
     placeholder: 'https://...',
     type: 'url'
-}) }}
-{{ include('components/_form-field/_select-field.html.twig', {
-    formRow: form.icon,
-    label: 'réseau',
-    placeholder: 'instagram',
 }) }}
 <div {{ vue_component('components/Button', {
     label: 'upload',

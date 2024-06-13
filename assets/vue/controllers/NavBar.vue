@@ -6,7 +6,8 @@ import {onMounted, onUnmounted, ref} from "vue";
 import {BREAKPOINTS} from "../constant/bootstrap-constants";
 
 const props = defineProps({
-  navigation: {type: Object, required: true}
+  navigation: {type: Object, required: true},
+  socialItems: {type: Object, required: true}
 })
 
 const screenWidth = ref(0);
@@ -27,6 +28,6 @@ const handleResize = () => {
 </script>
 
 <template>
-  <NavBarDesktop v-if="screenWidth > BREAKPOINTS.MD" id="home" :navigation="navigation"/>
-  <NavBarMobile v-else :navigation="navigation" :screenWidth="screenWidth"/>
+  <NavBarDesktop v-if="screenWidth > BREAKPOINTS.MD" id="home" :navigation="navigation" :socialItems="socialItems"/>
+  <NavBarMobile v-else :navigation="navigation" :screenWidth="screenWidth" :socialItems="socialItems"/>
 </template>

@@ -41,6 +41,7 @@ const props = defineProps({
 
 .item-hover {
   transition: all $duration $timing;
+  transform: translateY(0);
 
   &:before, &:after {
     transform: scale(0);
@@ -49,6 +50,7 @@ const props = defineProps({
   &:hover {
     color: $info !important;
     position: relative;
+    transform: translateY(-10px);
 
     &:before, &:after {
       width: 20px;

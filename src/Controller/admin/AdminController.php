@@ -8,6 +8,7 @@ use App\Crud\Manager\UploadManager;
 use App\Crud\MediaCrud;
 use App\Crud\SocialItemCrud;
 use App\Entity\Media;
+use App\Entity\SocialItem;
 use App\Entity\WebsiteConfig;
 use App\Enum\CVItemTypeEnum;
 use App\Enum\MediaTypeEnum;
@@ -114,7 +115,6 @@ class AdminController extends AbstractController
         )->getOne();
 
         $cursors = $this->mediaRepository->findBy(['type' => MediaTypeEnum::CURSOR->value]);
-
         $cursorForms = [];
         foreach ($cursors as $cursor) {
             $cursorForms[$cursor->getId()] = $this->mediaCrud->mediaSingleUploadForm(
@@ -194,7 +194,17 @@ class AdminController extends AbstractController
         )->getOne();
 
         $socialItemObjects = $this->socialItemRepository->findAll();
-        $socialItems = VueDataFormatter::makeVueObjectOf($socialItemObjects);
+        $socialItems = VueDataFormatter::makeVueObjectOf($socialItemObjects)->get();
+        $newSocialItem = new SocialItem();
+        $newSocialItemForm = $this->formFactory->createNamed('newSocialItemForm', SocialItemType::class, $newSocialItem);
+
+        $newSocialItemForm->handleRequest($request);
+        if ($newSocialItemForm->isSubmitted() && $newSocialItemForm->isValid()) {
+            $newSocialItem = $newSocialItemForm->getData();
+            $this->entityManager->persist($newSocialItem);
+            $this->entityManager->flush();
+            return $this->redirectTo('referer', $request);
+        }
 
         $socialItemForms = [];
         foreach ($socialItemObjects as $socialItem) {
@@ -207,8 +217,8 @@ class AdminController extends AbstractController
                 $this->addFlash('success', 'Lien réseau social enregistré !');
                 return $this->redirectTo('referer', $request);
             }
+            $socialItemForms[$socialItem->getId()] = $socialItemForms[$socialItem->getId()]->createView();
         }
-
 
         return $this->render('admin/dashboard.html.twig', [
             'avatarForm' => $avatarForm,
@@ -228,6 +238,7 @@ class AdminController extends AbstractController
             'isDefaultWebsiteConfig' => $isDefaultWebsiteConfig,
             'socialItems' => $socialItems,
             'socialItemForms' => $socialItemForms,
+            'newSocialItemForm' => $newSocialItemForm
         ]);
     }
 

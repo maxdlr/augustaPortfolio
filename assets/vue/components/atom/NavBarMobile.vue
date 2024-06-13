@@ -2,10 +2,12 @@
 import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import NavItemMobile from "./NavItemMobile.vue";
 import {goTo} from "../../composable/action/redirect";
+import SocialItem from "./SocialItem.vue";
 
 const props = defineProps({
   navigation: {type: Object, required: true},
-  screenWidth: {type: [String, Number], required: false}
+  screenWidth: {type: [String, Number], required: false},
+  socialItems: {type: Object, required: true}
 })
 
 const currentAnchor = ref('');
@@ -48,7 +50,6 @@ const navigate = (link) => {
 
 <template>
   <nav class="fixed-bottom nav-parent-container">
-
     <div :style="currentAnchor !== '' ?
     `transform: translate(calc(-50% + ${currentNavItemPosition}), -100%);` : 'opacity: 0 !important;'"
          class="bg-info rounded-circle big-ball"></div>
@@ -72,6 +73,15 @@ const navigate = (link) => {
       </div>
     </div>
   </nav>
+  <div
+      class="fixed-top d-flex justify-content-center align-items-center nav-parent-container-top bg-info w-100 rounded-bottom-5">
+    <ul class="list-unstyled justify-content-end d-flex align-items-center m-0">
+      <li v-for="socialItem in socialItems" class="mx-1">
+        <SocialItem :social-item="socialItem" size="40"/>
+      </li>
+    </ul>
+  </div>
+  <div class="py-5"></div>
 </template>
 
 <style lang="scss" scoped>
@@ -111,6 +121,14 @@ $transition: all $duration $timing;
   top: 0;
 }
 
+.nav-parent-container-top {
+  animation-name: slideInDown;
+  animation-delay: 0s;
+  animation-duration: $duration * 2;
+  animation-timing-function: $timing;
+  height: 75px;
+}
+
 .nav-parent-container {
   animation-name: slideInUp;
   animation-delay: 0s;
@@ -129,6 +147,18 @@ $transition: all $duration $timing;
   }
   5% {
     transform: translateY(200%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slideInDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  5% {
+    transform: translateY(-100%);
   }
   100% {
     transform: translateY(0%);

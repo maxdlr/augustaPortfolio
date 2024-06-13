@@ -58,10 +58,17 @@
         }) }}
     {% endfor %}
 
+
+    {{ include('components/_modal-window.html.twig', {
+        modalId: 'newSocialItemForm',
+        title: 'Nouveau lien social',
+        body: include('components/_social-item-form.html.twig', {form: newSocialItemForm})
+    }) }}
+
     {% for socialItem in socialItems %}
         {{ include('components/_modal-window.html.twig', {
             modalId: 'socialItemForm-'~socialItem.id,
-            body: include('components/_social-item-form.html.twig')
+            body: include('components/_social-item-form.html.twig', {form: socialItemForms[socialItem.id]})
         }) }}
     {% endfor %}
 

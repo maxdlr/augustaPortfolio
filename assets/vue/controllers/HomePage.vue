@@ -6,6 +6,7 @@ import HomeAbout from "../components/template/HomeAbout.vue";
 import HomeContact from "../components/template/HomeContact.vue";
 import HomeTitle from "../components/atom/HomeTitle.vue";
 import HomeFooter from "../components/template/HomeFooter.vue";
+import NavBarDesktop from "../components/atom/NavBarDesktop.vue";
 
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: true},
@@ -17,7 +18,7 @@ const props = defineProps({
   experiences: {type: Object},
   skills: {type: Object},
   meuf: {type: Object},
-  contactImgs: {type: Object}
+  contactImgs: {type: Object},
 })
 </script>
 

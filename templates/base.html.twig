@@ -15,9 +15,10 @@
     {% endblock %}
 </head>
 <body>
-<main class="container mt-4">
+<main class="container mt-4" style="margin-bottom: 200px !important;">
     <div {{ vue_component('NavBar', {
-        'navigation': navigation.getPublicNavigation
+        navigation: navigation.getPublicNavigation,
+        socialItems: socialItems
     }) }}></div>
     {% block body %}{% endblock %}
 </main>

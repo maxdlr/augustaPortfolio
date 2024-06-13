@@ -35,7 +35,7 @@ const toast = ref({})
 
 <template>
   <section>
-    <div class="row row-cols-1 row-cols-md-2">
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3">
       <div class="p-2">
         <AdminAvatar :avatar-img="avatarImg" :form-id="avatarFormId" @toast="triggerToast"/>
       </div>
