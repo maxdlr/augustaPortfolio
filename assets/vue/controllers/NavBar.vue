@@ -28,6 +28,6 @@ const handleResize = () => {
 </script>
 
 <template>
-  <NavBarDesktop v-if="screenWidth > BREAKPOINTS.MD" id="home" :navigation="navigation" :socialItems="socialItems"/>
+  <NavBarDesktop v-if="screenWidth >= BREAKPOINTS.MD" id="home" :navigation="navigation" :socialItems="socialItems"/>
   <NavBarMobile v-else :navigation="navigation" :screenWidth="screenWidth" :socialItems="socialItems"/>
 </template>

@@ -40,7 +40,7 @@ const showDefaultLayout = () => {
           :admin="false"
           :col-count="isShowingAllMedia ? 6 : Object.keys(medias).length < 3 ? Object.keys(medias).length : 3"
           :gallery-name="galleryName"
-          :is-on-mobile="screenWidth < BREAKPOINTS.MD"
+          :is-on-mobile="screenWidth <= BREAKPOINTS.MD"
           :medias="medias"
           start-media-count="6"
           @all-shown="showOnlyMedia"

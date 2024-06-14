@@ -58,7 +58,7 @@ const handleResize = () => {
 </script>
 
 <template>
-  <div :class="screenWidth > BREAKPOINTS.SM ? 'top-0' : 'bottom-0'"
+  <div :class="screenWidth >= BREAKPOINTS.SM ? 'top-0' : 'bottom-0'"
        class="toast-container position-fixed end-0 p-3">
     <div
         id="liveToast"

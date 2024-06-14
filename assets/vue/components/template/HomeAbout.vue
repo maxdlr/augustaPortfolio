@@ -53,7 +53,7 @@ const props = defineProps({
             <MediaThumbnail
                 :animate="false"
                 :media="meuf"
-                :style="screenWidth > BREAKPOINTS.LG ? 'width: 150% !important;' : ''"
+                :style="screenWidth >= BREAKPOINTS.LG ? 'width: 150% !important;' : ''"
             />
           </div>
         </div>
