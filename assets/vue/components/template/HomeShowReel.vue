@@ -65,14 +65,14 @@ const destroyShowreelVideo = () => {
 <template>
   <BaseTemplate
       :anchor="anchor"
-      :context-flex="{justify: {sm: 'center', md: 'start'}, align: {sm: 'center'}}"
+      :context-flex="{justify: {sm: 'center', lg: 'start'}, align: {sm: 'center'}}"
   >
     <template #context="{screenWidth}">
       <div
           :class="screenWidth < BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
-          class="text-center text-md-start"
+          class="text-center text-lg-start"
       >
-        <div class="d-block d-md-inline d-md-block py-3 py-md-0">
+        <div class="d-block d-lg-inline d-lg-block py-3 py-lg-0">
           <span class="text-info">Motion designer</span>
           <span class="text-secondary"> & </span>
           <span class="text-primary">Illustrator</span>

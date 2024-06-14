@@ -3,8 +3,8 @@ import {onMounted, onUnmounted, ref} from "vue";
 
 const props = defineProps({
   anchor: {type: String, required: false, default: null},
-  contextFlex: {type: Object, default: {justify: {md: 'start'}, align: {md: 'center'}}},
-  contentFlex: {type: Object, default: {justify: {md: 'center'}, align: {md: 'center'}}},
+  contextFlex: {type: Object, default: {justify: {lg: 'start'}, align: {lg: 'center'}}},
+  contentFlex: {type: Object, default: {justify: {lg: 'center'}, align: {lg: 'center'}}},
   cols: {type: Array, default: [5, 7], required: false},
   mainBreakPoint: {type: String, default: 'lg', required: false},
   stickyContext: {type: Boolean, default: false, required: false},
@@ -33,7 +33,7 @@ const handleResize = () => {
       v-if="anchor"
       :id="anchor"
       aria-hidden="true"
-      class="py-5 py-md-3"
+      class="py-5 py-lg-3"
   ></div>
   <section :class="`mx-${mainBreakPoint}-5 my-${mainBreakPoint}-5`" class="row my-2 mx-1">
     <div

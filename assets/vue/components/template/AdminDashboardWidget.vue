@@ -17,12 +17,12 @@ const props = defineProps({
     <div class="card-body">
       <div v-if="$slots.content1 || $slots.buttons1"
            :class="columns ? 'row' : 'd-flex flex-column-reverse justify-content-start align-items-start'">
-        <div v-if="$slots.content1" :class="columns ? `col-md-${cols[0]} col-12` : ''"
+        <div v-if="$slots.content1" :class="columns ? `col-lg-${cols[0]} col-12` : ''"
              class="text-center align-self-center">
           <slot name="content1"/>
         </div>
-        <div v-if="$slots.buttons1" :class="columns ? `col-md-${cols[1]} col-12` : ''"
-             class="d-flex flex-md-column text-center">
+        <div v-if="$slots.buttons1" :class="columns ? `col-lg-${cols[1]} col-12` : ''"
+             class="d-flex flex-lg-column text-center">
           <div class="mx-auto">
             <slot name="buttons1"/>
           </div>
@@ -34,13 +34,13 @@ const props = defineProps({
 
       <div v-if="$slots.content2 || $slots.buttons2"
            :class="columns ? 'row' : 'd-flex flex-column column-reverse justify-content-start align-items-start'">
-        <div v-if="$slots.content2" :class="columns ? `col-md-${cols[0]} col-12` : ''"
+        <div v-if="$slots.content2" :class="columns ? `col-lg-${cols[0]} col-12` : ''"
              class="text-center align-self-center">
           <slot name="content2"/>
         </div>
-        <div v-if="$slots.buttons2" :class="columns ? `col-md-${cols[1]} col-12` : ''"
-             class="d-flex flex-md-column text-center">
-          <div class="mx-auto mx-md-0">
+        <div v-if="$slots.buttons2" :class="columns ? `col-lg-${cols[1]} col-12` : ''"
+             class="d-flex flex-lg-column text-center">
+          <div class="mx-auto mx-lg-0">
             <slot name="buttons2"/>
           </div>
         </div>
@@ -51,13 +51,13 @@ const props = defineProps({
 
       <div v-if="$slots.content3 || $slots.buttons3"
            :class="columns ? 'row' : 'd-flex flex-column column-reverse justify-content-start align-items-start'">
-        <div v-if="$slots.content3" :class="columns ? `col-md-${cols[0]} col-12` : ''"
+        <div v-if="$slots.content3" :class="columns ? `col-lg-${cols[0]} col-12` : ''"
              class="text-center align-self-center">
           <slot name="content3"/>
         </div>
-        <div v-if="$slots.buttons3" :class="columns ? `col-md-${cols[1]} col-12` : ''"
-             class="d-flex flex-md-column text-center">
-          <div class="mx-auto mx-md-0">
+        <div v-if="$slots.buttons3" :class="columns ? `col-lg-${cols[1]} col-12` : ''"
+             class="d-flex flex-lg-column text-center">
+          <div class="mx-auto mx-lg-0">
             <slot name="buttons3"/>
           </div>
         </div>
@@ -68,11 +68,11 @@ const props = defineProps({
 
       <div v-if="$slots.content4 || $slots.buttons4"
            :class="columns ? 'row' : 'd-flex flex-column column-reverse justify-content-start align-items-start'">
-        <div v-if="$slots.content4" :class="`col-md-${cols[0]}`" class="col-12 text-center align-self-center">
+        <div v-if="$slots.content4" :class="`col-lg-${cols[0]}`" class="col-12 text-center align-self-center">
           <slot name="content4"/>
         </div>
-        <div v-if="$slots.buttons4" :class="`col-md-${cols[1]}`" class="col-12 d-flex flex-md-column text-center">
-          <div class="mx-auto mx-md-0">
+        <div v-if="$slots.buttons4" :class="`col-lg-${cols[1]}`" class="col-12 d-flex flex-lg-column text-center">
+          <div class="mx-auto mx-lg-0">
             <slot name="buttons4"/>
           </div>
         </div>

@@ -20,7 +20,7 @@ const props = defineProps({
     <BaseTemplate
         :anchor="anchor"
         :cols="contactImgs < 3 ? [3, 9] : [5, 7]"
-        :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+        :context-flex="{justify: {lg: 'center'}, align: {lg: 'start'}}"
     >
       <template #context>
         <div class="fs-2 ">

@@ -30,7 +30,7 @@ const showDefaultLayout = () => {
   <BaseTemplate
       :anchor="anchor"
       :cols="isShowingAllMedia ? [0, 12] : [5, 7]"
-      :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+      :content-flex="{justify: {lg: 'center'}, align: {lg: 'start'}}"
   >
     <template #context="{screenWidth, screenHeight}">
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="title"/>
@@ -40,7 +40,7 @@ const showDefaultLayout = () => {
           :admin="false"
           :col-count="isShowingAllMedia ? 6 : Object.keys(medias).length < 3 ? Object.keys(medias).length : 3"
           :gallery-name="galleryName"
-          :is-on-mobile="screenWidth < BREAKPOINTS.MD"
+          :is-on-mobile="screenWidth < BREAKPOINTS.lg"
           :medias="medias"
           start-media-count="6"
           @all-shown="showOnlyMedia"

@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <nav class="navbar navbar-expand-md">
     <div class="container-fluid">
-      <a class="navbar-brand fs-4 fw-bold d-md-none d-inline" href="/">
+      <a class="navbar-brand fs-4 fw-bold d-lg-none d-inline" href="/">
         <span class="text-primary">augusta</span>
         <span class="text-info">.</span>
         <span class="text-primary">sarlin</span>

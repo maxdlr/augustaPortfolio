@@ -21,8 +21,8 @@ const props = defineProps({
   <BaseTemplate
       :anchor="anchor"
       :cols="[4, 8]"
-      :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
-      :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+      :content-flex="{justify: {lg: 'center'}, align: {lg: 'start'}}"
+      :context-flex="{justify: {lg: 'center'}, align: {lg: 'start'}}"
       sticky-context
   >
     <template #context="{screenWidth, screenHeight}">
