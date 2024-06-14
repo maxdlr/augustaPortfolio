@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
   <a
       v-if="value.includes('#')"
-      v-smooth-scroll="{ duration: 200, easingFunction: t => 1+(--t)*t*t*t }"
+      v-mdooth-scroll="{ duration: 200, easingFunction: t => 1+(--t)*t*t*t }"
       :class="[
           `link-${colorClass}`
       ]"

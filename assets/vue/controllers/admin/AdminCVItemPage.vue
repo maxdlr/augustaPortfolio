@@ -51,8 +51,8 @@ const deleteMedia = async (id, title, index) => {
   />
 
   <div v-for="(item,index) in items" :key="index" class="border-2 border rounded-4 border-info-subtle p-2 my-2">
-    <div class="d-flex flex-column flex-sm-row justify-content-start align-items-center">
-      <CVItem v-if="item" :item="item" class="py-sm-3 pe-sm-3"/>
+    <div class="d-flex flex-column flex-md-row justify-content-start align-items-center">
+      <CVItem v-if="item" :item="item" class="py-md-3 pe-md-3"/>
       <div class="d-flex justify-content-center align-items-center">
         <Button
             v-if="item"

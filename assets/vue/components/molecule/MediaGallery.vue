@@ -195,7 +195,7 @@ const openModal = (id) => {
       </Transition>
     </div>
     <div :class="`row-cols-lg-${colCount}`"
-         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
+         class="row row-cols-1 row-cols-md-2 row-cols-md-3 my-4 position-relative">
       <div v-for="(media, index) in filteredMedias"
            :key="index"
            :type="!isOnMobile ? 'button' : ''"
