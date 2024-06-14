@@ -8,6 +8,7 @@ const props = defineProps({
   cols: {type: Array, default: [5, 7], required: false},
   mainBreakPoint: {type: String, default: 'lg', required: false},
   stickyContext: {type: Boolean, default: false, required: false},
+  isTopBarActive: {type: Boolean, required: false, default: false}
 })
 
 const screenWidth = ref(0);
@@ -32,8 +33,9 @@ const handleResize = () => {
   <div
       v-if="anchor"
       :id="anchor"
+      :class="isTopBarActive ? 'py-5' : 'py-2'"
       aria-hidden="true"
-      class="py-5 py-md-3"
+      class="py-md-3"
   ></div>
   <section :class="`mx-${mainBreakPoint}-5 my-${mainBreakPoint}-5`" class="row my-2 mx-1">
     <div

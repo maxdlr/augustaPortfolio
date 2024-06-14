@@ -7,12 +7,12 @@ import {ref} from "vue";
 const props = defineProps({
   medias: {type: Object, required: true},
   galleryName: {type: String, required: true},
-  anchor: {type: String, required: true},
   lazyLoadTrigger: {
     type: [String, Boolean], default: false, required: false, validator(value) {
       return ['hover', 'click', false].includes(value)
     }
   },
+  anchor: {type: String, required: true}, isTopBarActive: {type: Boolean}
 })
 
 const isShowingAllMedia = ref(false);
@@ -27,10 +27,10 @@ const showDefaultLayout = () => {
 </script>
 
 <template>
-  <BaseTemplate
-      :anchor="anchor"
-      :cols="isShowingAllMedia ? [0, 12] : [5, 7]"
-      :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+  <BaseTemplate :anchor="anchor"
+                :cols="isShowingAllMedia ? [0, 12] : [5, 7]"
+                :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+                :is-top-bar-active="isTopBarActive"
   >
     <template #context="{screenWidth, screenHeight}">
       <slot :screenHeight="screenHeight" :screenWidth="screenWidth" name="title"/>

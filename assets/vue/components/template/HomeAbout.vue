@@ -8,11 +8,11 @@ import {BREAKPOINTS} from "../../constant/bootstrap-constants";
 
 const props = defineProps({
   avatarImg: {type: Object, required: false},
-  anchor: {type: String, required: true},
   interventions: {type: Object},
   experiences: {type: Object},
   skills: {type: Object},
-  meuf: {type: Object}
+  meuf: {type: Object},
+  anchor: {type: String, required: true}, isTopBarActive: {type: Boolean}
 })
 
 </script>
@@ -23,6 +23,7 @@ const props = defineProps({
       :cols="[4, 8]"
       :content-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
       :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+      :is-top-bar-active="isTopBarActive"
       sticky-context
   >
     <template #context="{screenWidth, screenHeight}">

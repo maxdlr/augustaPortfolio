@@ -10,17 +10,17 @@ const {copy, copied} = useClipboard({email})
 
 const props = defineProps({
   contactImgs: {type: Object, required: true},
-  anchor: {type: String, required: true}
+  anchor: {type: String, required: true}, isTopBarActive: {type: Boolean}
 })
 
 </script>
 
 <template>
-  <div class="pb-5">
-    <BaseTemplate
-        :anchor="anchor"
-        :cols="contactImgs < 3 ? [3, 9] : [5, 7]"
-        :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+  <div class="pb-3">
+    <BaseTemplate :anchor="anchor"
+                  :cols="contactImgs < 3 ? [3, 9] : [5, 7]"
+                  :context-flex="{justify: {md: 'center'}, align: {md: 'start'}}"
+                  :is-top-bar-active="isTopBarActive"
     >
       <template #context>
         <div class="fs-2 ">

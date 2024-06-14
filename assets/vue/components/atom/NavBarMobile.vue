@@ -73,15 +73,15 @@ const navigate = (link) => {
       </div>
     </div>
   </nav>
-  <div
-      class="fixed-top d-flex justify-content-center align-items-center nav-parent-container-top bg-info w-100 rounded-bottom-5">
+  <div v-if="socialItems"
+       class="fixed-top d-flex justify-content-center align-items-center nav-parent-container-top bg-info w-100 rounded-bottom-5">
     <ul class="list-unstyled justify-content-end d-flex align-items-center m-0">
       <li v-for="socialItem in socialItems" class="mx-1">
         <SocialItem :social-item="socialItem" size="40"/>
       </li>
     </ul>
   </div>
-  <div class="py-5"></div>
+  <div v-if="socialItems" class="py-5"></div>
 </template>
 
 <style lang="scss" scoped>

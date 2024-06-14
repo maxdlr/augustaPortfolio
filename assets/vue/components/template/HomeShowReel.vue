@@ -8,7 +8,8 @@ import {Modal} from 'bootstrap';
 const props = defineProps({
   showreelThumbnailPath: {type: String, required: false},
   showreelVideoId: {type: String, required: false},
-  anchor: {type: String, required: true}
+  anchor: {type: String, required: true},
+  isTopBarActive: {type: Boolean}
 })
 
 const showreelWidth = ref(1400);
@@ -63,9 +64,9 @@ const destroyShowreelVideo = () => {
 </script>
 
 <template>
-  <BaseTemplate
-      :anchor="anchor"
-      :context-flex="{justify: {sm: 'center', md: 'start'}, align: {sm: 'center'}}"
+  <BaseTemplate :anchor="anchor"
+                :context-flex="{justify: {sm: 'center', md: 'start'}, align: {sm: 'center'}}"
+                :is-top-bar-active="isTopBarActive"
   >
     <template #context="{screenWidth}">
       <div
@@ -81,8 +82,10 @@ const destroyShowreelVideo = () => {
     </template>
     <template #content="{screenWidth}">
       <div v-if="showreelThumbnailPath" class="rounded-4 overflow-hidden">
-        <img :src="'build/media/' + showreelThumbnailPath" alt="Augusta Sarlin's showreel thumbnail"
-             class="img-fluid eye-cursor"
+        <img :src="'build/media/' + showreelThumbnailPath"
+             :style="screenWidth >= BREAKPOINTS.MD ? '' : 'width: 100% !important; aspect-ratio: 9/16 !important;'"
+             alt="Augusta Sarlin's showreel thumbnail"
+             class="img-fluid eye-cursor object-fit-cover"
              type="button"
              @click.prevent="showShowReel"
         >

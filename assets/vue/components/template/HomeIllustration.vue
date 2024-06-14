@@ -3,15 +3,18 @@ import HomeGalleryTemplate from "../molecule/HomeGalleryTemplate.vue";
 
 const props = defineProps({
   illustrationImgs: {type: Object, required: true},
-  anchor: {type: String, required: true}
+  anchor: {type: String, required: true},
+  isTopBarActive: {type: Boolean}
 })
 </script>
 
 <template>
   <HomeGalleryTemplate
       :anchor="anchor"
+      :is-top-bar-active="isTopBarActive"
       :medias="illustrationImgs"
-      gallery-name="homeIllustration">
+      gallery-name="homeIllustration"
+  >
 
     <template #title>
       <div class="fs-1">

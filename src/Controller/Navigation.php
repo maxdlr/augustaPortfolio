@@ -20,6 +20,14 @@ class Navigation extends AbstractController
     {
         $navigationItem = [];
 
+        if (!$this->isMediaBaseEmpty(MediaTypeEnum::SHOWREEL_VIDEO) ||
+            !$this->isMediaBaseEmpty(MediaTypeEnum::SHOWREEL_THUMBNAIL)) {
+            $navigationItem['showreel'] = [
+                'label' => 'showreel',
+                'link' => '#showreel'
+            ];
+        }
+
         if (!$this->isMediaBaseEmpty(MediaTypeEnum::MOTION)) {
             $navigationItem['motion'] = [
                 'label' => 'motion',
@@ -100,6 +108,10 @@ class Navigation extends AbstractController
             'contact' => [
                 'label' => 'contact',
                 'link' => $this->generateUrl('app_admin_contact')
+            ],
+            'logout' => [
+                'label' => 'déconnexion',
+                'link' => $this->generateUrl('app_logout')
             ]
         ];
     }

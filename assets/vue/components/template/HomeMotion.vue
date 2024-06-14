@@ -3,13 +3,14 @@ import HomeGalleryTemplate from "../molecule/HomeGalleryTemplate.vue";
 
 const props = defineProps({
   motionGifs: {type: Object, required: true},
-  anchor: {type: String, required: true}
+  anchor: {type: String, required: true}, isTopBarActive: {type: Boolean}
 })
 </script>
 
 <template>
   <HomeGalleryTemplate
       :anchor="anchor"
+      :is-top-bar-active="isTopBarActive"
       :medias="motionGifs"
       gallery-name="homeMotion"
       lazy-load-trigger="hover"
