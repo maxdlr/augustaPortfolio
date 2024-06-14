@@ -69,7 +69,7 @@ const destroyShowreelVideo = () => {
   >
     <template #context="{screenWidth}">
       <div
-          :class="screenWidth <= BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
+          :class="screenWidth < BREAKPOINTS.SM ? 'fs-4' : 'fs-1'"
           class="text-center text-md-start"
       >
         <div class="d-block d-sm-inline d-md-block py-3 py-md-0">

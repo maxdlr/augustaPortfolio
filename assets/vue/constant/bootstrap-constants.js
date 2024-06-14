@@ -14,9 +14,9 @@ export const COLOR_CLASSES = [
 ];
 
 export const BREAKPOINTS = {
-    SM: 540,
-    MD: 720,
-    LG: 960,
-    XL: 1140,
+    SM: 576,
+    MD: 768,
+    LG: 992,
+    XL: 1200,
     XXL: 1500,
 };

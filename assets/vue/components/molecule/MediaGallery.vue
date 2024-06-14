@@ -194,12 +194,12 @@ const openModal = (id) => {
         />
       </Transition>
     </div>
-    <div :class="`row-cols-lg-${colCount}`"
-         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 my-4 position-relative">
+    <div class="row my-4 position-relative">
       <div v-for="(media, index) in filteredMedias"
            :key="index"
+           :class="`col-lg-${12 / colCount}`"
            :type="!isOnMobile ? 'button' : ''"
-           class="p-1 position-relative"
+           class="p-1 position-relative col-12 col-sm-6 col-md-4"
       >
         <MediaThumbnail
             :buttons="admin"
