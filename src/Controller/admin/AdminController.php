@@ -203,6 +203,7 @@ class AdminController extends AbstractController
             $newSocialItem = $newSocialItemForm->getData();
             $this->entityManager->persist($newSocialItem);
             $this->entityManager->flush();
+            $this->addFlash('success', 'Lien réseau social enregistré !');
             return $this->redirectTo('referer', $request);
         }
 

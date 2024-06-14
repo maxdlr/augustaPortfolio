@@ -27,6 +27,7 @@ const socialColors = ref({
           ]"
       class="btn p-0 d-flex justify-content-center align-items-center rounded-circle cursor-pointer"
       style="aspect-ratio: 1/1 !important;"
+      target="_blank"
   >
     <i :class="[
         `bi-${socialItem.icon}`,
